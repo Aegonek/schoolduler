@@ -2,24 +2,24 @@ use num::Integer;
 use time::util::weeks_in_year;
 use time::{OffsetDateTime, Time, Weekday};
 
-#[derive(Debug, PartialEq, Eq, Copy, Clone)]
+#[derive(Debug, PartialEq, Eq, Clone)]
 pub struct Teacher {
-    pub first_name: &'static str,
-    pub last_name: &'static str,
+    pub first_name: String,
+    pub last_name: String,
 }
 
-#[derive(Debug, PartialEq, Eq, Copy, Clone)]
+#[derive(Debug, PartialEq, Eq, Clone)]
 pub struct StudentGroup {
     pub year: u16,
-    pub sufix: &'static str,
+    pub sufix: String,
 }
 
-#[derive(Debug, PartialEq, Eq, Copy, Clone)]
+#[derive(Debug, PartialEq, Eq, Clone)]
 pub struct Subject {
-    pub name: &'static str,
+    pub name: String,
 }
 
-#[derive(Debug, PartialEq, Eq, Copy, Clone)]
+#[derive(Debug, PartialEq, Eq, Clone)]
 pub struct LessonBlock {
     pub subject: Subject,
     pub student_group: StudentGroup,
@@ -42,7 +42,7 @@ pub struct RepeatingLessonHour {
     pub duration: u32, // in minutes
 }
 
-#[derive(Debug, PartialEq, Eq, Copy, Clone)]
+#[derive(Debug, PartialEq, Eq, Clone)]
 pub struct Class {
     pub subject: Subject,
     pub student_group: StudentGroup,
