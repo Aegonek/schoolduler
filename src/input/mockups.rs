@@ -1,5 +1,5 @@
 use crate::school::*;
-use itertools::{iproduct, izip, Itertools};
+use itertools::{iproduct, izip};
 
 const YEARS: u16 = 8;
 const TEACHER_HOURS_IN_WEEK: u16 = 40;
