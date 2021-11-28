@@ -1,4 +1,4 @@
-#![feature(drain_filter)]
+#![feature(drain_filter, exclusive_range_pattern)]
 #![allow(dead_code)]
 
 mod school;

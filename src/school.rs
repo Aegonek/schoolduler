@@ -49,3 +49,28 @@ pub struct Class {
     pub teacher: Teacher,
     pub lesson_hour: RepeatingLessonHour,
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn correct_no_hours_in_week() {
+        let block = LessonBlock {
+            subject: Subject {
+                name: "Język polski".into(),
+            },
+            student_group: StudentGroup {
+                year: 1,
+                sufix: "F".into(),
+            },
+            teacher: Teacher {
+                first_name: "Adam".into(),
+                last_name: "Tuszyński".into(),
+            },
+            required_yearly_hours: 60,
+        };
+        let weekly_hours = block.required_weekly_hours();
+        assert!(weekly_hours == 2)
+    }
+}

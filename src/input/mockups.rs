@@ -1,16 +1,14 @@
 use crate::school::*;
 use itertools::{iproduct, izip};
+use num::Integer;
+use time::util::weeks_in_year;
+use time::OffsetDateTime;
 
-const YEARS: u16 = 8;
+const STUDENT_GROUP_YEARS: u16 = 8;
 const TEACHER_HOURS_IN_WEEK: u16 = 40;
-const WEEKS_IN_YEAR: u32 = 40;
-
-const fn required_hours_in_week(required_hours_in_year: u32) -> u32 {
-    required_hours_in_year / WEEKS_IN_YEAR
-}
 
 fn mock_student_groups() -> Vec<StudentGroup> {
-    iproduct!(0..=YEARS, 'a'..='f')
+    iproduct!(0..=STUDENT_GROUP_YEARS, 'a'..='f')
         .map(|(year, sfx)| StudentGroup {
             year: year,
             sufix: sfx.to_string(),
@@ -33,11 +31,23 @@ struct AnnotatedSubject {
     required_yearly_hours: u32,
 }
 
+impl AnnotatedSubject {
+    pub fn required_weekly_hours(&self) -> u32 {
+        let current_year = OffsetDateTime::now_utc().year();
+        self.required_yearly_hours
+            .div_ceil(&u32::from(weeks_in_year(current_year)))
+    }
+}
+
 #[derive(Debug, PartialEq, Eq, Clone)]
 struct AnnotatedTeacher {
     teacher: Teacher,
     niche: Niche,
     years: Vec<u16>,
+}
+
+const fn const_div_ceil(x: usize, y: usize) -> usize {
+    x / y + if x % y == 0 { 1 } else { 0 }
 }
 
 fn mock_subjects() -> Vec<AnnotatedSubject> {
@@ -115,16 +125,18 @@ fn mock_subjects() -> Vec<AnnotatedSubject> {
         ]
     }
 
-    (0..=YEARS).flat_map(|i| subjects_for_year(i)).collect()
+    (0..=STUDENT_GROUP_YEARS)
+        .flat_map(|i| subjects_for_year(i))
+        .collect()
 }
 
 fn mock_teachers() -> Vec<AnnotatedTeacher> {
-    let first_names = [
+    const first_names: [&str; 10] = [
         "Piotr", "Adam", "Maciej", "Karolina", "Kornelia", "Kamila", "Magda", "Tomasz", "Filemon",
         "Rafał",
     ];
 
-    let last_names = [
+    const last_names: [&str; 10] = [
         "Kowalski",
         "Nowak",
         "Świr",
@@ -137,6 +149,7 @@ fn mock_teachers() -> Vec<AnnotatedTeacher> {
         "Piorun",
     ];
 
+    const NAMES_COUNT: usize = first_names.len() * 2;
     let names = izip!(first_names.into_iter(), last_names.into_iter())
         .chain(izip!(first_names.into_iter(), last_names.into_iter().rev()));
 
@@ -148,11 +161,15 @@ fn mock_teachers() -> Vec<AnnotatedTeacher> {
                 first_name: first.into(),
                 last_name: last.into(),
             },
-            niche: match i {
-                0..=8 => Humanities,
-                9..=16 => Sciences,
-                17..=20 => PE,
-                _ => panic!("This is really bad handling of it. But I'm done for now."),
+            niche: {
+                const ONE_THIRD: usize = const_div_ceil(NAMES_COUNT, 3);
+                const TWO_THIRDS: usize = ONE_THIRD * 2;
+                match i {
+                    0..ONE_THIRD => Humanities,
+                    ONE_THIRD..TWO_THIRDS => Sciences,
+                    TWO_THIRDS.. => PE,
+                    _ => unreachable!("Should be unreachable, unless my math is bad."),
+                }
             },
             years: match i % 3 {
                 0 => vec![1, 2, 3],
@@ -182,7 +199,7 @@ pub fn mock_lesson_blocks() -> Vec<LessonBlock> {
         for (group, subject) in required_lessons.drain_filter(|(group, subject)| {
             subject.niche == teacher.niche && teacher.years.contains(&group.year)
         }) {
-            hours_assigned += required_hours_in_week(subject.required_yearly_hours);
+            hours_assigned += subject.required_weekly_hours();
 
             let new_block = LessonBlock {
                 subject: subject.subject,
@@ -230,6 +247,10 @@ mod tests {
     #[ignore = "manual check"]
     fn check_lesson_blocks() {
         let lesson_blocks = mock_lesson_blocks();
-        println!("Lesson blocks: {:?}. There are {:?} lesson blocks.", lesson_blocks, lesson_blocks.len())
+        println!(
+            "Lesson blocks: {:?}. There are {:?} lesson blocks.",
+            lesson_blocks,
+            lesson_blocks.len()
+        )
     }
 }
