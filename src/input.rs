@@ -7,5 +7,5 @@ pub fn read_requirements_from_file() -> Vec<LessonBlock> {
 }
 
 pub fn mock_requirements() -> Vec<LessonBlock> {
-  todo!()
+  mockups::mock_lesson_blocks()
 }

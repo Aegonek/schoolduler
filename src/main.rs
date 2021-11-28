@@ -1,6 +1,8 @@
+#![feature(drain_filter)]
 #![allow(dead_code)]
 
-use std::env;
+use std::slice;
+use std::{env, iter};
 
 mod school;
 mod input;
