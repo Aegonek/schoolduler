@@ -1,6 +1,6 @@
 use num::Integer;
 use time::util::weeks_in_year;
-use time::{OffsetDateTime, Time, Weekday};
+use time::{Duration, OffsetDateTime, Time, Weekday};
 
 #[derive(Debug, PartialEq, Eq, Clone)]
 pub struct Teacher {
@@ -39,7 +39,7 @@ impl LessonBlock {
 pub struct RepeatingLessonHour {
     pub weekday: Weekday,
     pub time: Time,
-    pub duration: u32, // in minutes
+    pub duration: Duration, // in minutes
 }
 
 #[derive(Debug, PartialEq, Eq, Clone)]

@@ -131,12 +131,12 @@ fn mock_subjects() -> Vec<AnnotatedSubject> {
 }
 
 fn mock_teachers() -> Vec<AnnotatedTeacher> {
-    const first_names: [&str; 10] = [
+    const FIRST_NAMES: [&str; 10] = [
         "Piotr", "Adam", "Maciej", "Karolina", "Kornelia", "Kamila", "Magda", "Tomasz", "Filemon",
         "Rafał",
     ];
 
-    const last_names: [&str; 10] = [
+    const LAST_NAMES: [&str; 10] = [
         "Kowalski",
         "Nowak",
         "Świr",
@@ -149,9 +149,9 @@ fn mock_teachers() -> Vec<AnnotatedTeacher> {
         "Piorun",
     ];
 
-    const NAMES_COUNT: usize = first_names.len() * 2;
-    let names = izip!(first_names.into_iter(), last_names.into_iter())
-        .chain(izip!(first_names.into_iter(), last_names.into_iter().rev()));
+    const NAMES_COUNT: usize = FIRST_NAMES.len() * 2;
+    let names = izip!(FIRST_NAMES.into_iter(), LAST_NAMES.into_iter())
+        .chain(izip!(FIRST_NAMES.into_iter(), LAST_NAMES.into_iter().rev()));
 
     use self::Niche::*;
     names
