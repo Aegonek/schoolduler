@@ -50,6 +50,15 @@ pub struct Class {
     pub lesson_hour: RepeatingLessonHour,
 }
 
+#[derive(Debug, PartialEq, Eq, Clone)]
+pub struct Schedule(pub Vec<Class>);
+
+impl From<Vec<Class>> for Schedule {
+    fn from(classes: Vec<Class>) -> Self {
+        Schedule(classes)
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
