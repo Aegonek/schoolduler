@@ -59,6 +59,12 @@ impl From<Vec<Class>> for Schedule {
     }
 }
 
+impl Into<Vec<Class>> for Schedule {
+    fn into(self) -> Vec<Class> {
+        self.0
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
