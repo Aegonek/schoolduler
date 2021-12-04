@@ -2,7 +2,7 @@ use super::*;
 use derive_more::{From, Into};
 use num::Integer;
 use time::util::weeks_in_year;
-use time::{OffsetDateTime};
+use time::OffsetDateTime;
 
 #[derive(Debug, PartialEq, Eq, Clone)]
 pub struct LessonBlock {
@@ -29,10 +29,27 @@ impl LessonBlock {
     }
 }
 
+impl From<LessonBlock> for LessonInfo {
+    fn from(
+        LessonBlock {
+            subject,
+            student_group,
+            teacher,
+            ..
+        }: LessonBlock,
+    ) -> Self {
+        LessonInfo {
+            subject,
+            student_group,
+            teacher,
+        }
+    }
+}
+
 #[derive(Debug, PartialEq, Eq, Clone)]
 pub struct Requirements {
     pub lessons: Vec<LessonBlock>,
-    pub open_hours: Vec<RepeatingLessonHour>
+    pub open_hours: Vec<RepeatingLessonHour>,
 }
 
 #[derive(Debug, PartialEq, Eq, Clone)]
@@ -59,6 +76,23 @@ pub struct Class {
     pub student_group: StudentGroup,
     pub teacher: Teacher,
     pub lesson_hour: RepeatingLessonHour,
+}
+
+impl From<Class> for LessonInfo {
+    fn from(
+        Class {
+            subject,
+            student_group,
+            teacher,
+            ..
+        }: Class,
+    ) -> Self {
+        LessonInfo {
+            subject,
+            student_group,
+            teacher,
+        }
+    }
 }
 
 #[derive(Debug, PartialEq, Eq, Clone, From, Into)]

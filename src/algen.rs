@@ -38,24 +38,6 @@ fn random_schedule<R: Rng>(
     schedule
 }
 
-/// Encoding a value yields a tuple of:
-/// - encoded value (genotype), specialized for easy genetic algorithms operation - mutation, crossover...
-/// - decoder, which can turn encoded value back into Schedule by storing related data
-
-trait Encode<T>
-where
-    Self: Sized,
-{
-}
-
-trait Decoder<I, O> {
-    fn decode(&self, encoded: I) -> O;
-}
-
-// TODO: test decoding and encoding
-// - out of bounds errors, all numbers line up
-// - encoding and decoding preserves data
-
 #[cfg(test)]
 mod tests {
     use crate::input;
