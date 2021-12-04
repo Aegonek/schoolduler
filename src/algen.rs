@@ -5,9 +5,6 @@ use rand::Rng;
 
 use crate::school::*;
 
-const POPULATION_SIZE: u32 = 100; // number of schedules to operate on
-const NO_ITERATIONS: u32 = 5_000_000;
-
 pub fn solve(requirements: Requirements) -> Schedule {
     joe::solve(requirements)
 }
@@ -36,32 +33,4 @@ fn random_schedule<R: Rng>(
         .into();
 
     schedule
-}
-
-#[cfg(test)]
-mod tests {
-    use crate::input;
-
-    use super::*;
-
-    #[test]
-    #[ignore = "manual check"]
-    fn check_initial_schedules() {
-        let mut rng = StdRng::seed_from_u64(10);
-        let schedules = (0..POPULATION_SIZE)
-            .map(|_| random_schedule(&input::mock_requirements(), &mut rng))
-            .collect::<Vec<_>>();
-
-        let lesson_count = schedules
-            .iter()
-            .map(|Schedule(lessons)| lessons.len())
-            .sum::<usize>();
-
-        println!(
-            "There are {:?} schedules; which together have {:?} classes. So each of them should have {:?} lessons.",
-            schedules.len(),
-            lesson_count,
-            lesson_count / schedules.len()
-        )
-    }
 }

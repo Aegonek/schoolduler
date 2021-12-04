@@ -1,7 +1,11 @@
-use rand::prelude::*;
-use tap::Tap;
-use std::mem;
 use itertools::Itertools;
+use once_cell::unsync::Lazy;
+use rand::distributions::Uniform;
+use rand::prelude::*;
+use std::cmp::{max, min};
+use std::mem;
+use std::ops::Range;
+use tap::{Conv, Tap, TryConv};
 
 use super::*;
 use crate::school::*;
@@ -13,12 +17,18 @@ use crate::school::*;
 /// Fitness function checks the number of hard conflicts in genotype.  
 /// During decoding of genotype, we unfold hard conflicts using deterministic algorithm.  
 
+const POPULATION_SIZE: u32 = 100; // number of schedules to operate on
+const NO_ITERATIONS: u32 = 5_000_000;
+const MUTATION_PROBABILITY: u32 = 5; // w promilach
+const MUTATION_CREEP_DISTRIBUTION: Lazy<Uniform<i32>> = Lazy::new(|| Uniform::new_inclusive(-5, 5));
+
 pub fn solve(requirements: Requirements) -> Schedule {
-    let mut rng = thread_rng();
     let initial: Vec<Schedule> = (0..POPULATION_SIZE)
-        .map(|_| random_schedule(&requirements, &mut rng))
+        .map(|_| random_schedule(&requirements, &mut thread_rng()))
         .collect();
     let resource_map = make_resource_map(requirements);
+    let hour_bounds = 0..(resource_map.hour_index.len() as u32);
+
     let mut genotypes: Vec<Chromosome> = initial
         .into_iter()
         .map(|sch| encode(sch, &resource_map))
@@ -38,20 +48,65 @@ pub fn solve(requirements: Requirements) -> Schedule {
             .map(|_| roulette_selection(&rated).clone())
             .collect::<Vec<_>>()
             .tap_mut(|xs| xs.shuffle(&mut thread_rng()));
-            
-        for (parent1, parent2) in parents.into_iter().map(|x| x.0).tuples() {
 
-        } 
+        for (parent1, parent2) in parents.into_iter().tuples() {
+            let (child1, child2) = one_point_crossover(parent1, parent2);
+            for mut child in [child1, child2] {
+                creep_mutation(&mut child, &hour_bounds);
+                genotypes.push(child);
+            }
+        }
     }
 
-    todo!()
+    let best = genotypes
+        .into_iter()
+        .map(|chr| {
+            let rating = rate_fitness(&chr, &resource_map);
+            (chr, rating)
+        })
+        .max_by_key(|x| x.1)
+        .unwrap()
+        .0;
+
+    decode(best, &resource_map)
 }
 
-fn roulette_selection(population: &Vec<(Chromosome, u32)>) -> &(Chromosome, u32) {
+fn creep_mutation(chromosome: &mut [u32], bounds: &Range<u32>) {
+    for allel in chromosome {
+        if thread_rng().gen_range(0..1000) < MUTATION_PROBABILITY {
+            // TODO - analyze how all those thread_rngs would get along with concurrency
+            let creep = MUTATION_CREEP_DISTRIBUTION.sample(&mut thread_rng());
+            let mut raw = (*allel).conv::<i64>() + creep as i64;
+            raw = max(bounds.start.into(), raw);
+            raw = min(raw, bounds.end.into()); // TODO: test this
+            *allel = raw.try_conv::<u32>().unwrap();
+        }
+    }
+}
+
+fn one_point_crossover(x: Chromosome, y: Chromosome) -> (Chromosome, Chromosome) {
+    let axis = thread_rng().gen_range(0..x.len());
+    let (x1, x2) = x.split_at(axis);
+    let (y1, y2) = y.split_at(axis);
+    let new_x = x1.to_vec().tap_mut(|x| x.extend(y2));
+    let new_y = x2.to_vec().tap_mut(|x| x.extend(y1));
+    (new_x, new_y)
+}
+
+fn roulette_selection(population: &Vec<(Chromosome, u32)>) -> &Chromosome {
     let sum_of_ratings: u32 = population.iter().map(|x| x.1).sum();
-    todo!()
+    let mut random: u32 = thread_rng().gen_range(0..sum_of_ratings);
+    for (chromosome, rating) in population {
+        if random < *rating {
+            return chromosome;
+        }
+        random = random.saturating_sub(*rating);
+    }
+
+    panic!("Roulette selection should return one chromosome!")
 }
 
+/// Returns a number in range 0..1000
 fn rate_fitness(chr: &[u32], resource_map: &ResourceMap) -> u32 {
     todo!()
 }
@@ -81,6 +136,25 @@ fn encode(
         .collect::<Vec<_>>();
 
     classes
+}
+
+fn decode(
+    genotype: Chromosome,
+    ResourceMap {
+        info_index,
+        hour_index,
+    }: &ResourceMap,
+) -> Schedule {
+    genotype
+        .into_iter()
+        .enumerate()
+        .map(|(i, val)| {
+            let lesson_info = info_index[i].clone();
+            let lesson_hour = hour_index[val as usize];
+            lesson_info.schedule_for(lesson_hour)
+        })
+        .collect::<Vec<_>>()
+        .into()
 }
 
 fn align(lessons: &mut Vec<Class>, info_index: &[LessonInfo]) {
@@ -121,22 +195,33 @@ struct ResourceMap {
 }
 
 // impl Decoder<JoeChromosome, Schedule> for JoeDecoder {
-//     fn decode(&self, encoded: JoeChromosome) -> Schedule {
-//         let JoeDecoder {
-//             info_index,
-//             hour_index,
-//         } = self;
-
-//         encoded
-//             .conv::<Vec<u32>>()
-//             .into_iter()
-//             .enumerate()
-//             .map(|(i, val)| {
-//                 let lesson_info = info_index[i].clone();
-//                 let lesson_hour = hour_index[val as usize];
-//                 lesson_info.schedule_for(lesson_hour)
-//             })
-//             .collect::<Vec<_>>()
-//             .into()
-//     }
+//
 // }
+
+#[cfg(test)]
+mod tests {
+    use crate::input;
+
+    use super::*;
+
+    #[test]
+    #[ignore = "manual check"]
+    fn check_initial_schedules() {
+        let mut rng = StdRng::seed_from_u64(10);
+        let schedules = (0..POPULATION_SIZE)
+            .map(|_| random_schedule(&input::mock_requirements(), &mut rng))
+            .collect::<Vec<_>>();
+
+        let lesson_count = schedules
+            .iter()
+            .map(|Schedule(lessons)| lessons.len())
+            .sum::<usize>();
+
+        println!(
+            "There are {:?} schedules; which together have {:?} classes. So each of them should have {:?} lessons.",
+            schedules.len(),
+            lesson_count,
+            lesson_count / schedules.len()
+        )
+    }
+}
