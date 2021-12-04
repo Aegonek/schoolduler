@@ -1,6 +1,7 @@
-use num::Integer;
-use time::util::weeks_in_year;
-use time::{Duration, OffsetDateTime, Time, Weekday};
+mod lessons; // seperating definitions for easier browsing, I'm reexporting them together
+
+pub use lessons::*;
+use time::{Duration, Time, Weekday};
 
 #[derive(Debug, PartialEq, Eq, Clone)]
 pub struct Teacher {
@@ -19,50 +20,11 @@ pub struct Subject {
     pub name: String,
 }
 
-#[derive(Debug, PartialEq, Eq, Clone)]
-pub struct LessonBlock {
-    pub subject: Subject,
-    pub student_group: StudentGroup,
-    pub teacher: Teacher,
-    pub required_yearly_hours: u32,
-}
-
-impl LessonBlock {
-    pub fn required_weekly_hours(&self) -> u32 {
-        let current_year = OffsetDateTime::now_utc().year();
-        self.required_yearly_hours
-            .div_ceil(&u32::from(weeks_in_year(current_year)))
-    }
-}
-
 #[derive(Debug, PartialEq, Eq, Copy, Clone)]
 pub struct RepeatingLessonHour {
     pub weekday: Weekday,
     pub time: Time,
     pub duration: Duration, // in minutes
-}
-
-#[derive(Debug, PartialEq, Eq, Clone)]
-pub struct Class {
-    pub subject: Subject,
-    pub student_group: StudentGroup,
-    pub teacher: Teacher,
-    pub lesson_hour: RepeatingLessonHour,
-}
-
-#[derive(Debug, PartialEq, Eq, Clone)]
-pub struct Schedule(pub Vec<Class>);
-
-impl From<Vec<Class>> for Schedule {
-    fn from(classes: Vec<Class>) -> Self {
-        Schedule(classes)
-    }
-}
-
-impl Into<Vec<Class>> for Schedule {
-    fn into(self) -> Vec<Class> {
-        self.0
-    }
 }
 
 #[cfg(test)]

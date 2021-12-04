@@ -1,4 +1,6 @@
+use super::*;
 use crate::school::*;
+
 use itertools::{iproduct, izip};
 use num::Integer;
 use time::util::weeks_in_year;
@@ -49,6 +51,8 @@ struct AnnotatedTeacher {
 const fn const_div_ceil(x: usize, y: usize) -> usize {
     x / y + if x % y == 0 { 1 } else { 0 }
 }
+
+// TODO: read from some file later.
 
 fn mock_subjects() -> Vec<AnnotatedSubject> {
     use self::Niche::*;
@@ -183,7 +187,7 @@ fn mock_teachers() -> Vec<AnnotatedTeacher> {
         .collect()
 }
 
-pub fn mock_lesson_blocks() -> Vec<LessonBlock> {
+pub fn mock_requirements() -> Requirements {
     let students = mock_student_groups();
     let teachers = mock_teachers();
     let subjects = mock_subjects();
@@ -215,7 +219,11 @@ pub fn mock_lesson_blocks() -> Vec<LessonBlock> {
         }
     }
 
-    lesson_blocks
+    let open_hours = standard_open_hours();
+    Requirements {
+        lessons: lesson_blocks,
+        open_hours: open_hours,
+    }
 }
 
 #[cfg(test)]
@@ -246,7 +254,7 @@ mod tests {
     #[test]
     #[ignore = "manual check"]
     fn check_lesson_blocks() {
-        let lesson_blocks = mock_lesson_blocks();
+        let lesson_blocks = mock_requirements().lessons;
         println!(
             "Lesson blocks: {:?}. There are {:?} lesson blocks.",
             lesson_blocks,
