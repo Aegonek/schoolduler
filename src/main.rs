@@ -5,6 +5,8 @@ mod school;
 mod input;
 mod algen;
 
+use input::mockups;
+
 fn main() {
-    let _requirements = input::mock_requirements();
+    let requirements = mockups::mock_requirements();
 }

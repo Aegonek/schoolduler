@@ -4,18 +4,48 @@ use crate::school::*;
 use itertools::{iproduct, izip};
 use num::Integer;
 use time::util::weeks_in_year;
-use time::OffsetDateTime;
+use time::{OffsetDateTime, Weekday, Time, Duration};
 
 const STUDENT_GROUP_YEARS: u16 = 8;
 const TEACHER_HOURS_IN_WEEK: u16 = 40;
 
-fn mock_student_groups() -> Vec<StudentGroup> {
-    iproduct!(0..=STUDENT_GROUP_YEARS, 'a'..='f')
-        .map(|(year, sfx)| StudentGroup {
-            year: year,
-            sufix: sfx.to_string(),
-        })
-        .collect()
+pub fn mock_requirements() -> Requirements {
+    let students = mock_student_groups();
+    let teachers = mock_teachers();
+    let subjects = mock_subjects();
+
+    let mut required_lessons = iproduct!(students, subjects)
+        .filter(|(sgr, sub)| sgr.year == sub.for_year)
+        .collect::<Vec<_>>();
+
+    let mut lesson_blocks: Vec<LessonBlock> = Vec::with_capacity(required_lessons.len());
+
+    for teacher in teachers {
+        let mut hours_assigned = 0;
+        for (group, subject) in required_lessons.drain_filter(|(group, subject)| {
+            subject.niche == teacher.niche && teacher.years.contains(&group.year)
+        }) {
+            hours_assigned += subject.required_weekly_hours();
+
+            let new_block = LessonBlock {
+                subject: subject.subject,
+                student_group: group,
+                teacher: teacher.teacher.clone(),
+                required_yearly_hours: subject.required_yearly_hours,
+            };
+            lesson_blocks.push(new_block);
+
+            if hours_assigned >= TEACHER_HOURS_IN_WEEK.into() {
+                break;
+            }
+        }
+    }
+
+    let open_hours = standard_open_hours();
+    Requirements {
+        lessons: lesson_blocks,
+        open_hours: open_hours,
+    }
 }
 
 #[derive(Debug, PartialEq, Eq, Clone)]
@@ -53,6 +83,15 @@ const fn const_div_ceil(x: usize, y: usize) -> usize {
 }
 
 // TODO: read from some file later.
+
+fn mock_student_groups() -> Vec<StudentGroup> {
+    iproduct!(0..=STUDENT_GROUP_YEARS, 'a'..='f')
+        .map(|(year, sfx)| StudentGroup {
+            year: year,
+            sufix: sfx.to_string(),
+        })
+        .collect()
+}
 
 fn mock_subjects() -> Vec<AnnotatedSubject> {
     use self::Niche::*;
@@ -187,43 +226,35 @@ fn mock_teachers() -> Vec<AnnotatedTeacher> {
         .collect()
 }
 
-pub fn mock_requirements() -> Requirements {
-    let students = mock_student_groups();
-    let teachers = mock_teachers();
-    let subjects = mock_subjects();
+fn standard_open_hours() -> Vec<RepeatingLessonHour> {
+    fn hours_in_day(weekday: Weekday) -> Vec<RepeatingLessonHour> {
+        let mut hours: Vec<RepeatingLessonHour> = Vec::new();
+        let mut current_hour = Time::from_hms(8, 0, 0).unwrap();
 
-    let mut required_lessons = iproduct!(students, subjects)
-        .filter(|(sgr, sub)| sgr.year == sub.for_year)
-        .collect::<Vec<_>>();
+        let day_end_hour = Time::from_hms(17, 0, 0).unwrap();
+        const LESSON_DURATION: Duration = Duration::minutes(45);
+        const BREAK_DURATION: Duration = Duration::minutes(10);
 
-    let mut lesson_blocks: Vec<LessonBlock> = Vec::with_capacity(required_lessons.len());
-
-    for teacher in teachers {
-        let mut hours_assigned = 0;
-        for (group, subject) in required_lessons.drain_filter(|(group, subject)| {
-            subject.niche == teacher.niche && teacher.years.contains(&group.year)
-        }) {
-            hours_assigned += subject.required_weekly_hours();
-
-            let new_block = LessonBlock {
-                subject: subject.subject,
-                student_group: group,
-                teacher: teacher.teacher.clone(),
-                required_yearly_hours: subject.required_yearly_hours,
+        while current_hour < day_end_hour {
+            let next_hour = RepeatingLessonHour {
+                weekday: weekday,
+                time: current_hour,
+                duration: LESSON_DURATION,
             };
-            lesson_blocks.push(new_block);
-
-            if hours_assigned >= TEACHER_HOURS_IN_WEEK.into() {
-                break;
-            }
+            hours.push(next_hour);
+            current_hour += LESSON_DURATION;
+            current_hour += BREAK_DURATION;
         }
+
+        hours
     }
 
-    let open_hours = standard_open_hours();
-    Requirements {
-        lessons: lesson_blocks,
-        open_hours: open_hours,
-    }
+    use Weekday::*;
+
+    [Monday, Tuesday, Wednesday, Thursday, Friday]
+        .into_iter()
+        .flat_map(hours_in_day)
+        .collect()
 }
 
 #[cfg(test)]
@@ -252,13 +283,26 @@ mod tests {
     }
 
     #[test]
+    #[ignore="manual check"]
+    fn check_standard_open_hours() {
+        let hours = standard_open_hours();
+        println!("{:?}", hours)
+    }
+
+    #[test]
     #[ignore = "manual check"]
-    fn check_lesson_blocks() {
-        let lesson_blocks = mock_requirements().lessons;
+    fn check_requirements() {
+        let Requirements { lessons, open_hours } = mock_requirements();
         println!(
             "Lesson blocks: {:?}. There are {:?} lesson blocks.",
-            lesson_blocks,
-            lesson_blocks.len()
-        )
+            lessons,
+            lessons.len()
+        );
+
+        println!(
+            "Open hours: {:?}. There are: {:?} open hours!",
+            open_hours,
+            open_hours.len()
+        );
     }
 }

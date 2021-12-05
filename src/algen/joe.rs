@@ -3,6 +3,8 @@ use once_cell::unsync::Lazy;
 use rand::distributions::Uniform;
 use rand::prelude::*;
 use std::cmp::{max, min};
+use std::collections::{HashMap, HashSet};
+use std::hash::Hash;
 use std::mem;
 use std::ops::Range;
 use tap::{Conv, Tap, TryConv};
@@ -21,6 +23,7 @@ const POPULATION_SIZE: u32 = 100; // number of schedules to operate on
 const NO_ITERATIONS: u32 = 5_000_000;
 const MUTATION_PROBABILITY: u32 = 5; // w promilach
 const MUTATION_CREEP_DISTRIBUTION: Lazy<Uniform<i32>> = Lazy::new(|| Uniform::new_inclusive(-5, 5));
+const PERFECT_SCORE: u32 = 1000;
 
 pub fn solve(requirements: Requirements) -> Schedule {
     let initial: Vec<Schedule> = (0..POPULATION_SIZE)
@@ -107,8 +110,59 @@ fn roulette_selection(population: &Vec<(Chromosome, u32)>) -> &Chromosome {
 }
 
 /// Returns a number in range 0..1000
-fn rate_fitness(chr: &[u32], resource_map: &ResourceMap) -> u32 {
-    todo!()
+fn rate_fitness(genotype: &Chromosome, resource_map: &ResourceMap) -> u32 {
+    let mut grouped_by_hour = genotype
+        .into_iter()
+        .enumerate()
+        .map(|(i, x)| (x, i))
+        .into_group_map();
+
+    grouped_by_hour.retain(|k, v| v.len() < 2); // drop elements where repetition cannot occur
+    let mut conflicts: u32 = 0;
+    for (&hour_i, lessons_i) in grouped_by_hour {
+        conflicts += count_repetitions(hour_i, &lessons_i, resource_map, |class| class.teacher);
+        conflicts += count_repetitions(hour_i, &lessons_i, resource_map, |class| class.student_group);
+    }
+
+    conflicts
+}
+
+/// Count times when teacher had to lead more than one lesson at the same time
+fn count_repetitions<F, T>(
+    hour_i: u32,
+    lessons_i: &Vec<usize>,
+    resource_map: &ResourceMap,
+    select_key: F,
+) -> u32
+where
+    F: Fn(Class) -> T,
+    T: Hash + Eq,
+{
+    // doesn't that kinda throw my optimizations out of the window?
+    let lessons: Vec<Class> = lessons_i
+        .into_iter()
+        .map(|&i| peek(i as usize, hour_i as usize, resource_map))
+        .collect();
+
+    let repetitions = lessons
+        .into_iter()
+        .fold(
+            (0, HashSet::<T>::new()),
+            |(repetitions, mut encountered), x| {
+                let projected = (&select_key)(x);
+                if (encountered.contains(&projected)) {
+                    return (repetitions + 1, encountered);
+                } else {
+                    return (repetitions, {
+                        encountered.insert(projected);
+                        encountered
+                    });
+                }
+            },
+        )
+        .0;
+
+    repetitions
 }
 
 // position in vector points to LessonInfo (in ResourceMap)
@@ -157,6 +211,20 @@ fn decode(
         .into()
 }
 
+fn peek(
+    lesson_i: usize,
+    hour_i: usize,
+    ResourceMap {
+        info_index,
+        hour_index,
+    }: &ResourceMap,
+) -> Class {
+    let lesson_info = &info_index[lesson_i];
+    let lesson_hour = &hour_index[hour_i];
+    let class = lesson_info.schedule_for(*lesson_hour);
+    class
+}
+
 fn align(lessons: &mut Vec<Class>, info_index: &[LessonInfo]) {
     let mut aligned: Vec<Class> = Vec::with_capacity(lessons.len());
     for info in info_index {
@@ -194,23 +262,23 @@ struct ResourceMap {
     pub hour_index: Vec<RepeatingLessonHour>,
 }
 
-// impl Decoder<JoeChromosome, Schedule> for JoeDecoder {
-//
-// }
-
 #[cfg(test)]
 mod tests {
-    use crate::input;
+    use crate::input::mockups;
 
     use super::*;
+
+    fn initial_schedules() -> Vec<Schedule> {
+        let mut rng = StdRng::seed_from_u64(10);
+        (0..POPULATION_SIZE)
+            .map(|_| random_schedule(&mockups::mock_requirements(), &mut rng))
+            .collect::<Vec<_>>()
+    }
 
     #[test]
     #[ignore = "manual check"]
     fn check_initial_schedules() {
-        let mut rng = StdRng::seed_from_u64(10);
-        let schedules = (0..POPULATION_SIZE)
-            .map(|_| random_schedule(&input::mock_requirements(), &mut rng))
-            .collect::<Vec<_>>();
+        let schedules = initial_schedules();
 
         let lesson_count = schedules
             .iter()
@@ -224,4 +292,6 @@ mod tests {
             lesson_count / schedules.len()
         )
     }
+
+    // AAA! What do I even check?
 }

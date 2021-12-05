@@ -3,24 +3,24 @@ mod lessons; // seperating definitions for easier browsing, I'm reexporting them
 pub use lessons::*;
 use time::{Duration, Time, Weekday};
 
-#[derive(Debug, PartialEq, Eq, Clone)]
+#[derive(Debug, PartialEq, Eq, Hash, Clone)]
 pub struct Teacher {
     pub first_name: String,
     pub last_name: String,
 }
 
-#[derive(Debug, PartialEq, Eq, Clone)]
+#[derive(Debug, PartialEq, Eq, Hash, Clone)]
 pub struct StudentGroup {
     pub year: u16,
     pub sufix: String,
 }
 
-#[derive(Debug, PartialEq, Eq, Clone)]
+#[derive(Debug, PartialEq, Eq, Hash, Clone)]
 pub struct Subject {
     pub name: String,
 }
 
-#[derive(Debug, PartialEq, Eq, Copy, Clone)]
+#[derive(Debug, PartialEq, Eq, Hash, Copy, Clone)]
 pub struct RepeatingLessonHour {
     pub weekday: Weekday,
     pub time: Time,
