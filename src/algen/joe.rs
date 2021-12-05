@@ -29,6 +29,7 @@ pub fn solve(requirements: Requirements) -> Schedule {
     let initial: Vec<Schedule> = (0..POPULATION_SIZE)
         .map(|_| random_schedule(&requirements, &mut thread_rng()))
         .collect();
+        
     let resource_map = make_resource_map(requirements);
     let hour_bounds = 0..(resource_map.hour_index.len() as u32);
 

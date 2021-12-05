@@ -9,4 +9,5 @@ use input::mockups;
 
 fn main() {
     let requirements = mockups::mock_requirements();
+    let solved = algen::solve(requirements);
 }
