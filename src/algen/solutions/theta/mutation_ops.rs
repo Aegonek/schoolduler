@@ -3,7 +3,10 @@ use std::cmp::{max, min};
 use std::ops::Range;
 use tap::{Conv, TryConv};
 
-pub fn creep_mutation(chromosome: &mut [u32], bounds: &Range<u32>) {
+const MUTATION_PROBABILITY: u32 = 5;
+const MUTATION_CREEP_DISTRIBUTION: Lazy<Uniform<i32>> = Lazy::new(|| Uniform::new_inclusive(-5, 5));
+
+pub fn creep_mutation(solver: &Solution, chromosome: &mut [u32], bounds: &Range<u32>) {
     for allel in chromosome {
         if thread_rng().gen_range(0..1000) < MUTATION_PROBABILITY {
             let creep = MUTATION_CREEP_DISTRIBUTION.sample(&mut thread_rng());

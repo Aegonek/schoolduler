@@ -1,7 +1,7 @@
-use crate::domain::*;
+use crate::{domain::*, utils::indexed::Len};
 use rand::prelude::*;
 use std::mem;
-use super::{execution::{ExecutionContext, Iteration}, encoding::Decoder, genes::Genes, random};
+use super::{execution::{ExecutionContext, Iteration}, encoding::Decoder, genes::Genotype, random};
 use crate::utils::{eager::EagerIter, rated::Rated, units::Promile};
 use tap::Pipe;
 
@@ -22,7 +22,7 @@ where
     Self: Sized,
     Self: Decoder<Encoded = Self::Chromosome>,
 {
-    type Chromosome: Genes + Sized; // Type representing one encoded solution
+    type Chromosome: Genotype + Sized; // Type representing one encoded solution
 
     // May change depending on ExecutionContext. This takes a snapshot.
     fn config(&self) -> Config;
@@ -36,7 +36,7 @@ where
 
     fn crossover_op(&self, lhs: Self::Chromosome, rhs: Self::Chromosome) -> (Self::Chromosome, Self::Chromosome);
 
-    fn mutation_op(&self, genes: &mut [<Self::Chromosome as Genes>::Gene], i: usize);
+    fn mutation_op(&self, genes: &mut <Self::Chromosome as Genotype>::Genes<'_>, i: usize);
 
     // Choose one survivor from population. May or may not remove it from population.
     fn survivor_selection_op(&self, population: &mut [Rated<Self::Chromosome>],) -> Rated<Self::Chromosome>;

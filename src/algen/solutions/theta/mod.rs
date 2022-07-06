@@ -4,25 +4,29 @@
 // Chromosome: Vec<Gene> (for all lessons we need to schedule)
 // We are searching for any viable solutions, that means, solution with least conflicts.
 
-use crate::algen::encoding::Decoder;
 use crate::domain::*;
+use crate::algen::genes::Genotype;
 use bitvec::prelude::*;
 use bitvec::ptr::Mut;
-use once_cell::sync::Lazy;
-use rand::distributions::Uniform;
-use rand::prelude::*;
+use derive_more::{AsRef, AsMut};
 
-mod crossover_ops;
-mod encoding;
-mod fitness_ops;
-mod mutation_ops;
-mod survivor_select_ops;
+// mod crossover_ops;
+// mod encoding;
+// mod fitness_ops;
+// mod mutation_ops;
+// mod survivor_select_ops;
 
-type Chromosome = BitVec<u8>;
-type Gene<'a> = BitRef<'a, Mut, u8>;
+#[derive(Debug, Default, Clone, AsRef, AsMut)]
+struct Chromosome(BitVec<u8>);
 
-const MUTATION_PROBABILITY: u32 = 5;
-const MUTATION_CREEP_DISTRIBUTION: Lazy<Uniform<i32>> = Lazy::new(|| Uniform::new_inclusive(-5, 5));
+impl Genotype for Chromosome {
+    type Gene<'a> = BitRef<'a, Mut, u8>;
+    type Genes<'a> = BitVec<u8>;
+
+    fn genes(&mut self) -> &mut Self::Genes<'_> {
+        &mut self.0
+    }
+}
 
 pub struct Solution {
     courses: Vec<Course>,
