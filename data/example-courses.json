@@ -1,0 +1,4682 @@
+[
+    {
+        "student_group": {
+            "year": 1,
+            "suffix": "a"
+        },
+        "subject": {
+            "name": "Język polski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Filemon Kwiatkowski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 1,
+            "suffix": "a"
+        },
+        "subject": {
+            "name": "Historia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Filemon Kwiatkowski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 1,
+            "suffix": "a"
+        },
+        "subject": {
+            "name": "WoS",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Filemon Kwiatkowski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 1,
+            "suffix": "a"
+        },
+        "subject": {
+            "name": "Język angielski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Filemon Kwiatkowski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 1,
+            "suffix": "a"
+        },
+        "subject": {
+            "name": "Matematyka",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Filemon Kwiatkowski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 1,
+            "suffix": "a"
+        },
+        "subject": {
+            "name": "Fizyka",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Filemon Kwiatkowski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 1,
+            "suffix": "a"
+        },
+        "subject": {
+            "name": "Chemia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Filemon Kwiatkowski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 1,
+            "suffix": "a"
+        },
+        "subject": {
+            "name": "Biologia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Filemon Kwiatkowski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 1,
+            "suffix": "a"
+        },
+        "subject": {
+            "name": "WF",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Filemon Kwiatkowski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 1,
+            "suffix": "b"
+        },
+        "subject": {
+            "name": "Język polski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Filemon Kwiatkowski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 1,
+            "suffix": "b"
+        },
+        "subject": {
+            "name": "Historia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Filemon Kwiatkowski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 1,
+            "suffix": "b"
+        },
+        "subject": {
+            "name": "WoS",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Filemon Kwiatkowski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 1,
+            "suffix": "b"
+        },
+        "subject": {
+            "name": "Język angielski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Filemon Kwiatkowski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 1,
+            "suffix": "b"
+        },
+        "subject": {
+            "name": "Matematyka",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Filemon Kwiatkowski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 1,
+            "suffix": "b"
+        },
+        "subject": {
+            "name": "Fizyka",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Filemon Kwiatkowski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 1,
+            "suffix": "b"
+        },
+        "subject": {
+            "name": "Chemia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Filemon Kwiatkowski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 1,
+            "suffix": "b"
+        },
+        "subject": {
+            "name": "Biologia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Filemon Kwiatkowski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 1,
+            "suffix": "b"
+        },
+        "subject": {
+            "name": "WF",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Filemon Kwiatkowski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 1,
+            "suffix": "c"
+        },
+        "subject": {
+            "name": "Język polski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Filemon Kwiatkowski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 1,
+            "suffix": "c"
+        },
+        "subject": {
+            "name": "Historia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Filemon Kwiatkowski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 1,
+            "suffix": "c"
+        },
+        "subject": {
+            "name": "WoS",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Filemon Kwiatkowski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 1,
+            "suffix": "c"
+        },
+        "subject": {
+            "name": "Język angielski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Filemon Kwiatkowski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 1,
+            "suffix": "c"
+        },
+        "subject": {
+            "name": "Matematyka",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Filemon Kwiatkowski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 1,
+            "suffix": "c"
+        },
+        "subject": {
+            "name": "Fizyka",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Filemon Kwiatkowski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 1,
+            "suffix": "c"
+        },
+        "subject": {
+            "name": "Chemia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Filemon Kwiatkowski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 1,
+            "suffix": "c"
+        },
+        "subject": {
+            "name": "Biologia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Filemon Kwiatkowski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 1,
+            "suffix": "c"
+        },
+        "subject": {
+            "name": "WF",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Filemon Kwiatkowski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 1,
+            "suffix": "d"
+        },
+        "subject": {
+            "name": "Język polski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Filemon Kwiatkowski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 1,
+            "suffix": "d"
+        },
+        "subject": {
+            "name": "Historia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Filemon Kwiatkowski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 1,
+            "suffix": "d"
+        },
+        "subject": {
+            "name": "WoS",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Filemon Kwiatkowski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 1,
+            "suffix": "d"
+        },
+        "subject": {
+            "name": "Język angielski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Piotr Szlachta"
+        }
+    },
+    {
+        "student_group": {
+            "year": 1,
+            "suffix": "d"
+        },
+        "subject": {
+            "name": "Matematyka",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Piotr Szlachta"
+        }
+    },
+    {
+        "student_group": {
+            "year": 1,
+            "suffix": "d"
+        },
+        "subject": {
+            "name": "Fizyka",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Piotr Szlachta"
+        }
+    },
+    {
+        "student_group": {
+            "year": 1,
+            "suffix": "d"
+        },
+        "subject": {
+            "name": "Chemia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Piotr Szlachta"
+        }
+    },
+    {
+        "student_group": {
+            "year": 1,
+            "suffix": "d"
+        },
+        "subject": {
+            "name": "Biologia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Piotr Szlachta"
+        }
+    },
+    {
+        "student_group": {
+            "year": 1,
+            "suffix": "d"
+        },
+        "subject": {
+            "name": "WF",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Piotr Szlachta"
+        }
+    },
+    {
+        "student_group": {
+            "year": 1,
+            "suffix": "e"
+        },
+        "subject": {
+            "name": "Język polski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Piotr Szlachta"
+        }
+    },
+    {
+        "student_group": {
+            "year": 1,
+            "suffix": "e"
+        },
+        "subject": {
+            "name": "Historia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Piotr Szlachta"
+        }
+    },
+    {
+        "student_group": {
+            "year": 1,
+            "suffix": "e"
+        },
+        "subject": {
+            "name": "WoS",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Piotr Szlachta"
+        }
+    },
+    {
+        "student_group": {
+            "year": 1,
+            "suffix": "e"
+        },
+        "subject": {
+            "name": "Język angielski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Piotr Szlachta"
+        }
+    },
+    {
+        "student_group": {
+            "year": 1,
+            "suffix": "e"
+        },
+        "subject": {
+            "name": "Matematyka",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Piotr Szlachta"
+        }
+    },
+    {
+        "student_group": {
+            "year": 1,
+            "suffix": "e"
+        },
+        "subject": {
+            "name": "Fizyka",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Piotr Szlachta"
+        }
+    },
+    {
+        "student_group": {
+            "year": 1,
+            "suffix": "e"
+        },
+        "subject": {
+            "name": "Chemia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Piotr Szlachta"
+        }
+    },
+    {
+        "student_group": {
+            "year": 1,
+            "suffix": "e"
+        },
+        "subject": {
+            "name": "Biologia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Piotr Szlachta"
+        }
+    },
+    {
+        "student_group": {
+            "year": 1,
+            "suffix": "e"
+        },
+        "subject": {
+            "name": "WF",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Piotr Szlachta"
+        }
+    },
+    {
+        "student_group": {
+            "year": 2,
+            "suffix": "a"
+        },
+        "subject": {
+            "name": "Język polski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Piotr Szlachta"
+        }
+    },
+    {
+        "student_group": {
+            "year": 2,
+            "suffix": "a"
+        },
+        "subject": {
+            "name": "Historia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Piotr Szlachta"
+        }
+    },
+    {
+        "student_group": {
+            "year": 2,
+            "suffix": "a"
+        },
+        "subject": {
+            "name": "WoS",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Piotr Szlachta"
+        }
+    },
+    {
+        "student_group": {
+            "year": 2,
+            "suffix": "a"
+        },
+        "subject": {
+            "name": "Język angielski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Piotr Szlachta"
+        }
+    },
+    {
+        "student_group": {
+            "year": 2,
+            "suffix": "a"
+        },
+        "subject": {
+            "name": "Matematyka",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Piotr Szlachta"
+        }
+    },
+    {
+        "student_group": {
+            "year": 2,
+            "suffix": "a"
+        },
+        "subject": {
+            "name": "Fizyka",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Piotr Szlachta"
+        }
+    },
+    {
+        "student_group": {
+            "year": 2,
+            "suffix": "a"
+        },
+        "subject": {
+            "name": "Chemia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Piotr Szlachta"
+        }
+    },
+    {
+        "student_group": {
+            "year": 2,
+            "suffix": "a"
+        },
+        "subject": {
+            "name": "Biologia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Piotr Szlachta"
+        }
+    },
+    {
+        "student_group": {
+            "year": 2,
+            "suffix": "a"
+        },
+        "subject": {
+            "name": "WF",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Piotr Szlachta"
+        }
+    },
+    {
+        "student_group": {
+            "year": 2,
+            "suffix": "b"
+        },
+        "subject": {
+            "name": "Język polski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Piotr Szlachta"
+        }
+    },
+    {
+        "student_group": {
+            "year": 2,
+            "suffix": "b"
+        },
+        "subject": {
+            "name": "Historia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Piotr Szlachta"
+        }
+    },
+    {
+        "student_group": {
+            "year": 2,
+            "suffix": "b"
+        },
+        "subject": {
+            "name": "WoS",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Piotr Szlachta"
+        }
+    },
+    {
+        "student_group": {
+            "year": 2,
+            "suffix": "b"
+        },
+        "subject": {
+            "name": "Język angielski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Piotr Szlachta"
+        }
+    },
+    {
+        "student_group": {
+            "year": 2,
+            "suffix": "b"
+        },
+        "subject": {
+            "name": "Matematyka",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Piotr Szlachta"
+        }
+    },
+    {
+        "student_group": {
+            "year": 2,
+            "suffix": "b"
+        },
+        "subject": {
+            "name": "Fizyka",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Filemon Kowalski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 2,
+            "suffix": "b"
+        },
+        "subject": {
+            "name": "Chemia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Filemon Kowalski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 2,
+            "suffix": "b"
+        },
+        "subject": {
+            "name": "Biologia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Filemon Kowalski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 2,
+            "suffix": "b"
+        },
+        "subject": {
+            "name": "WF",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Filemon Kowalski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 2,
+            "suffix": "c"
+        },
+        "subject": {
+            "name": "Język polski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Filemon Kowalski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 2,
+            "suffix": "c"
+        },
+        "subject": {
+            "name": "Historia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Filemon Kowalski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 2,
+            "suffix": "c"
+        },
+        "subject": {
+            "name": "WoS",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Filemon Kowalski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 2,
+            "suffix": "c"
+        },
+        "subject": {
+            "name": "Język angielski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Filemon Kowalski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 2,
+            "suffix": "c"
+        },
+        "subject": {
+            "name": "Matematyka",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Filemon Kowalski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 2,
+            "suffix": "c"
+        },
+        "subject": {
+            "name": "Fizyka",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Filemon Kowalski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 2,
+            "suffix": "c"
+        },
+        "subject": {
+            "name": "Chemia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Filemon Kowalski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 2,
+            "suffix": "c"
+        },
+        "subject": {
+            "name": "Biologia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Filemon Kowalski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 2,
+            "suffix": "c"
+        },
+        "subject": {
+            "name": "WF",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Filemon Kowalski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 2,
+            "suffix": "d"
+        },
+        "subject": {
+            "name": "Język polski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Filemon Kowalski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 2,
+            "suffix": "d"
+        },
+        "subject": {
+            "name": "Historia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Filemon Kowalski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 2,
+            "suffix": "d"
+        },
+        "subject": {
+            "name": "WoS",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Filemon Kowalski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 2,
+            "suffix": "d"
+        },
+        "subject": {
+            "name": "Język angielski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Filemon Kowalski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 2,
+            "suffix": "d"
+        },
+        "subject": {
+            "name": "Matematyka",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Filemon Kowalski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 2,
+            "suffix": "d"
+        },
+        "subject": {
+            "name": "Fizyka",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Filemon Kowalski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 2,
+            "suffix": "d"
+        },
+        "subject": {
+            "name": "Chemia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Filemon Kowalski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 2,
+            "suffix": "d"
+        },
+        "subject": {
+            "name": "Biologia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Filemon Kowalski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 2,
+            "suffix": "d"
+        },
+        "subject": {
+            "name": "WF",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Filemon Kowalski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 2,
+            "suffix": "e"
+        },
+        "subject": {
+            "name": "Język polski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Filemon Kowalski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 2,
+            "suffix": "e"
+        },
+        "subject": {
+            "name": "Historia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Filemon Kowalski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 2,
+            "suffix": "e"
+        },
+        "subject": {
+            "name": "WoS",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Filemon Kowalski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 2,
+            "suffix": "e"
+        },
+        "subject": {
+            "name": "Język angielski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Filemon Kowalski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 2,
+            "suffix": "e"
+        },
+        "subject": {
+            "name": "Matematyka",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Filemon Kowalski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 2,
+            "suffix": "e"
+        },
+        "subject": {
+            "name": "Fizyka",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Filemon Kowalski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 2,
+            "suffix": "e"
+        },
+        "subject": {
+            "name": "Chemia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Filemon Kowalski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 2,
+            "suffix": "e"
+        },
+        "subject": {
+            "name": "Biologia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Filemon Kowalski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 2,
+            "suffix": "e"
+        },
+        "subject": {
+            "name": "WF",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Filemon Kowalski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 3,
+            "suffix": "a"
+        },
+        "subject": {
+            "name": "Język polski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Maciej Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 3,
+            "suffix": "a"
+        },
+        "subject": {
+            "name": "Historia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Maciej Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 3,
+            "suffix": "a"
+        },
+        "subject": {
+            "name": "WoS",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Maciej Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 3,
+            "suffix": "a"
+        },
+        "subject": {
+            "name": "Język angielski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Maciej Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 3,
+            "suffix": "a"
+        },
+        "subject": {
+            "name": "Matematyka",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Maciej Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 3,
+            "suffix": "a"
+        },
+        "subject": {
+            "name": "Fizyka",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Maciej Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 3,
+            "suffix": "a"
+        },
+        "subject": {
+            "name": "Chemia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Maciej Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 3,
+            "suffix": "a"
+        },
+        "subject": {
+            "name": "Biologia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Maciej Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 3,
+            "suffix": "a"
+        },
+        "subject": {
+            "name": "WF",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Maciej Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 3,
+            "suffix": "b"
+        },
+        "subject": {
+            "name": "Język polski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Maciej Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 3,
+            "suffix": "b"
+        },
+        "subject": {
+            "name": "Historia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Maciej Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 3,
+            "suffix": "b"
+        },
+        "subject": {
+            "name": "WoS",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Maciej Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 3,
+            "suffix": "b"
+        },
+        "subject": {
+            "name": "Język angielski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Maciej Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 3,
+            "suffix": "b"
+        },
+        "subject": {
+            "name": "Matematyka",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Maciej Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 3,
+            "suffix": "b"
+        },
+        "subject": {
+            "name": "Fizyka",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Maciej Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 3,
+            "suffix": "b"
+        },
+        "subject": {
+            "name": "Chemia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Maciej Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 3,
+            "suffix": "b"
+        },
+        "subject": {
+            "name": "Biologia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Maciej Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 3,
+            "suffix": "b"
+        },
+        "subject": {
+            "name": "WF",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Maciej Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 3,
+            "suffix": "c"
+        },
+        "subject": {
+            "name": "Język polski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Maciej Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 3,
+            "suffix": "c"
+        },
+        "subject": {
+            "name": "Historia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Maciej Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 3,
+            "suffix": "c"
+        },
+        "subject": {
+            "name": "WoS",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Maciej Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 3,
+            "suffix": "c"
+        },
+        "subject": {
+            "name": "Język angielski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Maciej Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 3,
+            "suffix": "c"
+        },
+        "subject": {
+            "name": "Matematyka",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Maciej Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 3,
+            "suffix": "c"
+        },
+        "subject": {
+            "name": "Fizyka",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Maciej Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 3,
+            "suffix": "c"
+        },
+        "subject": {
+            "name": "Chemia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Maciej Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 3,
+            "suffix": "c"
+        },
+        "subject": {
+            "name": "Biologia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Maciej Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 3,
+            "suffix": "c"
+        },
+        "subject": {
+            "name": "WF",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Maciej Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 3,
+            "suffix": "d"
+        },
+        "subject": {
+            "name": "Język polski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Maciej Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 3,
+            "suffix": "d"
+        },
+        "subject": {
+            "name": "Historia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Maciej Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 3,
+            "suffix": "d"
+        },
+        "subject": {
+            "name": "WoS",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Maciej Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 3,
+            "suffix": "d"
+        },
+        "subject": {
+            "name": "Język angielski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Rafał Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 3,
+            "suffix": "d"
+        },
+        "subject": {
+            "name": "Matematyka",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Rafał Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 3,
+            "suffix": "d"
+        },
+        "subject": {
+            "name": "Fizyka",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 3,
+            "suffix": "d"
+        },
+        "subject": {
+            "name": "Chemia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 3,
+            "suffix": "d"
+        },
+        "subject": {
+            "name": "Biologia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 3,
+            "suffix": "d"
+        },
+        "subject": {
+            "name": "WF",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 3,
+            "suffix": "e"
+        },
+        "subject": {
+            "name": "Język polski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Rafał Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 3,
+            "suffix": "e"
+        },
+        "subject": {
+            "name": "Historia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 3,
+            "suffix": "e"
+        },
+        "subject": {
+            "name": "WoS",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 3,
+            "suffix": "e"
+        },
+        "subject": {
+            "name": "Język angielski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Rafał Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 3,
+            "suffix": "e"
+        },
+        "subject": {
+            "name": "Matematyka",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Rafał Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 3,
+            "suffix": "e"
+        },
+        "subject": {
+            "name": "Fizyka",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 3,
+            "suffix": "e"
+        },
+        "subject": {
+            "name": "Chemia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 3,
+            "suffix": "e"
+        },
+        "subject": {
+            "name": "Biologia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 3,
+            "suffix": "e"
+        },
+        "subject": {
+            "name": "WF",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 4,
+            "suffix": "a"
+        },
+        "subject": {
+            "name": "Język polski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Rafał Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 4,
+            "suffix": "a"
+        },
+        "subject": {
+            "name": "Historia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 4,
+            "suffix": "a"
+        },
+        "subject": {
+            "name": "WoS",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 4,
+            "suffix": "a"
+        },
+        "subject": {
+            "name": "Język angielski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Rafał Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 4,
+            "suffix": "a"
+        },
+        "subject": {
+            "name": "Matematyka",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Rafał Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 4,
+            "suffix": "a"
+        },
+        "subject": {
+            "name": "Fizyka",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 4,
+            "suffix": "a"
+        },
+        "subject": {
+            "name": "Chemia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 4,
+            "suffix": "a"
+        },
+        "subject": {
+            "name": "Biologia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 4,
+            "suffix": "a"
+        },
+        "subject": {
+            "name": "WF",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 4,
+            "suffix": "b"
+        },
+        "subject": {
+            "name": "Język polski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Rafał Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 4,
+            "suffix": "b"
+        },
+        "subject": {
+            "name": "Historia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 4,
+            "suffix": "b"
+        },
+        "subject": {
+            "name": "WoS",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 4,
+            "suffix": "b"
+        },
+        "subject": {
+            "name": "Język angielski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Rafał Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 4,
+            "suffix": "b"
+        },
+        "subject": {
+            "name": "Matematyka",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Rafał Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 4,
+            "suffix": "b"
+        },
+        "subject": {
+            "name": "Fizyka",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Kornelia Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 4,
+            "suffix": "b"
+        },
+        "subject": {
+            "name": "Chemia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Kornelia Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 4,
+            "suffix": "b"
+        },
+        "subject": {
+            "name": "Biologia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Kornelia Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 4,
+            "suffix": "b"
+        },
+        "subject": {
+            "name": "WF",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Kornelia Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 4,
+            "suffix": "c"
+        },
+        "subject": {
+            "name": "Język polski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Kornelia Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 4,
+            "suffix": "c"
+        },
+        "subject": {
+            "name": "Historia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Kornelia Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 4,
+            "suffix": "c"
+        },
+        "subject": {
+            "name": "WoS",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Kornelia Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 4,
+            "suffix": "c"
+        },
+        "subject": {
+            "name": "Język angielski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Kornelia Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 4,
+            "suffix": "c"
+        },
+        "subject": {
+            "name": "Matematyka",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Kornelia Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 4,
+            "suffix": "c"
+        },
+        "subject": {
+            "name": "Fizyka",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Kornelia Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 4,
+            "suffix": "c"
+        },
+        "subject": {
+            "name": "Chemia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Kornelia Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 4,
+            "suffix": "c"
+        },
+        "subject": {
+            "name": "Biologia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Kornelia Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 4,
+            "suffix": "c"
+        },
+        "subject": {
+            "name": "WF",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Kornelia Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 4,
+            "suffix": "d"
+        },
+        "subject": {
+            "name": "Język polski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Kornelia Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 4,
+            "suffix": "d"
+        },
+        "subject": {
+            "name": "Historia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Kornelia Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 4,
+            "suffix": "d"
+        },
+        "subject": {
+            "name": "WoS",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Kornelia Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 4,
+            "suffix": "d"
+        },
+        "subject": {
+            "name": "Język angielski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Kornelia Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 4,
+            "suffix": "d"
+        },
+        "subject": {
+            "name": "Matematyka",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Kornelia Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 4,
+            "suffix": "d"
+        },
+        "subject": {
+            "name": "Fizyka",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Kornelia Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 4,
+            "suffix": "d"
+        },
+        "subject": {
+            "name": "Chemia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Kornelia Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 4,
+            "suffix": "d"
+        },
+        "subject": {
+            "name": "Biologia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Kornelia Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 4,
+            "suffix": "d"
+        },
+        "subject": {
+            "name": "WF",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Kornelia Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 4,
+            "suffix": "e"
+        },
+        "subject": {
+            "name": "Język polski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Kornelia Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 4,
+            "suffix": "e"
+        },
+        "subject": {
+            "name": "Historia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Kornelia Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 4,
+            "suffix": "e"
+        },
+        "subject": {
+            "name": "WoS",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Kornelia Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 4,
+            "suffix": "e"
+        },
+        "subject": {
+            "name": "Język angielski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Kornelia Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 4,
+            "suffix": "e"
+        },
+        "subject": {
+            "name": "Matematyka",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Kornelia Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 4,
+            "suffix": "e"
+        },
+        "subject": {
+            "name": "Fizyka",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Kornelia Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 4,
+            "suffix": "e"
+        },
+        "subject": {
+            "name": "Chemia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Kornelia Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 4,
+            "suffix": "e"
+        },
+        "subject": {
+            "name": "Biologia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Kornelia Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 4,
+            "suffix": "e"
+        },
+        "subject": {
+            "name": "WF",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Kornelia Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 5,
+            "suffix": "a"
+        },
+        "subject": {
+            "name": "Język polski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Rafał Gałecki"
+        }
+    },
+    {
+        "student_group": {
+            "year": 5,
+            "suffix": "a"
+        },
+        "subject": {
+            "name": "Historia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Gałecki"
+        }
+    },
+    {
+        "student_group": {
+            "year": 5,
+            "suffix": "a"
+        },
+        "subject": {
+            "name": "WoS",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Gałecki"
+        }
+    },
+    {
+        "student_group": {
+            "year": 5,
+            "suffix": "a"
+        },
+        "subject": {
+            "name": "Język angielski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Rafał Gałecki"
+        }
+    },
+    {
+        "student_group": {
+            "year": 5,
+            "suffix": "a"
+        },
+        "subject": {
+            "name": "Matematyka",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Rafał Gałecki"
+        }
+    },
+    {
+        "student_group": {
+            "year": 5,
+            "suffix": "a"
+        },
+        "subject": {
+            "name": "Fizyka",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Gałecki"
+        }
+    },
+    {
+        "student_group": {
+            "year": 5,
+            "suffix": "a"
+        },
+        "subject": {
+            "name": "Chemia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Gałecki"
+        }
+    },
+    {
+        "student_group": {
+            "year": 5,
+            "suffix": "a"
+        },
+        "subject": {
+            "name": "Biologia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Gałecki"
+        }
+    },
+    {
+        "student_group": {
+            "year": 5,
+            "suffix": "a"
+        },
+        "subject": {
+            "name": "WF",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Gałecki"
+        }
+    },
+    {
+        "student_group": {
+            "year": 5,
+            "suffix": "b"
+        },
+        "subject": {
+            "name": "Język polski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Rafał Gałecki"
+        }
+    },
+    {
+        "student_group": {
+            "year": 5,
+            "suffix": "b"
+        },
+        "subject": {
+            "name": "Historia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Gałecki"
+        }
+    },
+    {
+        "student_group": {
+            "year": 5,
+            "suffix": "b"
+        },
+        "subject": {
+            "name": "WoS",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Gałecki"
+        }
+    },
+    {
+        "student_group": {
+            "year": 5,
+            "suffix": "b"
+        },
+        "subject": {
+            "name": "Język angielski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Rafał Gałecki"
+        }
+    },
+    {
+        "student_group": {
+            "year": 5,
+            "suffix": "b"
+        },
+        "subject": {
+            "name": "Matematyka",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Rafał Gałecki"
+        }
+    },
+    {
+        "student_group": {
+            "year": 5,
+            "suffix": "b"
+        },
+        "subject": {
+            "name": "Fizyka",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Gałecki"
+        }
+    },
+    {
+        "student_group": {
+            "year": 5,
+            "suffix": "b"
+        },
+        "subject": {
+            "name": "Chemia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Gałecki"
+        }
+    },
+    {
+        "student_group": {
+            "year": 5,
+            "suffix": "b"
+        },
+        "subject": {
+            "name": "Biologia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Gałecki"
+        }
+    },
+    {
+        "student_group": {
+            "year": 5,
+            "suffix": "b"
+        },
+        "subject": {
+            "name": "WF",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Gałecki"
+        }
+    },
+    {
+        "student_group": {
+            "year": 5,
+            "suffix": "c"
+        },
+        "subject": {
+            "name": "Język polski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Rafał Gałecki"
+        }
+    },
+    {
+        "student_group": {
+            "year": 5,
+            "suffix": "c"
+        },
+        "subject": {
+            "name": "Historia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Gałecki"
+        }
+    },
+    {
+        "student_group": {
+            "year": 5,
+            "suffix": "c"
+        },
+        "subject": {
+            "name": "WoS",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Gałecki"
+        }
+    },
+    {
+        "student_group": {
+            "year": 5,
+            "suffix": "c"
+        },
+        "subject": {
+            "name": "Język angielski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Rafał Gałecki"
+        }
+    },
+    {
+        "student_group": {
+            "year": 5,
+            "suffix": "c"
+        },
+        "subject": {
+            "name": "Matematyka",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Rafał Gałecki"
+        }
+    },
+    {
+        "student_group": {
+            "year": 5,
+            "suffix": "c"
+        },
+        "subject": {
+            "name": "Fizyka",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Gałecki"
+        }
+    },
+    {
+        "student_group": {
+            "year": 5,
+            "suffix": "c"
+        },
+        "subject": {
+            "name": "Chemia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Gałecki"
+        }
+    },
+    {
+        "student_group": {
+            "year": 5,
+            "suffix": "c"
+        },
+        "subject": {
+            "name": "Biologia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Gałecki"
+        }
+    },
+    {
+        "student_group": {
+            "year": 5,
+            "suffix": "c"
+        },
+        "subject": {
+            "name": "WF",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Gałecki"
+        }
+    },
+    {
+        "student_group": {
+            "year": 5,
+            "suffix": "d"
+        },
+        "subject": {
+            "name": "Język polski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Rafał Gałecki"
+        }
+    },
+    {
+        "student_group": {
+            "year": 5,
+            "suffix": "d"
+        },
+        "subject": {
+            "name": "Historia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Gałecki"
+        }
+    },
+    {
+        "student_group": {
+            "year": 5,
+            "suffix": "d"
+        },
+        "subject": {
+            "name": "WoS",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Gałecki"
+        }
+    },
+    {
+        "student_group": {
+            "year": 5,
+            "suffix": "d"
+        },
+        "subject": {
+            "name": "Język angielski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Magda Gałecki"
+        }
+    },
+    {
+        "student_group": {
+            "year": 5,
+            "suffix": "d"
+        },
+        "subject": {
+            "name": "Matematyka",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Magda Gałecki"
+        }
+    },
+    {
+        "student_group": {
+            "year": 5,
+            "suffix": "d"
+        },
+        "subject": {
+            "name": "Fizyka",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Magda Gałecki"
+        }
+    },
+    {
+        "student_group": {
+            "year": 5,
+            "suffix": "d"
+        },
+        "subject": {
+            "name": "Chemia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Magda Gałecki"
+        }
+    },
+    {
+        "student_group": {
+            "year": 5,
+            "suffix": "d"
+        },
+        "subject": {
+            "name": "Biologia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Magda Gałecki"
+        }
+    },
+    {
+        "student_group": {
+            "year": 5,
+            "suffix": "d"
+        },
+        "subject": {
+            "name": "WF",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Magda Gałecki"
+        }
+    },
+    {
+        "student_group": {
+            "year": 5,
+            "suffix": "e"
+        },
+        "subject": {
+            "name": "Język polski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Magda Gałecki"
+        }
+    },
+    {
+        "student_group": {
+            "year": 5,
+            "suffix": "e"
+        },
+        "subject": {
+            "name": "Historia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Magda Gałecki"
+        }
+    },
+    {
+        "student_group": {
+            "year": 5,
+            "suffix": "e"
+        },
+        "subject": {
+            "name": "WoS",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Magda Gałecki"
+        }
+    },
+    {
+        "student_group": {
+            "year": 5,
+            "suffix": "e"
+        },
+        "subject": {
+            "name": "Język angielski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Magda Gałecki"
+        }
+    },
+    {
+        "student_group": {
+            "year": 5,
+            "suffix": "e"
+        },
+        "subject": {
+            "name": "Matematyka",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Magda Gałecki"
+        }
+    },
+    {
+        "student_group": {
+            "year": 5,
+            "suffix": "e"
+        },
+        "subject": {
+            "name": "Fizyka",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Magda Gałecki"
+        }
+    },
+    {
+        "student_group": {
+            "year": 5,
+            "suffix": "e"
+        },
+        "subject": {
+            "name": "Chemia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Magda Gałecki"
+        }
+    },
+    {
+        "student_group": {
+            "year": 5,
+            "suffix": "e"
+        },
+        "subject": {
+            "name": "Biologia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Magda Gałecki"
+        }
+    },
+    {
+        "student_group": {
+            "year": 5,
+            "suffix": "e"
+        },
+        "subject": {
+            "name": "WF",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Magda Gałecki"
+        }
+    },
+    {
+        "student_group": {
+            "year": 6,
+            "suffix": "a"
+        },
+        "subject": {
+            "name": "Język polski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Magda Gałecki"
+        }
+    },
+    {
+        "student_group": {
+            "year": 6,
+            "suffix": "a"
+        },
+        "subject": {
+            "name": "Historia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Magda Gałecki"
+        }
+    },
+    {
+        "student_group": {
+            "year": 6,
+            "suffix": "a"
+        },
+        "subject": {
+            "name": "WoS",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Magda Gałecki"
+        }
+    },
+    {
+        "student_group": {
+            "year": 6,
+            "suffix": "a"
+        },
+        "subject": {
+            "name": "Język angielski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Magda Gałecki"
+        }
+    },
+    {
+        "student_group": {
+            "year": 6,
+            "suffix": "a"
+        },
+        "subject": {
+            "name": "Matematyka",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Magda Gałecki"
+        }
+    },
+    {
+        "student_group": {
+            "year": 6,
+            "suffix": "a"
+        },
+        "subject": {
+            "name": "Fizyka",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Magda Gałecki"
+        }
+    },
+    {
+        "student_group": {
+            "year": 6,
+            "suffix": "a"
+        },
+        "subject": {
+            "name": "Chemia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Magda Gałecki"
+        }
+    },
+    {
+        "student_group": {
+            "year": 6,
+            "suffix": "a"
+        },
+        "subject": {
+            "name": "Biologia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Magda Gałecki"
+        }
+    },
+    {
+        "student_group": {
+            "year": 6,
+            "suffix": "a"
+        },
+        "subject": {
+            "name": "WF",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Magda Gałecki"
+        }
+    },
+    {
+        "student_group": {
+            "year": 6,
+            "suffix": "b"
+        },
+        "subject": {
+            "name": "Język polski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Magda Gałecki"
+        }
+    },
+    {
+        "student_group": {
+            "year": 6,
+            "suffix": "b"
+        },
+        "subject": {
+            "name": "Historia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Magda Gałecki"
+        }
+    },
+    {
+        "student_group": {
+            "year": 6,
+            "suffix": "b"
+        },
+        "subject": {
+            "name": "WoS",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Magda Gałecki"
+        }
+    },
+    {
+        "student_group": {
+            "year": 6,
+            "suffix": "b"
+        },
+        "subject": {
+            "name": "Język angielski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Magda Gałecki"
+        }
+    },
+    {
+        "student_group": {
+            "year": 6,
+            "suffix": "b"
+        },
+        "subject": {
+            "name": "Matematyka",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Magda Gałecki"
+        }
+    },
+    {
+        "student_group": {
+            "year": 6,
+            "suffix": "b"
+        },
+        "subject": {
+            "name": "Fizyka",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Karolina Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 6,
+            "suffix": "b"
+        },
+        "subject": {
+            "name": "Chemia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Karolina Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 6,
+            "suffix": "b"
+        },
+        "subject": {
+            "name": "Biologia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Karolina Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 6,
+            "suffix": "b"
+        },
+        "subject": {
+            "name": "WF",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Karolina Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 6,
+            "suffix": "c"
+        },
+        "subject": {
+            "name": "Język polski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Karolina Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 6,
+            "suffix": "c"
+        },
+        "subject": {
+            "name": "Historia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Karolina Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 6,
+            "suffix": "c"
+        },
+        "subject": {
+            "name": "WoS",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Karolina Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 6,
+            "suffix": "c"
+        },
+        "subject": {
+            "name": "Język angielski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Karolina Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 6,
+            "suffix": "c"
+        },
+        "subject": {
+            "name": "Matematyka",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Karolina Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 6,
+            "suffix": "c"
+        },
+        "subject": {
+            "name": "Fizyka",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Karolina Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 6,
+            "suffix": "c"
+        },
+        "subject": {
+            "name": "Chemia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Karolina Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 6,
+            "suffix": "c"
+        },
+        "subject": {
+            "name": "Biologia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Karolina Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 6,
+            "suffix": "c"
+        },
+        "subject": {
+            "name": "WF",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Karolina Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 6,
+            "suffix": "d"
+        },
+        "subject": {
+            "name": "Język polski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Karolina Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 6,
+            "suffix": "d"
+        },
+        "subject": {
+            "name": "Historia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Karolina Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 6,
+            "suffix": "d"
+        },
+        "subject": {
+            "name": "WoS",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Karolina Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 6,
+            "suffix": "d"
+        },
+        "subject": {
+            "name": "Język angielski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Karolina Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 6,
+            "suffix": "d"
+        },
+        "subject": {
+            "name": "Matematyka",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Karolina Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 6,
+            "suffix": "d"
+        },
+        "subject": {
+            "name": "Fizyka",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Karolina Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 6,
+            "suffix": "d"
+        },
+        "subject": {
+            "name": "Chemia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Karolina Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 6,
+            "suffix": "d"
+        },
+        "subject": {
+            "name": "Biologia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Karolina Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 6,
+            "suffix": "d"
+        },
+        "subject": {
+            "name": "WF",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Karolina Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 6,
+            "suffix": "e"
+        },
+        "subject": {
+            "name": "Język polski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Karolina Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 6,
+            "suffix": "e"
+        },
+        "subject": {
+            "name": "Historia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Karolina Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 6,
+            "suffix": "e"
+        },
+        "subject": {
+            "name": "WoS",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Karolina Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 6,
+            "suffix": "e"
+        },
+        "subject": {
+            "name": "Język angielski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Karolina Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 6,
+            "suffix": "e"
+        },
+        "subject": {
+            "name": "Matematyka",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Karolina Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 6,
+            "suffix": "e"
+        },
+        "subject": {
+            "name": "Fizyka",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Karolina Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 6,
+            "suffix": "e"
+        },
+        "subject": {
+            "name": "Chemia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Karolina Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 6,
+            "suffix": "e"
+        },
+        "subject": {
+            "name": "Biologia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Karolina Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 6,
+            "suffix": "e"
+        },
+        "subject": {
+            "name": "WF",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Karolina Nowak"
+        }
+    },
+    {
+        "student_group": {
+            "year": 7,
+            "suffix": "a"
+        },
+        "subject": {
+            "name": "Język polski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Rafał Szlachta"
+        }
+    },
+    {
+        "student_group": {
+            "year": 7,
+            "suffix": "a"
+        },
+        "subject": {
+            "name": "Historia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Szlachta"
+        }
+    },
+    {
+        "student_group": {
+            "year": 7,
+            "suffix": "a"
+        },
+        "subject": {
+            "name": "WoS",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Szlachta"
+        }
+    },
+    {
+        "student_group": {
+            "year": 7,
+            "suffix": "a"
+        },
+        "subject": {
+            "name": "Język angielski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Rafał Szlachta"
+        }
+    },
+    {
+        "student_group": {
+            "year": 7,
+            "suffix": "a"
+        },
+        "subject": {
+            "name": "Matematyka",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Rafał Szlachta"
+        }
+    },
+    {
+        "student_group": {
+            "year": 7,
+            "suffix": "a"
+        },
+        "subject": {
+            "name": "Fizyka",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Szlachta"
+        }
+    },
+    {
+        "student_group": {
+            "year": 7,
+            "suffix": "a"
+        },
+        "subject": {
+            "name": "Chemia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Szlachta"
+        }
+    },
+    {
+        "student_group": {
+            "year": 7,
+            "suffix": "a"
+        },
+        "subject": {
+            "name": "Biologia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Szlachta"
+        }
+    },
+    {
+        "student_group": {
+            "year": 7,
+            "suffix": "a"
+        },
+        "subject": {
+            "name": "WF",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Szlachta"
+        }
+    },
+    {
+        "student_group": {
+            "year": 7,
+            "suffix": "b"
+        },
+        "subject": {
+            "name": "Język polski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Rafał Szlachta"
+        }
+    },
+    {
+        "student_group": {
+            "year": 7,
+            "suffix": "b"
+        },
+        "subject": {
+            "name": "Historia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Szlachta"
+        }
+    },
+    {
+        "student_group": {
+            "year": 7,
+            "suffix": "b"
+        },
+        "subject": {
+            "name": "WoS",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Szlachta"
+        }
+    },
+    {
+        "student_group": {
+            "year": 7,
+            "suffix": "b"
+        },
+        "subject": {
+            "name": "Język angielski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Rafał Szlachta"
+        }
+    },
+    {
+        "student_group": {
+            "year": 7,
+            "suffix": "b"
+        },
+        "subject": {
+            "name": "Matematyka",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Rafał Szlachta"
+        }
+    },
+    {
+        "student_group": {
+            "year": 7,
+            "suffix": "b"
+        },
+        "subject": {
+            "name": "Fizyka",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Szlachta"
+        }
+    },
+    {
+        "student_group": {
+            "year": 7,
+            "suffix": "b"
+        },
+        "subject": {
+            "name": "Chemia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Szlachta"
+        }
+    },
+    {
+        "student_group": {
+            "year": 7,
+            "suffix": "b"
+        },
+        "subject": {
+            "name": "Biologia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Szlachta"
+        }
+    },
+    {
+        "student_group": {
+            "year": 7,
+            "suffix": "b"
+        },
+        "subject": {
+            "name": "WF",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Szlachta"
+        }
+    },
+    {
+        "student_group": {
+            "year": 7,
+            "suffix": "c"
+        },
+        "subject": {
+            "name": "Język polski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Rafał Szlachta"
+        }
+    },
+    {
+        "student_group": {
+            "year": 7,
+            "suffix": "c"
+        },
+        "subject": {
+            "name": "Historia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Szlachta"
+        }
+    },
+    {
+        "student_group": {
+            "year": 7,
+            "suffix": "c"
+        },
+        "subject": {
+            "name": "WoS",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Szlachta"
+        }
+    },
+    {
+        "student_group": {
+            "year": 7,
+            "suffix": "c"
+        },
+        "subject": {
+            "name": "Język angielski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Rafał Szlachta"
+        }
+    },
+    {
+        "student_group": {
+            "year": 7,
+            "suffix": "c"
+        },
+        "subject": {
+            "name": "Matematyka",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Rafał Szlachta"
+        }
+    },
+    {
+        "student_group": {
+            "year": 7,
+            "suffix": "c"
+        },
+        "subject": {
+            "name": "Fizyka",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Szlachta"
+        }
+    },
+    {
+        "student_group": {
+            "year": 7,
+            "suffix": "c"
+        },
+        "subject": {
+            "name": "Chemia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Szlachta"
+        }
+    },
+    {
+        "student_group": {
+            "year": 7,
+            "suffix": "c"
+        },
+        "subject": {
+            "name": "Biologia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Szlachta"
+        }
+    },
+    {
+        "student_group": {
+            "year": 7,
+            "suffix": "c"
+        },
+        "subject": {
+            "name": "WF",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Szlachta"
+        }
+    },
+    {
+        "student_group": {
+            "year": 7,
+            "suffix": "d"
+        },
+        "subject": {
+            "name": "Język polski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Rafał Szlachta"
+        }
+    },
+    {
+        "student_group": {
+            "year": 7,
+            "suffix": "d"
+        },
+        "subject": {
+            "name": "Historia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Szlachta"
+        }
+    },
+    {
+        "student_group": {
+            "year": 7,
+            "suffix": "d"
+        },
+        "subject": {
+            "name": "WoS",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Szlachta"
+        }
+    },
+    {
+        "student_group": {
+            "year": 7,
+            "suffix": "d"
+        },
+        "subject": {
+            "name": "Język angielski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Karolina Kowalski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 7,
+            "suffix": "d"
+        },
+        "subject": {
+            "name": "Matematyka",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Karolina Kowalski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 7,
+            "suffix": "d"
+        },
+        "subject": {
+            "name": "Fizyka",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Karolina Kowalski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 7,
+            "suffix": "d"
+        },
+        "subject": {
+            "name": "Chemia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Karolina Kowalski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 7,
+            "suffix": "d"
+        },
+        "subject": {
+            "name": "Biologia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Karolina Kowalski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 7,
+            "suffix": "d"
+        },
+        "subject": {
+            "name": "WF",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Karolina Kowalski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 7,
+            "suffix": "e"
+        },
+        "subject": {
+            "name": "Język polski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Karolina Kowalski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 7,
+            "suffix": "e"
+        },
+        "subject": {
+            "name": "Historia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Karolina Kowalski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 7,
+            "suffix": "e"
+        },
+        "subject": {
+            "name": "WoS",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Karolina Kowalski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 7,
+            "suffix": "e"
+        },
+        "subject": {
+            "name": "Język angielski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Karolina Kowalski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 7,
+            "suffix": "e"
+        },
+        "subject": {
+            "name": "Matematyka",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Karolina Kowalski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 7,
+            "suffix": "e"
+        },
+        "subject": {
+            "name": "Fizyka",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Karolina Kowalski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 7,
+            "suffix": "e"
+        },
+        "subject": {
+            "name": "Chemia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Karolina Kowalski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 7,
+            "suffix": "e"
+        },
+        "subject": {
+            "name": "Biologia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Karolina Kowalski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 7,
+            "suffix": "e"
+        },
+        "subject": {
+            "name": "WF",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Karolina Kowalski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 8,
+            "suffix": "a"
+        },
+        "subject": {
+            "name": "Język polski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Karolina Kowalski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 8,
+            "suffix": "a"
+        },
+        "subject": {
+            "name": "Historia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Karolina Kowalski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 8,
+            "suffix": "a"
+        },
+        "subject": {
+            "name": "WoS",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Karolina Kowalski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 8,
+            "suffix": "a"
+        },
+        "subject": {
+            "name": "Język angielski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Karolina Kowalski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 8,
+            "suffix": "a"
+        },
+        "subject": {
+            "name": "Matematyka",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Karolina Kowalski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 8,
+            "suffix": "a"
+        },
+        "subject": {
+            "name": "Fizyka",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Karolina Kowalski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 8,
+            "suffix": "a"
+        },
+        "subject": {
+            "name": "Chemia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Karolina Kowalski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 8,
+            "suffix": "a"
+        },
+        "subject": {
+            "name": "Biologia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Karolina Kowalski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 8,
+            "suffix": "a"
+        },
+        "subject": {
+            "name": "WF",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Karolina Kowalski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 8,
+            "suffix": "b"
+        },
+        "subject": {
+            "name": "Język polski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Karolina Kowalski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 8,
+            "suffix": "b"
+        },
+        "subject": {
+            "name": "Historia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Karolina Kowalski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 8,
+            "suffix": "b"
+        },
+        "subject": {
+            "name": "WoS",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Karolina Kowalski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 8,
+            "suffix": "b"
+        },
+        "subject": {
+            "name": "Język angielski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Karolina Kowalski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 8,
+            "suffix": "b"
+        },
+        "subject": {
+            "name": "Matematyka",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Karolina Kowalski"
+        }
+    },
+    {
+        "student_group": {
+            "year": 8,
+            "suffix": "b"
+        },
+        "subject": {
+            "name": "Fizyka",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Świr"
+        }
+    },
+    {
+        "student_group": {
+            "year": 8,
+            "suffix": "b"
+        },
+        "subject": {
+            "name": "Chemia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Świr"
+        }
+    },
+    {
+        "student_group": {
+            "year": 8,
+            "suffix": "b"
+        },
+        "subject": {
+            "name": "Biologia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Świr"
+        }
+    },
+    {
+        "student_group": {
+            "year": 8,
+            "suffix": "b"
+        },
+        "subject": {
+            "name": "WF",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Świr"
+        }
+    },
+    {
+        "student_group": {
+            "year": 8,
+            "suffix": "c"
+        },
+        "subject": {
+            "name": "Język polski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Rafał Świr"
+        }
+    },
+    {
+        "student_group": {
+            "year": 8,
+            "suffix": "c"
+        },
+        "subject": {
+            "name": "Historia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Świr"
+        }
+    },
+    {
+        "student_group": {
+            "year": 8,
+            "suffix": "c"
+        },
+        "subject": {
+            "name": "WoS",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Świr"
+        }
+    },
+    {
+        "student_group": {
+            "year": 8,
+            "suffix": "c"
+        },
+        "subject": {
+            "name": "Język angielski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Rafał Świr"
+        }
+    },
+    {
+        "student_group": {
+            "year": 8,
+            "suffix": "c"
+        },
+        "subject": {
+            "name": "Matematyka",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Rafał Świr"
+        }
+    },
+    {
+        "student_group": {
+            "year": 8,
+            "suffix": "c"
+        },
+        "subject": {
+            "name": "Fizyka",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Świr"
+        }
+    },
+    {
+        "student_group": {
+            "year": 8,
+            "suffix": "c"
+        },
+        "subject": {
+            "name": "Chemia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Świr"
+        }
+    },
+    {
+        "student_group": {
+            "year": 8,
+            "suffix": "c"
+        },
+        "subject": {
+            "name": "Biologia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Świr"
+        }
+    },
+    {
+        "student_group": {
+            "year": 8,
+            "suffix": "c"
+        },
+        "subject": {
+            "name": "WF",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Świr"
+        }
+    },
+    {
+        "student_group": {
+            "year": 8,
+            "suffix": "d"
+        },
+        "subject": {
+            "name": "Język polski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Rafał Świr"
+        }
+    },
+    {
+        "student_group": {
+            "year": 8,
+            "suffix": "d"
+        },
+        "subject": {
+            "name": "Historia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Świr"
+        }
+    },
+    {
+        "student_group": {
+            "year": 8,
+            "suffix": "d"
+        },
+        "subject": {
+            "name": "WoS",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Świr"
+        }
+    },
+    {
+        "student_group": {
+            "year": 8,
+            "suffix": "d"
+        },
+        "subject": {
+            "name": "Język angielski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Rafał Świr"
+        }
+    },
+    {
+        "student_group": {
+            "year": 8,
+            "suffix": "d"
+        },
+        "subject": {
+            "name": "Matematyka",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Rafał Świr"
+        }
+    },
+    {
+        "student_group": {
+            "year": 8,
+            "suffix": "d"
+        },
+        "subject": {
+            "name": "Fizyka",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Świr"
+        }
+    },
+    {
+        "student_group": {
+            "year": 8,
+            "suffix": "d"
+        },
+        "subject": {
+            "name": "Chemia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Świr"
+        }
+    },
+    {
+        "student_group": {
+            "year": 8,
+            "suffix": "d"
+        },
+        "subject": {
+            "name": "Biologia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Świr"
+        }
+    },
+    {
+        "student_group": {
+            "year": 8,
+            "suffix": "d"
+        },
+        "subject": {
+            "name": "WF",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Świr"
+        }
+    },
+    {
+        "student_group": {
+            "year": 8,
+            "suffix": "e"
+        },
+        "subject": {
+            "name": "Język polski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Rafał Świr"
+        }
+    },
+    {
+        "student_group": {
+            "year": 8,
+            "suffix": "e"
+        },
+        "subject": {
+            "name": "Historia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Świr"
+        }
+    },
+    {
+        "student_group": {
+            "year": 8,
+            "suffix": "e"
+        },
+        "subject": {
+            "name": "WoS",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Świr"
+        }
+    },
+    {
+        "student_group": {
+            "year": 8,
+            "suffix": "e"
+        },
+        "subject": {
+            "name": "Język angielski",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Rafał Świr"
+        }
+    },
+    {
+        "student_group": {
+            "year": 8,
+            "suffix": "e"
+        },
+        "subject": {
+            "name": "Matematyka",
+            "required_yearly_hours": 60
+        },
+        "teacher": {
+            "name": "Rafał Świr"
+        }
+    },
+    {
+        "student_group": {
+            "year": 8,
+            "suffix": "e"
+        },
+        "subject": {
+            "name": "Fizyka",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Świr"
+        }
+    },
+    {
+        "student_group": {
+            "year": 8,
+            "suffix": "e"
+        },
+        "subject": {
+            "name": "Chemia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Świr"
+        }
+    },
+    {
+        "student_group": {
+            "year": 8,
+            "suffix": "e"
+        },
+        "subject": {
+            "name": "Biologia",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Świr"
+        }
+    },
+    {
+        "student_group": {
+            "year": 8,
+            "suffix": "e"
+        },
+        "subject": {
+            "name": "WF",
+            "required_yearly_hours": 30
+        },
+        "teacher": {
+            "name": "Rafał Świr"
+        }
+    }
+]
