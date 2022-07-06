@@ -18,13 +18,15 @@ impl Decoder for Solution {
             res.push(value[7]);
         }
 
-        res
+        BitVec::from_vec(res)
     }
 
     fn decode(&self, encoded: &Self::Encoded) -> Schedule {
-        encoded.into_iter()
+        encoded.clone()
+            .into_vec()
+            .into_iter()
             .enumerate()
-            .map(|(i, &val)| {
+            .map(|(i, val)| {
                 let course = self.courses[i].clone();
                 let hour_i = val as usize % self.hours.len();
                 let hour = self.hours[hour_i];

@@ -6,6 +6,8 @@
 
 use crate::algen::encoding::Decoder;
 use crate::domain::*;
+use bitvec::prelude::*;
+use bitvec::ptr::Mut;
 use once_cell::sync::Lazy;
 use rand::distributions::Uniform;
 use rand::prelude::*;
@@ -16,8 +18,8 @@ mod fitness_ops;
 mod mutation_ops;
 mod survivor_select_ops;
 
-type Gene = u8;
-type Chromosome = Vec<u8>;
+type Chromosome = BitVec<u8>;
+type Gene<'a> = BitRef<'a, Mut, u8>;
 
 const MUTATION_PROBABILITY: u32 = 5;
 const MUTATION_CREEP_DISTRIBUTION: Lazy<Uniform<i32>> = Lazy::new(|| Uniform::new_inclusive(-5, 5));

@@ -1,0 +1,39 @@
+77e610b HEAD@{0}: commit (amend): Refactors. Documentation. Serialization support. New structure. More stuff?
+db2b7d8 HEAD@{1}: commit (amend): Refactors. Documentation. Serialization support. New structure. More stuff?
+68af28d HEAD@{2}: commit: Refactors. Documentation. Serialization support. New structure. More stuff?
+06c59ba HEAD@{3}: checkout: moving from refactors to master
+53d5439 HEAD@{4}: commit: Restored tests, simplified code.
+398b58a HEAD@{5}: rebase (abort): updating HEAD
+9e5953f HEAD@{6}: rebase (squash): Moved generating data to python script. Serialization support for my datatypes.
+0d712e8 HEAD@{7}: rebase (start): checkout master
+398b58a HEAD@{8}: rebase (finish): returning to refs/heads/refactors
+398b58a HEAD@{9}: rebase (start): checkout master
+398b58a HEAD@{10}: rebase (finish): returning to refs/heads/refactors
+398b58a HEAD@{11}: rebase (start): checkout master
+398b58a HEAD@{12}: rebase (finish): returning to refs/heads/refactors
+398b58a HEAD@{13}: rebase (start): checkout master
+398b58a HEAD@{14}: rebase (finish): returning to refs/heads/refactors
+398b58a HEAD@{15}: rebase (start): checkout master
+398b58a HEAD@{16}: Branch: renamed refs/heads/hmmm to refs/heads/refactors
+398b58a HEAD@{18}: commit: Cleaned up some imports and formatting.
+be5428c HEAD@{19}: commit: Changed trait name for more self explanatory.
+71a506d HEAD@{20}: commit: Restored tests for bit traits.
+3f4193b HEAD@{21}: commit: Simplified property code.
+c7464f0 HEAD@{22}: commit: Removed property stuff from here. Gonna delegate that to bitvec.
+dd94725 HEAD@{23}: commit: Implemented bit traits for all unsigned types. Not tested yet.
+0b75ede HEAD@{24}: commit: Fixed props for u8.
+bbb5164 HEAD@{25}: checkout: moving from bbb51645d15a7aadf9052403f80f868b24bc0201 to hmmm
+bbb5164 HEAD@{26}: checkout: moving from pure-state to bbb51645d15a7aadf9052403f80f868b24bc0201
+5cceeea HEAD@{27}: reset: moving to HEAD
+5cceeea HEAD@{28}: commit: More tests.
+e1b0513 HEAD@{29}: commit (amend): Got code to compile by refactoring it. I could make my original idea work; but it requires me to learn smart pointers better - and I don't have time for it right now.
+2a1eba1 HEAD@{30}: commit (amend): Got code to compile by refactoring it. I could make my original idea work; but it requires me to learn smart pointers better - and I don't have time for it right now.
+c8d9cc5 HEAD@{31}: commit: Got code to compile by refactoring it. I could make my original idea work; but it requires me to learn smart pointers better - and I don't have time for it right now.
+123c946 HEAD@{32}: commit: Got code to compile by commenting it. Tec.
+bbb5164 HEAD@{33}: commit: Work in progress.
+bc70b31 HEAD@{34}: commit (amend): More fixing lifetimes in progress.
+7271434 HEAD@{35}: commit (amend): More fixing lifetimes in progress.
+8e56f95 HEAD@{36}: commit: More fixing lifetimes in progress.
+fdd132c HEAD@{37}: reset: moving to HEAD
+fdd132c HEAD@{38}: checkout: moving from master to pure-state
+06c59ba HEAD@{39}: clone: from https://github.com/Aegonek/schoolduler

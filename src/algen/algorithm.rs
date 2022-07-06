@@ -27,8 +27,6 @@ where
     // May change depending on ExecutionContext. This takes a snapshot.
     fn config(&self) -> Config;
 
-    // Every algorithm needs a place to store ExecutionContext, this function retrieves it so we can update it. Backing field should be set to default on start.
-    // Kinda ugly but lets me skip passing ExecutionContext to every method.
     fn execution_context(&mut self) -> &mut ExecutionContext<Self>;
 
     fn fitness_function(&self, chromosome: &Self::Chromosome) -> u32;
@@ -38,7 +36,6 @@ where
 
     fn crossover_op(&self, lhs: Self::Chromosome, rhs: Self::Chromosome) -> (Self::Chromosome, Self::Chromosome);
 
-    // Evaluated for every gene, but it may need a context of entire chromosome.
     fn mutation_op(&self, genes: &mut [<Self::Chromosome as Genes>::Gene], i: usize);
 
     // Choose one survivor from population. May or may not remove it from population.
