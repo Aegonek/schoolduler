@@ -9,12 +9,12 @@ const LOG_EVERY_N_ITERATIONS: usize = 50;
 
 #[derive(Debug, PartialEq, Clone)]
 pub struct Config {
-    population_size: usize,
+    pub population_size: usize,
     // probability that a gene will be mutated
-    mutation_probability: Promile,
+    pub mutation_probability: Promile,
     // probability that a chromosome will be crossovered with another chromosome
-    crossover_probability: Promile,
-    children_per_parent: usize,
+    pub crossover_probability: Promile,
+    pub children_per_parent: usize,
 }
 
 pub trait Algorithm

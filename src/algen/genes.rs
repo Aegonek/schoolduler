@@ -1,4 +1,3 @@
-
 use crate::utils::indexed::{Len, GetIndexMut};
 
 pub trait Genotype: Clone + Sized {

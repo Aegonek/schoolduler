@@ -1,4 +1,5 @@
 use super::*;
+use crate::algen::encoding::Decoder;
 
 impl Decoder for Solution {
     type Encoded = Chromosome;
@@ -18,11 +19,11 @@ impl Decoder for Solution {
             res.push(value[7]);
         }
 
-        BitVec::from_vec(res)
+        Chromosome(BitVec::from_vec(res))
     }
 
     fn decode(&self, encoded: &Self::Encoded) -> Schedule {
-        encoded.clone()
+        encoded.0.clone()
             .into_vec()
             .into_iter()
             .enumerate()
