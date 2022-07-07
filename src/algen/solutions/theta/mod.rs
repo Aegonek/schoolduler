@@ -5,6 +5,8 @@
 // We are searching for any viable solutions, that means, solution with least conflicts.
 
 use crate::algen::algorithm::{self, Algorithm};
+use crate::algen::solutions::theta::mutation_ops::{creep_mutation, invert_bit_mutation};
+use crate::utils::rated::Rated;
 use crate::utils::units::Promile;
 use crate::{domain::*, algen::execution::ExecutionContext};
 use crate::algen::genes::Genotype;
@@ -49,12 +51,6 @@ impl Solution {
     }
 }
 
-#[non_exhaustive]
-pub enum MutationOp {
-    CreepMutation { from_distribution: Uniform<u8> },
-    InvertBitMutation
-}
-
 pub struct Config {
     pub population_size: usize,
     // probability that a gene will be mutated
@@ -63,6 +59,7 @@ pub struct Config {
     pub crossover_probability: Promile,
     pub children_per_parent: usize,
     pub mutation_op: MutationOp,
+    pub termination_condition: TerminationCondition
 }
 
 impl Default for Config {
@@ -82,22 +79,31 @@ impl From<&Config> for algorithm::Config {
     }
 }
 
+pub enum MutationOp {
+    CreepMutation { from_distribution: Uniform<u8> },
+    InvertBitMutation
+}
+
+pub enum TerminationCondition {
+    AfterNoIterations(usize)
+}
+
 impl Algorithm for Solution {
     type Chromosome = self::Chromosome;
 
     fn config(&self) -> algorithm::Config {
-        todo!()
+        algorithm::Config::from(&self.config)
     }
 
     fn execution_context(&mut self) -> &mut ExecutionContext<Self> {
-        todo!()
+        &mut self.execution_context
     }
 
     fn fitness_function(&self, chromosome: &Self::Chromosome) -> u32 {
         todo!()
     }
 
-    fn parent_selection_op(&self, population: &[crate::utils::rated::Rated<Self::Chromosome>]) -> (Self::Chromosome, Self::Chromosome) {
+    fn parent_selection_op(&self, population: &[Rated<Self::Chromosome>]) -> (Self::Chromosome, Self::Chromosome) {
         todo!()
     }
 
@@ -106,14 +112,21 @@ impl Algorithm for Solution {
     }
 
     fn mutation_op(&self, genes: &mut <Self::Chromosome as Genotype>::Genes<'_>, i: usize) {
-        todo!()
+        use MutationOp::*;
+        match self.config.mutation_op {
+            CreepMutation { from_distribution } => creep_mutation(from_distribution, genes, i),
+            InvertBitMutation => invert_bit_mutation(genes, i)
+        }
     }
 
-    fn survivor_selection_op(&self, population: &mut [crate::utils::rated::Rated<Self::Chromosome>],) -> crate::utils::rated::Rated<Self::Chromosome> {
+    fn survivor_selection_op(&self, population: &mut [Rated<Self::Chromosome>],) -> Rated<Self::Chromosome> {
         todo!()
     }
 
     fn termination_condition(&self) -> bool {
-        todo!()
+        use TerminationCondition::*;
+        match self.config.termination_condition {
+            AfterNoIterations(i) => self.execution_context.iteration_count > i,
+        }
     }
 }
