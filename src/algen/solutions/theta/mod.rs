@@ -51,7 +51,8 @@ impl Solution {
 
 #[non_exhaustive]
 pub enum MutationOp {
-    CreepMutation { from_distribution: Uniform<u8> }
+    CreepMutation { from_distribution: Uniform<u8> },
+    InvertBitMutation
 }
 
 pub struct Config {

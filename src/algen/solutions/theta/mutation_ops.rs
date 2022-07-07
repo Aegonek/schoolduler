@@ -16,3 +16,10 @@ pub fn creep_mutation(solver: &Solution, genes: &mut BitVec<u8>, i: usize) {
     let shifted = allel.wrapping_add(creep);
     *allel = shifted;
 }
+
+// TODO: test
+pub fn invert_bit_mutation(_solver: &Solution, genes: &mut BitVec<u8>, i: usize) {
+    let mut bit_proxy = genes.get_mut(i).unwrap();
+    let bit_refm = bit_proxy.as_mut();
+    *bit_refm = !*bit_refm;
+}
