@@ -8,22 +8,23 @@ use crate::domain::*;
 use bitvec::prelude::*;
 use rand::prelude::*;
 
-use crate::algen::execution::ExecutionContext;
+use self::crossover_ops::one_point_crossover;
+use self::fitness_ops::inverse_of_no_class_conflicts;
+use self::mutation_ops::{creep_mutation, invert_bit_mutation};
+use self::survivor_select_ops::roulette_selection;
 use crate::algen::algorithm::{self, Algorithm};
 use crate::algen::encoding::Decoder;
+use crate::algen::execution::ExecutionContext;
 use crate::algen::genes::Genotype;
-use self::mutation_ops::{creep_mutation, invert_bit_mutation};
-use self::fitness_ops::inverse_of_no_class_conflicts;
-use self::survivor_select_ops::roulette_selection;
 use crate::utils::{rated::Rated, units::Promile};
-use derive_more::{AsRef, AsMut};
 use bitvec::ptr::Mut;
+use derive_more::{AsMut, AsRef};
 use rand::distributions::Uniform;
 
-// mod crossover_ops;
-mod mutation_ops;
+mod crossover_ops;
 mod encoding;
 mod fitness_ops;
+mod mutation_ops;
 mod survivor_select_ops;
 
 #[derive(Debug, Default, Clone, AsRef, AsMut)]
@@ -42,16 +43,16 @@ pub struct Solution {
     courses: Vec<Course>,
     hours: Vec<LessonHour>,
     config: Config,
-    execution_context: ExecutionContext<Self>
+    execution_context: ExecutionContext<Self>,
 }
 
 impl Solution {
     fn new() -> Self {
-        Solution { 
-            courses: Vec::new(), 
+        Solution {
+            courses: Vec::new(),
             hours: Vec::new(),
             config: Config::default(),
-            execution_context: ExecutionContext::default()
+            execution_context: ExecutionContext::default(),
         }
     }
 }
@@ -64,33 +65,40 @@ pub struct Config {
     pub crossover_probability: Promile,
     pub children_per_parent: usize,
     pub mutation_op: MutationOp,
-    pub termination_condition: TerminationCondition
+    pub termination_condition: TerminationCondition,
 }
 
 impl Default for Config {
     fn default() -> Self {
-        todo!()
+        Config {
+            population_size: 1000,
+            mutation_probability: Promile(50),
+            crossover_probability: Promile(30),
+            children_per_parent: 1,
+            mutation_op: MutationOp::InvertBitMutation,
+            termination_condition: TerminationCondition::AfterNoIterations(100_000),
+        }
     }
 }
 
 impl From<&Config> for algorithm::Config {
     fn from(cfg: &Config) -> Self {
-        algorithm::Config { 
-            population_size: cfg.population_size, 
-            mutation_probability: cfg.mutation_probability, 
-            crossover_probability: cfg.crossover_probability, 
-            children_per_parent: cfg.children_per_parent 
+        algorithm::Config {
+            population_size: cfg.population_size,
+            mutation_probability: cfg.mutation_probability,
+            crossover_probability: cfg.crossover_probability,
+            children_per_parent: cfg.children_per_parent,
         }
     }
 }
 
 pub enum MutationOp {
     CreepMutation { from_distribution: Uniform<u8> },
-    InvertBitMutation
+    InvertBitMutation,
 }
 
 pub enum TerminationCondition {
-    AfterNoIterations(usize)
+    AfterNoIterations(usize),
 }
 
 impl Algorithm for Solution {
@@ -108,24 +116,37 @@ impl Algorithm for Solution {
         inverse_of_no_class_conflicts(self, chromosome)
     }
 
-    fn parent_selection_op(&self, population: &[Rated<Self::Chromosome>]) -> (Rated<Self::Chromosome>, Rated<Self::Chromosome>) {
-        let parents = (roulette_selection(population), roulette_selection(population));
+    fn parent_selection_op(
+        &self,
+        population: &[Rated<Self::Chromosome>],
+    ) -> (Rated<Self::Chromosome>, Rated<Self::Chromosome>) {
+        let parents = (
+            roulette_selection(population),
+            roulette_selection(population),
+        );
         parents
     }
 
-    fn crossover_op(&self, lhs: Self::Chromosome, rhs: Self::Chromosome) -> (Self::Chromosome, Self::Chromosome) {
-        todo!()
+    fn crossover_op(
+        &self,
+        lhs: Self::Chromosome,
+        rhs: Self::Chromosome,
+    ) -> (Self::Chromosome, Self::Chromosome) {
+        one_point_crossover(lhs, rhs)
     }
 
     fn mutation_op(&self, genes: &mut <Self::Chromosome as Genotype>::Genes<'_>, i: usize) {
         use MutationOp::*;
         match self.config.mutation_op {
             CreepMutation { from_distribution } => creep_mutation(from_distribution, genes, i),
-            InvertBitMutation => invert_bit_mutation(genes, i)
+            InvertBitMutation => invert_bit_mutation(genes, i),
         }
     }
 
-    fn survivor_selection_op(&self, population: &mut [Rated<Self::Chromosome>],) -> Rated<Self::Chromosome> {
+    fn survivor_selection_op(
+        &self,
+        population: &mut [Rated<Self::Chromosome>],
+    ) -> Rated<Self::Chromosome> {
         roulette_selection(population)
     }
 
