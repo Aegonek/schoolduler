@@ -32,7 +32,7 @@ where
     fn fitness_function(&self, chromosome: &Self::Chromosome) -> u32;
 
     // We assume that crossover always yields 2 chromosomes for 2 parents.
-    fn parent_selection_op(&self, population: &[Rated<Self::Chromosome>]) -> (Self::Chromosome, Self::Chromosome);
+    fn parent_selection_op(&self, population: &[Rated<Self::Chromosome>]) -> (Rated<Self::Chromosome>, Rated<Self::Chromosome>);
 
     fn crossover_op(&self, lhs: Self::Chromosome, rhs: Self::Chromosome) -> (Self::Chromosome, Self::Chromosome);
 
@@ -61,9 +61,9 @@ where
                 let (child1, child2) = if Promile(thread_rng().gen_range(0..=1000))
                     <= self.config().crossover_probability
                 {
-                    self.crossover_op(parent1, parent2)
+                    self.crossover_op(parent1.value, parent2.value)
                 } else {
-                    (parent1, parent2)
+                    (parent1.value, parent2.value)
                 };
 
                 for mut child in [child1, child2] {
@@ -84,7 +84,7 @@ where
                 Vec::with_capacity(config.population_size);
             for _ in 0..config.population_size {
                 let chosen = self.survivor_selection_op(&mut children);
-                next_generation.push(chosen);
+                next_generation.push(chosen.clone());
             }
 
             config = self.config();

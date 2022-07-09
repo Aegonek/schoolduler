@@ -1,5 +1,3 @@
-#![allow(irrefutable_let_patterns)]
-
 use super::*;
 use rand::prelude::*;
 

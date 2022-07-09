@@ -4,22 +4,27 @@
 // Chromosome: Vec<Gene> (for all lessons we need to schedule)
 // We are searching for any viable solutions, that means, solution with least conflicts.
 
-use crate::algen::algorithm::{self, Algorithm};
-use crate::algen::solutions::theta::mutation_ops::{creep_mutation, invert_bit_mutation};
-use crate::utils::rated::Rated;
-use crate::utils::units::Promile;
-use crate::{domain::*, algen::execution::ExecutionContext};
-use crate::algen::genes::Genotype;
+use crate::domain::*;
 use bitvec::prelude::*;
-use bitvec::ptr::Mut;
+use rand::prelude::*;
+
+use crate::algen::execution::ExecutionContext;
+use crate::algen::algorithm::{self, Algorithm};
+use crate::algen::encoding::Decoder;
+use crate::algen::genes::Genotype;
+use self::mutation_ops::{creep_mutation, invert_bit_mutation};
+use self::fitness_ops::inverse_of_no_class_conflicts;
+use self::survivor_select_ops::roulette_selection;
+use crate::utils::{rated::Rated, units::Promile};
 use derive_more::{AsRef, AsMut};
+use bitvec::ptr::Mut;
 use rand::distributions::Uniform;
 
 // mod crossover_ops;
 mod mutation_ops;
 mod encoding;
-// mod fitness_ops;
-// mod survivor_select_ops;
+mod fitness_ops;
+mod survivor_select_ops;
 
 #[derive(Debug, Default, Clone, AsRef, AsMut)]
 pub struct Chromosome(pub BitVec<u8>);
@@ -100,11 +105,12 @@ impl Algorithm for Solution {
     }
 
     fn fitness_function(&self, chromosome: &Self::Chromosome) -> u32 {
-        todo!()
+        inverse_of_no_class_conflicts(self, chromosome)
     }
 
-    fn parent_selection_op(&self, population: &[Rated<Self::Chromosome>]) -> (Self::Chromosome, Self::Chromosome) {
-        todo!()
+    fn parent_selection_op(&self, population: &[Rated<Self::Chromosome>]) -> (Rated<Self::Chromosome>, Rated<Self::Chromosome>) {
+        let parents = (roulette_selection(population), roulette_selection(population));
+        parents
     }
 
     fn crossover_op(&self, lhs: Self::Chromosome, rhs: Self::Chromosome) -> (Self::Chromosome, Self::Chromosome) {
@@ -120,7 +126,7 @@ impl Algorithm for Solution {
     }
 
     fn survivor_selection_op(&self, population: &mut [Rated<Self::Chromosome>],) -> Rated<Self::Chromosome> {
-        todo!()
+        roulette_selection(population)
     }
 
     fn termination_condition(&self) -> bool {
