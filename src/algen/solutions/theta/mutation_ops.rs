@@ -1,5 +1,4 @@
 use super::*;
-use rand::prelude::*;
 
 pub fn creep_mutation(creep_distribution: Uniform<u8>, genes: &mut BitVec<u8>, i: usize) {
     let byte = i / 8; // TODO: test
