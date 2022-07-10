@@ -2,7 +2,7 @@ use rusqlite::Connection;
 use std::sync::Mutex;
 use once_cell::sync::Lazy;
 
-use crate::algen::execution::RunId;
+use crate::algen::parametrized::execution::RunId;
 
 static DB_PATH: &'static str = "data/schoolduler.db";
 pub static DB_CONN: Lazy<Mutex<Connection>> = Lazy::new(|| {
@@ -10,6 +10,7 @@ pub static DB_CONN: Lazy<Mutex<Connection>> = Lazy::new(|| {
     Mutex::new(conn)
 });
 
+// TODO: test
 pub static RUN_ID: Lazy<RunId> = Lazy::new(|| {
     let nmb = DB_CONN.lock().unwrap().query_row("
         SELECT run FROM THETA_ITERATIONS 

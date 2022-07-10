@@ -1,5 +1,5 @@
 use super::Class;
-use crate::algen::execution::RunId;
+use crate::algen::parametrized::execution::RunId;
 use crate::db::DB_CONN;
 use crate::utils::exts::result::ResultExt;
 use crate::utils::log::DbWrite;

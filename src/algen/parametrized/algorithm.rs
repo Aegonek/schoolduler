@@ -1,29 +1,20 @@
-use crate::{domain::*, utils::exts::eager::EagerIter};
+use std::mem;
+
 use rand::prelude::*;
-use std::{mem, fmt::Display};
-use super::{execution::{History, Iteration}, encoding::Decoder, random};
-use crate::utils::{rated::Rated, units::Promile, log::log};
 use tap::Pipe;
 
-const LOG_EVERY_N_ITERATIONS: usize = 50;
+use crate::algen::random;
+use crate::domain::*;
+use crate::utils::exts::eager::EagerIter;
+use crate::utils::rated::Rated;
+use crate::utils::units::Promile;
+use crate::utils::log::log;
 
-#[derive(Debug, PartialEq, Clone)]
-pub struct Config {
-    pub population_size: usize,
-    // probability that a gene will be mutated
-    pub mutation_probability: Promile,
-    // probability that a chromosome will be crossovered with another chromosome
-    pub crossover_probability: Promile,
-    pub children_per_parent: usize,
-}
-
-pub trait IsChromosome: Clone + Sized + AsRef<[u8]> + Display /* dump raw data into sqlite */ {
-    // Data necessary to select single gene from chromosome.
-    type Index: Copy;
-    type Indices: Iterator<Item = Self::Index>;
-
-    fn indices(&self) -> Self::Indices;
-}
+use super::CALIBRATE_EVERY_N_ITERATIONS;
+use super::chromosome::IsChromosome;
+use super::config::IsConfig;
+use super::encoding::Decoder;
+use super::execution::{History, Iteration};
 
 pub trait Algorithm
 where
@@ -31,11 +22,11 @@ where
     Self: Decoder<Encoded = Self::Chromosome>
 {
     type Chromosome: IsChromosome; // Type representing one encoded solution
+    type Config: IsConfig<Self>;
 
     // May change depending on ExecutionContext. This takes a snapshot.
-    fn config(&self) -> Config;
-
-    fn history(&mut self) -> &mut History<Self>;
+    fn config(&self) -> &Self::Config;
+    fn config_mut(&mut self) -> &mut Self::Config;
 
     fn fitness_function(&self, chromosome: &Self::Chromosome) -> u32;
 
@@ -47,28 +38,35 @@ where
     fn mutation_op(&self, chromosome: &mut Self::Chromosome, i: <Self::Chromosome as IsChromosome>::Index);
 
     // Choose one survivor from population. May or may not remove it from population.
-    fn survivor_selection_op(&self, population: &mut [Rated<Self::Chromosome>],) -> Rated<Self::Chromosome>;
+    fn survivor_selection_op(&self, population: &mut [Rated<Self::Chromosome>]) -> Rated<Self::Chromosome>;
 
     fn termination_condition(&self) -> bool;
 
     fn run(mut self, requirements: &Requirements) -> Schedule {
-        let mut config = self.config();
-        let courses: Vec<Schedule> = Vec::with_capacity(config.population_size as usize)
-            .eager_map(|()| random::random_schedule(requirements));
+        let mut history = History::new();
+
+        let courses: Vec<Schedule> = {
+            let config = self.config();
+            Vec::with_capacity(config.population_size())
+                .eager_map(|()| random::random_schedule(requirements))
+        };
 
         let population: Vec<Self::Chromosome> = courses.eager_map(|crs| self.encode(&crs));
         let mut population: Vec<Rated<Self::Chromosome>> = population.eager_map(|chrom| self.rate(chrom));
+
         let mut i_count: usize = 0;
         while !self.termination_condition() {
-            let no_children = config.population_size * config.children_per_parent;
+            i_count += 1;
+            let config = self.config();
+            let no_children = config.population_size() * config.children_per_parent();
             let parents: Vec<_> = (0..no_children)
                 .map(|_| self.parent_selection_op(&population))
                 .collect();
 
-            let mut children: Vec<Rated<Self::Chromosome>> = Vec::with_capacity(no_children as usize);
+            let mut children: Vec<Rated<Self::Chromosome>> = Vec::with_capacity(no_children);
             for (parent1, parent2) in parents {
                 let (child1, child2) = if Promile(thread_rng().gen_range(0..=1000))
-                    <= self.config().crossover_probability
+                    <= config.crossover_probability()
                 {
                     self.crossover_op(parent1.value, parent2.value)
                 } else {
@@ -78,7 +76,7 @@ where
                 for mut child in [child1, child2] {
                     for i in child.indices() {
                         if Promile(thread_rng().gen_range(0..=1000))
-                            <= self.config().mutation_probability
+                            <= config.mutation_probability()
                         {
                             self.mutation_op(&mut child, i);
                         }
@@ -89,18 +87,15 @@ where
             }
 
             let mut next_generation: Vec<Rated<Self::Chromosome>> =
-                Vec::with_capacity(config.population_size);
-            for _ in 0..config.population_size {
+                Vec::with_capacity(config.population_size());
+            for _ in 0..config.population_size() {
                 let chosen = self.survivor_selection_op(&mut children);
                 next_generation.push(chosen.clone());
             }
 
-            config = self.config();
             let _ = mem::replace(&mut population, next_generation);
 
-            i_count += 1;
-            let mut history = self.history();
-            if i_count % LOG_EVERY_N_ITERATIONS == 0 {
+            if i_count % CALIBRATE_EVERY_N_ITERATIONS == 0 {
                 let best_result = population.iter().max().unwrap().clone();
                 let iteration: Iteration<Self> = Iteration {
                     iteration: i_count,
@@ -108,6 +103,10 @@ where
                 };
                 log(&iteration, ());
                 history.0.push_front(iteration);
+                {
+                    mem::drop(config);
+                    self.config_mut().adjust(&history);
+                }
             }
         }
 
