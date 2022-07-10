@@ -1,8 +1,8 @@
-use crate::{domain::*, utils::indexed::Len};
+use crate::{domain::*, utils::{indexed::Len, exts::eager::EagerIter}};
 use rand::prelude::*;
-use std::mem;
+use std::{mem};
 use super::{execution::{ExecutionContext, Iteration}, encoding::Decoder, genes::Genotype, random};
-use crate::utils::{eager::EagerIter, rated::Rated, units::Promile};
+use crate::utils::{rated::Rated, units::Promile};
 use tap::Pipe;
 
 const LOG_EVERY_N_ITERATIONS: usize = 50;
@@ -20,7 +20,7 @@ pub struct Config {
 pub trait Algorithm
 where
     Self: Sized,
-    Self: Decoder<Encoded = Self::Chromosome>,
+    Self: Decoder<Encoded = Self::Chromosome>
 {
     type Chromosome: Genotype + Sized; // Type representing one encoded solution
 
@@ -98,6 +98,7 @@ where
                     iteration: execution_context.iteration_count,
                     best_result,
                 };
+                // log(&iteration);
                 execution_context.history.push(iteration);
             }
         }

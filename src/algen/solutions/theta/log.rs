@@ -5,8 +5,8 @@ use once_cell::sync::Lazy;
 use rusqlite::{self, params};
 use time::OffsetDateTime;
 use crate::DB_CONN;
+use crate::utils::exts::result::ResultExt;
 use crate::utils::log::DbWrite;
-use crate::utils::result_ext::ResultExt;
 
 pub static LAST_RUN: Lazy<usize> = Lazy::new(|| {
     DB_CONN.lock().unwrap().query_row("
