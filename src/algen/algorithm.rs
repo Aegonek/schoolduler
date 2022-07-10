@@ -1,6 +1,6 @@
 use crate::{domain::*, utils::exts::eager::EagerIter};
 use rand::prelude::*;
-use std::mem;
+use std::{mem, fmt::Display};
 use super::{execution::{History, Iteration}, encoding::Decoder, random};
 use crate::utils::{rated::Rated, units::Promile, log::log};
 use tap::Pipe;
@@ -17,7 +17,7 @@ pub struct Config {
     pub children_per_parent: usize,
 }
 
-pub trait IsChromosome: Clone + Sized + AsRef<u8> /* dump raw data into sqlite */ {
+pub trait IsChromosome: Clone + Sized + AsRef<[u8]> + Display /* dump raw data into sqlite */ {
     // Data necessary to select single gene from chromosome.
     type Index: Copy;
     type Indices: Iterator<Item = Self::Index>;

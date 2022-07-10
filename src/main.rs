@@ -8,6 +8,3 @@ mod utils;
 fn main() {
     println!("Forcing build?")
 }
-
-// Removed nightly dependencies.
-// Refactored logging.
