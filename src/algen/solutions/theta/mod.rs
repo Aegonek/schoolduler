@@ -7,6 +7,7 @@
 use std::ops::Range;
 
 use crate::domain::*;
+use crate::utils::units::Percent;
 use bitvec::prelude::*;
 use bitvec::ptr::Mut;
 use rand::prelude::*;
@@ -39,8 +40,6 @@ impl IsChromosome for Chromosome {
     fn indices(&self) -> Self::Indices {
         0..self.0.len()
     }
-
-
 }
 
 pub struct Solution {
@@ -76,8 +75,8 @@ impl Default for Config {
     fn default() -> Self {
         Config {
             population_size: 1000,
-            mutation_probability: Promile(50),
-            crossover_probability: Promile(30),
+            mutation_probability: Percent(5).into(),
+            crossover_probability: Percent(30).into(),
             children_per_parent: 1,
             mutation_op: MutationOp::InvertBitMutation,
             termination_condition: TerminationCondition::AfterNoIterations(100_000),
