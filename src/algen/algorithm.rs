@@ -1,7 +1,7 @@
-use crate::{domain::*, utils::{indexed::Len, exts::eager::EagerIter}};
+use crate::{domain::*, utils::exts::eager::EagerIter};
 use rand::prelude::*;
-use std::{mem};
-use super::{execution::{ExecutionContext, Iteration}, encoding::Decoder, genes::Genotype, random};
+use std::mem;
+use super::{execution::{ExecutionContext, Iteration}, encoding::Decoder, random};
 use crate::utils::{rated::Rated, units::Promile};
 use tap::Pipe;
 
@@ -17,12 +17,20 @@ pub struct Config {
     pub children_per_parent: usize,
 }
 
+pub trait IsChromosome: Clone + Sized {
+    // Data necessary to select single gene from chromosome.
+    type Index: Copy;
+    type Indices: Iterator<Item = Self::Index>;
+
+    fn indices(&self) -> Self::Indices;
+}
+
 pub trait Algorithm
 where
     Self: Sized,
     Self: Decoder<Encoded = Self::Chromosome>
 {
-    type Chromosome: Genotype + Sized; // Type representing one encoded solution
+    type Chromosome: IsChromosome; // Type representing one encoded solution
 
     // May change depending on ExecutionContext. This takes a snapshot.
     fn config(&self) -> Config;
@@ -36,7 +44,7 @@ where
 
     fn crossover_op(&self, lhs: Self::Chromosome, rhs: Self::Chromosome) -> (Self::Chromosome, Self::Chromosome);
 
-    fn mutation_op(&self, genes: &mut <Self::Chromosome as Genotype>::Genes<'_>, i: usize);
+    fn mutation_op(&self, chromosome: &mut Self::Chromosome, i: <Self::Chromosome as IsChromosome>::Index);
 
     // Choose one survivor from population. May or may not remove it from population.
     fn survivor_selection_op(&self, population: &mut [Rated<Self::Chromosome>],) -> Rated<Self::Chromosome>;
@@ -67,12 +75,11 @@ where
                 };
 
                 for mut child in [child1, child2] {
-                    let genes = child.genes();
-                    for i in 0..genes.len() {
+                    for i in child.indices() {
                         if Promile(thread_rng().gen_range(0..=1000))
                             <= self.config().mutation_probability
                         {
-                            self.mutation_op(genes, i);
+                            self.mutation_op(&mut child, i);
                         }
                     }
                     let rated_child = self.rate(child);

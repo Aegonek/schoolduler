@@ -1,12 +1,12 @@
 use std::error::Error;
 
 use super::*;
-use crate::utils::testing::{Ok, Case};
+use crate::utils::testing::Case;
 use tap::Tap;
 use serde_json;
 
 #[test]
-fn deserialization_works() -> Result<Ok, Box<dyn Error>> {
+fn deserialization_works() -> Result<(), Box<dyn Error>> {
     let raw = include_str!("../../data/example-courses.json");
     let _course: Vec<Course> = serde_json::from_str(raw)?;
     return Ok(())

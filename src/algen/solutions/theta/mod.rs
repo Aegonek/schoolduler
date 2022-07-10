@@ -4,6 +4,8 @@
 // Chromosome: Vec<Gene> (for all lessons we need to schedule)
 // We are searching for any viable solutions, that means, solution with least conflicts.
 
+use std::ops::Range;
+
 use crate::domain::*;
 use bitvec::prelude::*;
 use bitvec::ptr::Mut;
@@ -13,10 +15,9 @@ use self::crossover_ops::one_point_crossover;
 use self::fitness_ops::inverse_of_no_class_conflicts;
 use self::mutation_ops::{creep_mutation, invert_bit_mutation};
 use self::survivor_select_ops::roulette_selection;
-use crate::algen::algorithm::{self, Algorithm};
+use crate::algen::algorithm::{self, Algorithm, IsChromosome};
 use crate::algen::encoding::Decoder;
 use crate::algen::execution::{ExecutionContext, Iteration};
-use crate::algen::genes::Genotype;
 use crate::utils::{rated::Rated, units::Promile};
 use derive_more::{AsMut, AsRef};
 use rand::distributions::Uniform;
@@ -31,13 +32,15 @@ mod log;
 #[derive(Debug, Default, Clone, AsRef, AsMut)]
 pub struct Chromosome(pub BitVec<u8>);
 
-impl Genotype for Chromosome {
-    type Gene<'a> = BitRef<'a, Mut, u8>;
-    type Genes<'a> = BitVec<u8>;
+impl IsChromosome for Chromosome {
+    type Index = usize; 
+    type Indices = Range<usize>;
 
-    fn genes(&mut self) -> &mut Self::Genes<'_> {
-        &mut self.0
+    fn indices(&self) -> Self::Indices {
+        0..self.0.len()
     }
+
+
 }
 
 pub struct Solution {
@@ -136,11 +139,11 @@ impl Algorithm for Solution {
         one_point_crossover(lhs, rhs)
     }
 
-    fn mutation_op(&self, genes: &mut <Self::Chromosome as Genotype>::Genes<'_>, i: usize) {
+    fn mutation_op(&self, genes: &mut Self::Chromosome, i: usize) {
         use MutationOp::*;
         match self.config.mutation_op {
-            CreepMutation { from_distribution } => creep_mutation(from_distribution, genes, i),
-            InvertBitMutation => invert_bit_mutation(genes, i),
+            CreepMutation { from_distribution } => creep_mutation(from_distribution, &mut genes.0, i),
+            InvertBitMutation => invert_bit_mutation(&mut genes.0, i),
         }
     }
 
