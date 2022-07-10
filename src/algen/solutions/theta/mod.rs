@@ -4,12 +4,12 @@
 // Chromosome: Vec<Gene> (for all lessons we need to schedule)
 // We are searching for any viable solutions, that means, solution with least conflicts.
 
+use std::fmt::Display;
 use std::ops::Range;
 
 use crate::domain::*;
 use crate::utils::units::Percent;
 use bitvec::prelude::*;
-use bitvec::ptr::Mut;
 use rand::prelude::*;
 
 use self::crossover_ops::one_point_crossover;
@@ -18,7 +18,7 @@ use self::mutation_ops::{creep_mutation, invert_bit_mutation};
 use self::survivor_select_ops::roulette_selection;
 use crate::algen::algorithm::{self, Algorithm, IsChromosome};
 use crate::algen::encoding::Decoder;
-use crate::algen::execution::{ExecutionContext, Iteration};
+use crate::algen::execution::{History, Iteration};
 use crate::utils::{rated::Rated, units::Promile};
 use derive_more::{AsMut, AsRef};
 use rand::distributions::Uniform;
@@ -28,13 +28,12 @@ mod encoding;
 mod fitness_ops;
 mod mutation_ops;
 mod survivor_select_ops;
-mod log;
 
 #[derive(Debug, Default, Clone, AsRef, AsMut)]
 pub struct Chromosome(pub BitVec<u8>);
 
 impl IsChromosome for Chromosome {
-    type Index = usize; 
+    type Index = usize;
     type Indices = Range<usize>;
 
     fn indices(&self) -> Self::Indices {
@@ -42,11 +41,24 @@ impl IsChromosome for Chromosome {
     }
 }
 
+impl Display for Chromosome {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.write_fmt(format_args!("{}", self.0))?;
+        Ok(())
+    }
+}
+
+impl AsRef<[u8]> for Chromosome {
+    fn as_ref(&self) -> &[u8] {
+        self.0.as_raw_slice()
+    }
+}
+
 pub struct Solution {
     courses: Vec<Course>,
     hours: Vec<LessonHour>,
     config: Config,
-    execution_context: ExecutionContext<Self>,
+    history: History<Self>,
 }
 
 impl Solution {
@@ -55,7 +67,7 @@ impl Solution {
             courses: Vec::new(),
             hours: Vec::new(),
             config: Config::default(),
-            execution_context: ExecutionContext::default(),
+            history: History::new(),
         }
     }
 }
@@ -111,18 +123,18 @@ impl Algorithm for Solution {
         algorithm::Config::from(&self.config)
     }
 
-    fn execution_context(&mut self) -> &mut ExecutionContext<Self> {
-        &mut self.execution_context
+    fn history(&mut self) -> &mut History<Self> {
+        &mut self.history
     }
 
-    fn fitness_function(&self, chromosome: &Self::Chromosome) -> u32 {
+    fn fitness_function(&self, chromosome: &Chromosome) -> u32 {
         inverse_of_no_class_conflicts(self, chromosome)
     }
 
     fn parent_selection_op(
         &self,
-        population: &[Rated<Self::Chromosome>],
-    ) -> (Rated<Self::Chromosome>, Rated<Self::Chromosome>) {
+        population: &[Rated<Chromosome>],
+    ) -> (Rated<Chromosome>, Rated<Chromosome>) {
         let parents = (
             roulette_selection(population),
             roulette_selection(population),
@@ -130,33 +142,34 @@ impl Algorithm for Solution {
         parents
     }
 
-    fn crossover_op(
-        &self,
-        lhs: Self::Chromosome,
-        rhs: Self::Chromosome,
-    ) -> (Self::Chromosome, Self::Chromosome) {
+    fn crossover_op(&self, lhs: Chromosome, rhs: Chromosome) -> (Chromosome, Chromosome) {
         one_point_crossover(lhs, rhs)
     }
 
-    fn mutation_op(&self, genes: &mut Self::Chromosome, i: usize) {
+    fn mutation_op(&self, genes: &mut Chromosome, i: usize) {
         use MutationOp::*;
         match self.config.mutation_op {
-            CreepMutation { from_distribution } => creep_mutation(from_distribution, &mut genes.0, i),
+            CreepMutation { from_distribution } => {
+                creep_mutation(from_distribution, &mut genes.0, i)
+            }
             InvertBitMutation => invert_bit_mutation(&mut genes.0, i),
         }
     }
 
-    fn survivor_selection_op(
-        &self,
-        population: &mut [Rated<Self::Chromosome>],
-    ) -> Rated<Self::Chromosome> {
+    fn survivor_selection_op(&self, population: &mut [Rated<Chromosome>]) -> Rated<Chromosome> {
         roulette_selection(population)
     }
 
     fn termination_condition(&self) -> bool {
         use TerminationCondition::*;
         match self.config.termination_condition {
-            AfterNoIterations(i) => self.execution_context.iteration_count > i,
+            AfterNoIterations(i) => {
+                let front = self.history.0.front();
+                match front {
+                    Some(first) => first.iteration > i,
+                    None => false 
+                }
+            }
         }
     }
 }

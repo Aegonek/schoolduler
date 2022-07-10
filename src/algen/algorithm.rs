@@ -1,8 +1,8 @@
 use crate::{domain::*, utils::exts::eager::EagerIter};
 use rand::prelude::*;
 use std::mem;
-use super::{execution::{ExecutionContext, Iteration}, encoding::Decoder, random};
-use crate::utils::{rated::Rated, units::Promile};
+use super::{execution::{History, Iteration}, encoding::Decoder, random};
+use crate::utils::{rated::Rated, units::Promile, log::log};
 use tap::Pipe;
 
 const LOG_EVERY_N_ITERATIONS: usize = 50;
@@ -17,7 +17,7 @@ pub struct Config {
     pub children_per_parent: usize,
 }
 
-pub trait IsChromosome: Clone + Sized {
+pub trait IsChromosome: Clone + Sized + AsRef<u8> /* dump raw data into sqlite */ {
     // Data necessary to select single gene from chromosome.
     type Index: Copy;
     type Indices: Iterator<Item = Self::Index>;
@@ -35,7 +35,7 @@ where
     // May change depending on ExecutionContext. This takes a snapshot.
     fn config(&self) -> Config;
 
-    fn execution_context(&mut self) -> &mut ExecutionContext<Self>;
+    fn history(&mut self) -> &mut History<Self>;
 
     fn fitness_function(&self, chromosome: &Self::Chromosome) -> u32;
 
@@ -58,6 +58,7 @@ where
 
         let population: Vec<Self::Chromosome> = courses.eager_map(|crs| self.encode(&crs));
         let mut population: Vec<Rated<Self::Chromosome>> = population.eager_map(|chrom| self.rate(chrom));
+        let mut i_count: usize = 0;
         while !self.termination_condition() {
             let no_children = config.population_size * config.children_per_parent;
             let parents: Vec<_> = (0..no_children)
@@ -97,16 +98,16 @@ where
             config = self.config();
             let _ = mem::replace(&mut population, next_generation);
 
-            let mut execution_context = self.execution_context();
-            execution_context.iteration_count += 1;
-            if execution_context.iteration_count % LOG_EVERY_N_ITERATIONS == 0 {
+            i_count += 1;
+            let mut history = self.history();
+            if i_count % LOG_EVERY_N_ITERATIONS == 0 {
                 let best_result = population.iter().max().unwrap().clone();
                 let iteration: Iteration<Self> = Iteration {
-                    iteration: execution_context.iteration_count,
+                    iteration: i_count,
                     best_result,
                 };
-                // log(&iteration);
-                execution_context.history.push(iteration);
+                log(&iteration, ());
+                history.0.push_front(iteration);
             }
         }
 
