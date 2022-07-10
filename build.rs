@@ -1,5 +1,6 @@
 use rusqlite::{Connection, Result};
 
+// TODO - use some basic migration system.
 fn main() -> Result<()> {
     let conn = Connection::open("data/schoolduler.db")?;
 

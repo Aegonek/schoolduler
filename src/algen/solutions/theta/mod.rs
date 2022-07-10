@@ -6,6 +6,7 @@
 
 use crate::domain::*;
 use bitvec::prelude::*;
+use bitvec::ptr::Mut;
 use rand::prelude::*;
 
 use self::crossover_ops::one_point_crossover;
@@ -14,10 +15,9 @@ use self::mutation_ops::{creep_mutation, invert_bit_mutation};
 use self::survivor_select_ops::roulette_selection;
 use crate::algen::algorithm::{self, Algorithm};
 use crate::algen::encoding::Decoder;
-use crate::algen::execution::ExecutionContext;
+use crate::algen::execution::{ExecutionContext, Iteration};
 use crate::algen::genes::Genotype;
 use crate::utils::{rated::Rated, units::Promile};
-use bitvec::ptr::Mut;
 use derive_more::{AsMut, AsRef};
 use rand::distributions::Uniform;
 
@@ -26,6 +26,7 @@ mod encoding;
 mod fitness_ops;
 mod mutation_ops;
 mod survivor_select_ops;
+mod log;
 
 #[derive(Debug, Default, Clone, AsRef, AsMut)]
 pub struct Chromosome(pub BitVec<u8>);

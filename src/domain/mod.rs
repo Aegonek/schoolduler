@@ -1,5 +1,6 @@
 #[cfg(test)]
 mod tests;
+pub mod log;
 
 use serde::{Serialize, Deserialize};
 use time::util::weeks_in_year;
