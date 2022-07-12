@@ -64,7 +64,7 @@ pub struct Solution {
 }
 
 impl Solution {
-    fn new() -> Self {
+    pub fn new() -> Self {
         Solution {
             courses: Vec::new(),
             hours: Vec::new(),

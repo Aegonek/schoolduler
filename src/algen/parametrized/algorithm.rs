@@ -1,15 +1,15 @@
-use std::mem;
 
 use rand::prelude::*;
+use crate::domain::*;
+
+use std::mem;
 use tap::Pipe;
 
 use crate::algen::random;
-use crate::domain::*;
 use crate::utils::exts::eager::EagerIter;
 use crate::utils::rated::Rated;
 use crate::utils::units::Promile;
 use crate::utils::log::log;
-
 use super::CALIBRATE_EVERY_N_ITERATIONS;
 use super::chromosome::IsChromosome;
 use super::config::IsConfig;
@@ -101,7 +101,7 @@ where
                     iteration: i_count,
                     best_result,
                 };
-                log(&iteration, ());
+                log(&iteration);
                 history.0.push_front(iteration);
                 {
                     mem::drop(config);
