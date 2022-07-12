@@ -7,7 +7,7 @@ use serde_json;
 
 #[test]
 fn deserialization_works() -> Result<(), Box<dyn Error>> {
-    let raw = include_str!("../../data/example-courses.json");
+    let raw = include_str!("../../input/example-courses.json");
     let _courses: Vec<Course> = serde_json::from_str(raw)?;
     return Ok(())
 }

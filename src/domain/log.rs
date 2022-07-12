@@ -1,5 +1,6 @@
 use super::Class;
-use crate::db::{DB_CONN, RUN_ID};
+use crate::RUN_ID;
+use crate::db::DB_CONN;
 use crate::utils::exts::result::ResultExt;
 use crate::utils::log::DbWrite;
 use rusqlite::params;
@@ -26,7 +27,7 @@ impl DbWrite for Class {
         ";
         DB_CONN
             .lock().unwrap()
-            .execute(SQL, params![RUN_ID.0, serde_json::to_string(self).unwrap()])
+            .execute(SQL, params![RUN_ID.get().unwrap().0, serde_json::to_string(self).unwrap()])
             .void()
     }
 }

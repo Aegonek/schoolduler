@@ -81,5 +81,5 @@ def get_assigned_courses():
             courses.append(course)
 
 courses = get_assigned_courses()
-with open("../data/example-courses.json", "w", encoding='utf8') as file:
+with open("../input/example-courses.json", "w", encoding='utf8') as file:
     json.dump(courses, file, indent=4, ensure_ascii=False)

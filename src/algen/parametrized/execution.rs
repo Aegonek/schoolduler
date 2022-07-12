@@ -4,7 +4,8 @@ use std::fmt::Display;
 use rusqlite::params;
 use time::OffsetDateTime;
 
-use crate::db::{DB_CONN, RUN_ID};
+use crate::RUN_ID;
+use crate::db::DB_CONN;
 use crate::utils::exts::result::ResultExt;
 use crate::utils::log::DbWrite;
 use crate::utils::rated::Rated;
@@ -27,7 +28,7 @@ where
     T::Chromosome: Display 
 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        f.write_fmt(format_args!("Iteration: {} | Best result: {} | Best chromosome: {}", self.iteration, self.best_result.rating, self.best_result.value))?;
+        f.write_fmt(format_args!("Iteration: {} | Best result: {}", self.iteration, self.best_result.rating))?;
         Ok(())
     }
 }
@@ -39,15 +40,14 @@ where
 
     fn write_db(&self, _ctx: Self::Context) -> rusqlite::Result<()> {
         const SQL: &'static str = "
-            INSERT INTO THETA_ITERATIONS (run, iteration, rating, chromosome, time)
+            INSERT INTO THETA_ITERATIONS (run, iteration, rating, time)
             VALUES (?1, ?2, ?3, ?4)
         ";
         DB_CONN.lock().unwrap()
         .execute(SQL, params![
-            RUN_ID.0,
+            RUN_ID.get().unwrap().0,
             self.iteration, 
-            self.best_result.rating, 
-            self.best_result.value.as_ref(), 
+            self.best_result.rating,
             OffsetDateTime::now_utc()
         ]).void()
     }

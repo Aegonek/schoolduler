@@ -46,7 +46,7 @@ mod tests {
 
     #[test]
     fn decoded_iso_encoded() {
-        let raw = include_str!("../../../../data/example-courses.json");
+        let raw = include_str!("../../../../input/example-courses.json");
         let required: Vec<Course> = serde_json::from_str(raw).unwrap();
         let schedule = random::random_schedule(&required);
         let mut solver = Solution::new();

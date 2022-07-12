@@ -15,8 +15,8 @@ impl Default for Config {
     fn default() -> Self {
         Config {
             population_size: 1000,
-            mutation_probability: Percent(5).into(),
-            crossover_probability: Percent(30).into(),
+            mutation_probability: Percent(7).into(),
+            crossover_probability: Percent(80).into(),
             children_per_parent: 1,
             mutation_op: MutationOp::InvertBitMutation,
             termination_condition: TerminationCondition::AfterNoIterations(100_000),

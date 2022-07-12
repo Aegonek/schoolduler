@@ -9,7 +9,7 @@ use crate::algen::random;
 use crate::utils::exts::eager::EagerIter;
 use crate::utils::rated::Rated;
 use crate::utils::units::Promile;
-use crate::utils::log::log;
+use crate::utils::log::log_item;
 use super::CALIBRATE_EVERY_N_ITERATIONS;
 use super::chromosome::IsChromosome;
 use super::config::IsConfig;
@@ -42,27 +42,32 @@ where
 
     fn termination_condition(&self, history: &History<Self>) -> bool;
 
+    // TODO: replace println! with conditionally compiled verbose!, blocked on crate feature? flag?
     fn run(mut self, requirements: &Requirements) -> Schedule {
         let mut history = History::new();
 
+        println!("Generating random schedules...");
         let courses: Vec<Schedule> = {
             let config = self.config();
-            Vec::with_capacity(config.population_size())
-                .eager_map(|()| random::random_schedule(requirements))
+            vec![(); config.population_size()]
+                .eager_map(|_| random::random_schedule(requirements))
         };
 
+        println!("Encoding schedules...");
         let population: Vec<Self::Chromosome> = courses.eager_map(|crs| self.encode(&crs));
+        println!("Rating schedules...");
         let mut population: Vec<Rated<Self::Chromosome>> = population.eager_map(|chrom| self.rate(chrom));
 
         let mut i_count: usize = 0;
         while !self.termination_condition(&history) {
-            i_count += 1;
             let config = self.config();
             let no_children = config.population_size() * config.children_per_parent();
+            println!("Choosing parents...");
             let parents: Vec<_> = (0..no_children)
                 .map(|_| self.parent_selection_op(&population))
                 .collect();
 
+            println!("Generating children...");
             let mut children: Vec<Rated<Self::Chromosome>> = Vec::with_capacity(no_children);
             for (parent1, parent2) in parents {
                 let (child1, child2) = if Promile(thread_rng().gen_range(0..=1000))
@@ -86,6 +91,7 @@ where
                 }
             }
 
+            println!("Choosing next generation...");
             let mut next_generation: Vec<Rated<Self::Chromosome>> =
                 Vec::with_capacity(config.population_size());
             for _ in 0..config.population_size() {
@@ -93,7 +99,7 @@ where
                 next_generation.push(chosen.clone());
             }
 
-            let _ = mem::replace(&mut population, next_generation);
+            population = next_generation;
 
             if i_count % CALIBRATE_EVERY_N_ITERATIONS == 0 {
                 let best_result = population.iter().max().unwrap().clone();
@@ -101,13 +107,14 @@ where
                     iteration: i_count,
                     best_result,
                 };
-                log(&iteration);
+                log_item(&iteration);
                 history.0.push_front(iteration);
                 {
                     mem::drop(config);
                     self.config_mut().adjust(&history);
                 }
             }
+            i_count += 1;
         }
 
         return population.into_iter()

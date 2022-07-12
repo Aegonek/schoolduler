@@ -25,9 +25,9 @@ use crate::utils::{rated::Rated, units::Promile};
 use derive_more::{AsMut, AsRef};
 use rand::distributions::Uniform;
 
-mod config;
+pub mod config;
+pub mod encoding;
 mod crossover_ops;
-mod encoding;
 mod fitness_ops;
 mod mutation_ops;
 mod survivor_select_ops;
@@ -69,6 +69,14 @@ impl Solution {
             courses: Vec::new(),
             hours: Vec::new(),
             config: Config::default()
+        }
+    }
+
+    pub fn with_config(config: Config) -> Self {
+        Solution {
+            courses: Vec::new(),
+            hours: Vec::new(),
+            config: config
         }
     }
 }

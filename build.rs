@@ -2,7 +2,7 @@ use rusqlite::{Connection, Result};
 
 // TODO - use some basic migration system.
 fn main() -> Result<()> {
-    let conn = Connection::open("data/schoolduler.db")?;
+    let conn = Connection::open("output/schoolduler.db")?;
 
     conn.execute(
         "CREATE TABLE IF NOT EXISTS THETA_ITERATIONS (
@@ -10,7 +10,6 @@ fn main() -> Result<()> {
             run INTEGER NOT NULL,
             iteration INTEGER NOT NULL,
             rating INTEGER NOT NULL,
-            chromosome BLOB NOT NULL,
             time TEXT NOT NULL
         )",
         []
