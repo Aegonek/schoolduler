@@ -40,7 +40,7 @@ where
     // Choose one survivor from population. May or may not remove it from population.
     fn survivor_selection_op(&self, population: &mut [Rated<Self::Chromosome>]) -> Rated<Self::Chromosome>;
 
-    fn termination_condition(&self) -> bool;
+    fn termination_condition(&self, history: &History<Self>) -> bool;
 
     fn run(mut self, requirements: &Requirements) -> Schedule {
         let mut history = History::new();
@@ -55,7 +55,7 @@ where
         let mut population: Vec<Rated<Self::Chromosome>> = population.eager_map(|chrom| self.rate(chrom));
 
         let mut i_count: usize = 0;
-        while !self.termination_condition() {
+        while !self.termination_condition(&history) {
             i_count += 1;
             let config = self.config();
             let no_children = config.population_size() * config.children_per_parent();

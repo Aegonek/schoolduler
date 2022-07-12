@@ -1,5 +1,6 @@
 use super::*;
-use crate::algen::encoding::Decoder;
+use crate::algen::parametrized::encoding::Decoder;
+
 
 impl Decoder for Solution {
     type Encoded = Chromosome;

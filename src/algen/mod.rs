@@ -1,3 +1,3 @@
-// pub mod solutions;
-pub mod parametrized;
 pub mod random;
+pub mod parametrized;
+pub mod solutions;

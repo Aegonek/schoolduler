@@ -37,7 +37,7 @@ where
     T::Chromosome: AsRef<[u8]> {
     type Context = ();
 
-    fn write_db(&self, ctx: Self::Context) -> rusqlite::Result<()> {
+    fn write_db(&self, _ctx: Self::Context) -> rusqlite::Result<()> {
         const SQL: &'static str = "
             INSERT INTO THETA_ITERATIONS (run, iteration, rating, chromosome, time)
             VALUES (?1, ?2, ?3, ?4)

@@ -1,6 +1,5 @@
 use super::Class;
-use crate::algen::parametrized::execution::RunId;
-use crate::db::DB_CONN;
+use crate::db::{DB_CONN, RUN_ID};
 use crate::utils::exts::result::ResultExt;
 use crate::utils::log::DbWrite;
 use rusqlite::params;
@@ -18,16 +17,16 @@ impl Display for Class {
 }
 
 impl DbWrite for Class {
-    type Context = RunId;
+    type Context = ();
 
-    fn write_db(&self, ctx: Self::Context) -> rusqlite::Result<()> {
+    fn write_db(&self, _ctx: Self::Context) -> rusqlite::Result<()> {
         const SQL: &'static str = "
             INSERT INTO THETA_RESULTS (run, lesson)
             VALUES (?1, ?2)
         ";
         DB_CONN
             .lock().unwrap()
-            .execute(SQL, params![ctx.0, serde_json::to_string(self).unwrap()])
+            .execute(SQL, params![RUN_ID.0, serde_json::to_string(self).unwrap()])
             .void()
     }
 }
