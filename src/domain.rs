@@ -7,12 +7,12 @@ use time::util::weeks_in_year;
 use time::{Duration, Time, Weekday::{self, *}, OffsetDateTime};
 use num::Integer;
 
-#[derive(Debug, PartialEq, Eq, Hash, Clone, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash, Clone, Serialize, Deserialize)]
 pub struct Teacher {
     pub name: String,
 }
 
-#[derive(Debug, PartialEq, Eq, Hash, Clone, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash, Clone, Serialize, Deserialize)]
 pub struct StudentGroup {
     pub year: u16,
     pub suffix: String,
@@ -36,6 +36,22 @@ pub struct LessonHour {
     pub weekday: Weekday,
     pub time: Time,
     pub duration: Duration,
+}
+
+impl PartialOrd for LessonHour {
+    fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
+        const WEEKDAYS: [Weekday; 7] = [Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday];
+        let cmp_weekdays = Ord::cmp(
+            &WEEKDAYS.iter().position(|&x| x == self.weekday).unwrap(), 
+            &WEEKDAYS.iter().position(|&x| x == other.weekday).unwrap());
+        Some(cmp_weekdays.then(self.time.cmp(&other.time)))
+    }
+}
+
+impl Ord for LessonHour {
+    fn cmp(&self, other: &Self) -> std::cmp::Ordering {
+        self.partial_cmp(other).unwrap()
+    }
 }
 
 #[derive(Debug, PartialEq, Eq, Clone, Serialize, Deserialize)]

@@ -20,3 +20,9 @@ rusqlite = { version = "0.27.*", features = ["bundled", "time"] }
 
 [build-dependencies]
 rusqlite = { version = "0.27.*", features = ["bundled", "time"] }
+
+[profile.dev]
+opt-level = 0
+
+[profile.release]
+opt-level = 3
