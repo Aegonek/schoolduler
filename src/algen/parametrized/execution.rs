@@ -24,8 +24,6 @@ where
 }
 
 impl<T: Algorithm> Display for Iteration<T>
-where
-    T::Chromosome: Display 
 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         f.write_fmt(format_args!("Iteration: {} | Best result: {}", self.iteration, self.best_result.rating))?;
