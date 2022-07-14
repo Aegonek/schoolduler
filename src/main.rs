@@ -2,7 +2,7 @@
 
 use std::fs::File;
 use std::io::Read;
-use std::{env, fs};
+use std::env;
 use std::error::Error;
 
 use algen::parametrized::algorithm::Algorithm;
@@ -43,7 +43,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     println!("Reading input requirements...");
     let courses: Vec<Course> = serde_json::from_str(&raw)?;
     println!("Generating solution...");
-    let solver = theta::Solution::with_config(Config { termination_condition: TerminationCondition::AfterNoIterations(100), ..Config::default() });
+    let solver = theta::Solution::with_config(Config { termination_condition: TerminationCondition::AfterNoIterations(100), population_size: 30, ..Config::default() });
     let schedule = solver.run(&courses);
 
     println!("Generated solution!");
