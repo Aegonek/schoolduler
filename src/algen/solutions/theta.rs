@@ -125,7 +125,7 @@ impl Algorithm for Solution {
         }
     }
 
-    fn survivor_selection_op(&self, population: &mut [Rated<Chromosome>]) -> Rated<Chromosome> {
+    fn survivor_selection_op(&self, population: &[Rated<Chromosome>]) -> Rated<Chromosome> {
         roulette_selection(population)
     }
 

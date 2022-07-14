@@ -29,3 +29,5 @@ impl<T> Ord for Rated<T> {
         self.partial_cmp(other).unwrap()
     }
 }
+
+unsafe impl<T: Send> Send for Rated<T> {}

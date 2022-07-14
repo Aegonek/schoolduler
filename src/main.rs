@@ -20,6 +20,7 @@ mod utils;
 
 pub static RUN_ID: OnceCell<RunId> = OnceCell::new();
 
+// TODO: add benchmarking.
 fn main() -> Result<(), Box<dyn Error>> {
     let path = env::args().nth(0).expect("This argument was not valid path to .json files with requriments!");
     let raw: String = String::from_utf8(fs::read(path)?)?;
@@ -50,6 +51,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
+// TODO: implement this.
 fn save_to_xlsx(_schedule: &Schedule) {
     println!("Writing to xlsx not yet implemented.")
 }
