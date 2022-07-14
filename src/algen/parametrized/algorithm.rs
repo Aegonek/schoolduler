@@ -3,7 +3,6 @@ use crate::domain::*;
 use rand::prelude::*;
 use rayon::prelude::*;
 
-use std::cmp::Reverse;
 use std::mem;
 use std::sync::mpsc;
 use tap::Pipe;

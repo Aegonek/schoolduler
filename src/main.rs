@@ -1,5 +1,7 @@
 #![allow(dead_code)]
 
+use std::fs::File;
+use std::io::Read;
 use std::{env, fs};
 use std::error::Error;
 
@@ -22,8 +24,11 @@ pub static RUN_ID: OnceCell<RunId> = OnceCell::new();
 
 // TODO: add benchmarking.
 fn main() -> Result<(), Box<dyn Error>> {
-    let path = env::args().nth(0).expect("This argument was not valid path to .json files with requriments!");
-    let raw: String = String::from_utf8(fs::read(path)?)?;
+    let path = env::args().nth(1).expect("This argument was not valid path to .json files with requriments!");
+    println!("{path}");
+    let mut raw = String::new();
+    let mut input = File::open(path)?;
+    input.read_to_string(&mut raw)?;
 
     let run_id = {
         let nmb: usize = DB_CONN.lock().unwrap().query_row("

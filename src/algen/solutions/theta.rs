@@ -19,7 +19,6 @@ use self::crossover_ops::one_point_crossover;
 use self::fitness_ops::inverse_of_no_class_conflicts;
 use self::mutation_ops::{creep_mutation, invert_bit_mutation};
 use self::survivor_select_ops::roulette_selection;
-use std::fmt::Display;
 use std::ops::Range;
 use crate::utils::{rated::Rated, units::Promile};
 use derive_more::{AsMut, AsRef};
@@ -41,13 +40,6 @@ impl IsChromosome for Chromosome {
 
     fn indices(&self) -> Self::Indices {
         0..self.0.len()
-    }
-}
-
-impl Display for Chromosome {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        f.write_fmt(format_args!("{}", self.0))?;
-        Ok(())
     }
 }
 
