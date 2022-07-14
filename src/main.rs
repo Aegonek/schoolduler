@@ -1,5 +1,6 @@
 #![allow(dead_code)]
 
+use std::{env, fs};
 use std::error::Error;
 
 use algen::parametrized::algorithm::Algorithm;
@@ -20,6 +21,9 @@ mod utils;
 pub static RUN_ID: OnceCell<RunId> = OnceCell::new();
 
 fn main() -> Result<(), Box<dyn Error>> {
+    let path = env::args().nth(0).expect("This argument was not valid path to .json files with requriments!");
+    let raw: String = String::from_utf8(fs::read(path)?)?;
+
     let run_id = {
         let nmb: usize = DB_CONN.lock().unwrap().query_row("
             SELECT run FROM THETA_ITERATIONS 
@@ -30,12 +34,10 @@ fn main() -> Result<(), Box<dyn Error>> {
     };
     RUN_ID.set(run_id).unwrap();
 
-    let raw = include_str!("../input/example-courses.json");
-
     println!("Reading input requirements...");
-    let courses: Vec<Course> = serde_json::from_str(raw)?;
+    let courses: Vec<Course> = serde_json::from_str(&raw)?;
     println!("Generating solution...");
-    let solver = theta::Solution::with_config(Config { termination_condition: TerminationCondition::AfterNoIterations(1000), ..Config::default() });
+    let solver = theta::Solution::with_config(Config { termination_condition: TerminationCondition::AfterNoIterations(100), ..Config::default() });
     let schedule = solver.run(&courses);
 
     println!("Generated solution!");
