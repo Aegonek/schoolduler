@@ -2,6 +2,7 @@ use std::{fs, path::Path};
 use rusqlite::{Connection, Result};
 
 // TODO - use some basic migration system.
+// TODO - copy database on build
 fn main() -> Result<()> {
     if !Path::new("output").exists() {
         fs::create_dir("output").unwrap();
