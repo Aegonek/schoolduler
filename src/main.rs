@@ -11,7 +11,7 @@ use std::error::Error;
 
 fn main() -> Result<(), Box<dyn Error>> {
     let path = env::args().nth(1).expect("This argument was not valid path to .json files with requirements!");
-    let raw = String::from_utf8(fs::read(path)?)?;
+    let _raw = String::from_utf8(fs::read(path)?)?;
     
     // println!("Reading input requirements...");
     // let courses: Vec<Course> = serde_json::from_str(&raw)?;

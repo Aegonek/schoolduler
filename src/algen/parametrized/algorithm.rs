@@ -79,7 +79,7 @@ impl<Chromosome> Algorithm<Chromosome> where
                 .collect();
 
             println!("Choosing next generation...");
-            let mut next_generation: Vec<Rated<Chromosome>> = (0..self.params.population_size)
+            let next_generation: Vec<Rated<Chromosome>> = (0..self.params.population_size)
                 .into_par_iter()
                 .map(|_| (self.survivor_selection_op)(&children))
                 .collect();
