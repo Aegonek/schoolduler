@@ -1,7 +1,7 @@
 use std::error::Error;
 
 use super::*;
-use crate::utils::testing::Case;
+use crate::utils::tests::Case;
 use tap::Tap;
 use serde_json;
 
@@ -14,12 +14,12 @@ fn deserialization_works() -> Result<(), Box<dyn Error>> {
 
 #[test]
 fn correct_no_hours_in_week() {
-    for Case {payload: course, expected} in correct_no_hours_in_week_cases() {
+    for Case {payload: course, expected} in cases_correct_no_hours_in_week() {
         assert!(course.subject.required_weekly_hours() == expected)
     }
 }
 
-fn correct_no_hours_in_week_cases() -> [Case<Course, u32>; 3] {
+fn cases_correct_no_hours_in_week() -> [Case<Course, u32>; 3] {
     let example = Course {
         subject: Subject {
             name: "Maths".into(),

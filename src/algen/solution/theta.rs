@@ -13,14 +13,14 @@ use crate::algen::parametrized::algorithm::Algorithm;
 use crate::algen::parametrized::execution::History;
 use crate::algen::parametrized::chromosome::IsChromosome;
 use crate::algen::parametrized::config::IsConfig;
-use crate::utils::units::Percent;
+use crate::utils::ratio::Percent;
 use self::config::Config;
 use self::crossover_ops::one_point_crossover;
 use self::fitness_ops::inverse_of_no_class_conflicts;
 use self::mutation_ops::{creep_mutation, invert_bit_mutation};
 use self::survivor_select_ops::roulette_selection;
 use std::ops::Range;
-use crate::utils::{rated::Rated, units::Promile};
+use crate::utils::{rated::Rated, ratio::Promile};
 use derive_more::{AsMut, AsRef};
 use rand::distributions::Uniform;
 
