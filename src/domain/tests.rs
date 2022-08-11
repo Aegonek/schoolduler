@@ -2,7 +2,6 @@ use std::error::Error;
 
 use super::*;
 use crate::utils::tests::Case;
-use tap::Tap;
 use serde_json;
 
 #[test]
@@ -34,8 +33,20 @@ fn cases_correct_no_hours_in_week() -> [Case<Course, u32>; 3] {
         }
     };
     [ 
-        Case { payload: example.clone().tap_mut(|x| x.subject.required_yearly_hours = 30), expected: 1 }
-        , Case { payload: example.clone().tap_mut(|x| x.subject.required_yearly_hours = 60), expected: 2 }
-        , Case { payload: example.clone().tap_mut(|x| x.subject.required_yearly_hours = 120), expected: 3 }
+        {
+            let mut payload = example.clone();
+            payload.subject.required_yearly_hours = 30;
+            Case { payload, expected: 1 }
+        }
+        , {
+            let mut payload = example.clone();
+            payload.subject.required_yearly_hours = 60;
+            Case { payload, expected: 2 }
+        }
+        , {
+            let mut payload = example.clone();
+            payload.subject.required_yearly_hours = 120;
+            Case { payload, expected: 3 }
+        }
     ]
 }

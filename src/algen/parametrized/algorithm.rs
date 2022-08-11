@@ -1,8 +1,15 @@
+use std::error::Error;
+use std::fs::File;
+use std::io::Write;
+
 use rayon::prelude::*;
 use rand::prelude::*;
+use time::Instant;
+use time::{OffsetDateTime, macros::format_description};
 use crate::algen::parametrized::history::Iteration;
 use crate::domain::*;
 use crate::algen::random;
+use crate::utils::log::verbose;
 use crate::utils::rated::{Rating, Rated};
 use crate::utils::ratio::Promile;
 use super::encoding::Decoder;
@@ -31,18 +38,23 @@ struct Algorithm<Chromosome> where
 impl<Chromosome> Algorithm<Chromosome> where
     Chromosome: Send + Sync 
 {
-    // TODO: verbose! macro for logs other than iteration
-    // TODO: log iterations to .csv file.
-    fn run(mut self, requirements: &Requirements) -> Schedule {
+    // TODO: move logging to separate module / type.
+    fn run(mut self, requirements: &Requirements) -> Result<Schedule, Box<dyn Error>> {
+        let now = OffsetDateTime::now_local()?;
+        let time_format = format_description!("[day]_[month]_[hour]_[minute]_[second]");
+        let mut logs = File::create(format!("output/{}.csv", now.format(time_format)?))?;
+        logs.write(b"TIME ; ITERATION ; BEST_RATING\n")?;
+        let start = Instant::now();
+
         let mut history = History::new();
         
-        println!("Generating random schedules...");
+        verbose!("Generating random schedules...");
         let courses: Vec<Schedule> = vec![(); self.params.population_size]
             .into_par_iter()
             .map(|_| random::random_schedule(requirements))
             .collect();
 
-        println!("Encoding and rating initial schedules...");
+        verbose!("Encoding and rating initial schedules...");
         let population = courses.into_iter().map(|crs| self.decoder.encode(&crs));
         let mut population: Vec<Rated<Chromosome>> = population
             .map(|chrom| {
@@ -54,13 +66,13 @@ impl<Chromosome> Algorithm<Chromosome> where
         while !(self.termination)(&history) {
             let no_children = self.params.population_size * self.params.children_per_parent;
 
-            println!("Choosing parents...");
+            verbose!("Choosing parents...");
             let parents: Vec<_> = (0..no_children)
                 .into_par_iter()
                 .map(|_| (self.parent_selection_op)(&population))
                 .collect();
 
-            println!("Making kids...");
+            verbose!("Making kids...");
             let children: Vec<Rated<Chromosome>> = parents.into_par_iter()
                 .flat_map_iter(|(parent1, parent2)| {
                     let (child1, child2) = if Promile(thread_rng().gen_range(0..=1000)) <= self.params.crossover_probability {
@@ -78,7 +90,7 @@ impl<Chromosome> Algorithm<Chromosome> where
                 })
                 .collect();
 
-            println!("Choosing next generation...");
+            verbose!("Choosing next generation...");
             let next_generation: Vec<Rated<Chromosome>> = (0..self.params.population_size)
                 .into_par_iter()
                 .map(|_| (self.survivor_selection_op)(&children))
@@ -90,6 +102,7 @@ impl<Chromosome> Algorithm<Chromosome> where
                     .unwrap().rating;
                 let iteration = Iteration { iteration: i, best_rating };
                 println!("Iteration: {i}, best rating: {best_rating}");
+                write!(logs, "{} ; {i} ; {best_rating}\n", start.elapsed())?;
                 history.0.push_front(iteration);
             }
             if i % self.params.adjustment_rate == 0 {
@@ -101,6 +114,6 @@ impl<Chromosome> Algorithm<Chromosome> where
         let best_result = population.into_iter()
             .max().unwrap();
         let decoded = self.decoder.decode(&best_result.value);
-        return decoded;
+        return Ok(decoded);
     }
 }
