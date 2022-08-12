@@ -38,7 +38,6 @@ impl Logger {
     }
 }
 
-// TODO: ask on stack overflow why does assigning format_args! result to a variable cause "temporary value dropped when borrowed" error.
 macro_rules! log {
     ($logger:expr, $($x:tt)*) => {
             $logger.log(format_args!($($x)*))
