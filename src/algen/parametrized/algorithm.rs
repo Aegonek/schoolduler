@@ -1,15 +1,10 @@
-use std::error::Error;
-use std::fs::File;
-use std::io::Write;
-
 use rayon::prelude::*;
 use rand::prelude::*;
-use time::Instant;
-use time::{OffsetDateTime, macros::format_description};
-use crate::algen::parametrized::history::Iteration;
 use crate::domain::*;
+use std::error::Error;
+use crate::algen::parametrized::history::Iteration;
 use crate::algen::random;
-use crate::utils::log::verbose;
+use crate::utils::log::{verbose, Logger};
 use crate::utils::rated::{Rating, Rated};
 use crate::utils::ratio::Promile;
 use super::encoding::Decoder;
@@ -40,21 +35,16 @@ impl<Chromosome> Algorithm<Chromosome> where
 {
     // TODO: move logging to separate module / type.
     fn run(mut self, requirements: &Requirements) -> Result<Schedule, Box<dyn Error>> {
-        let now = OffsetDateTime::now_local()?;
-        let time_format = format_description!("[day]_[month]_[hour]_[minute]_[second]");
-        let mut logs = File::create(format!("output/{}.csv", now.format(time_format)?))?;
-        logs.write(b"TIME ; ITERATION ; BEST_RATING\n")?;
-        let start = Instant::now();
-
+        let mut logger = Logger::new()?;
         let mut history = History::new();
         
-        verbose!("Generating random schedules...");
+        logger.log(format_args!("Generating random schedules..."))?;
         let courses: Vec<Schedule> = vec![(); self.params.population_size]
             .into_par_iter()
             .map(|_| random::random_schedule(requirements))
             .collect();
 
-        verbose!("Encoding and rating initial schedules...");
+        logger.log(format_args!("Encoding and rating initial schedules..."))?;
         let population = courses.into_iter().map(|crs| self.decoder.encode(&crs));
         let mut population: Vec<Rated<Chromosome>> = population
             .map(|chrom| {
@@ -63,6 +53,7 @@ impl<Chromosome> Algorithm<Chromosome> where
             })
             .collect();
         let mut i = 0;
+        logger.log(format_args!("Starting the genetic algorithm!"))?;
         while !(self.termination)(&history) {
             let no_children = self.params.population_size * self.params.children_per_parent;
 
@@ -101,8 +92,8 @@ impl<Chromosome> Algorithm<Chromosome> where
                 let best_rating = population.iter().max()
                     .unwrap().rating;
                 let iteration = Iteration { iteration: i, best_rating };
-                println!("Iteration: {i}, best rating: {best_rating}");
-                write!(logs, "{} ; {i} ; {best_rating}\n", start.elapsed())?;
+                logger.log(format_args!("{iteration}"))?;
+                logger.log_benchmark(&iteration)?;
                 history.0.push_front(iteration);
             }
             if i % self.params.adjustment_rate == 0 {
@@ -113,6 +104,7 @@ impl<Chromosome> Algorithm<Chromosome> where
 
         let best_result = population.into_iter()
             .max().unwrap();
+        logger.log(format_args!("Finished running the algorithm! Best result is {})", best_result.rating))?;
         let decoded = self.decoder.decode(&best_result.value);
         return Ok(decoded);
     }

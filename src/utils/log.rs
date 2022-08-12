@@ -38,14 +38,16 @@ impl Logger {
     }
 }
 
-macro_rules! log {
-    ($logger:expr, $($x:tt)*) => {
-        let args = format_args!($($x)*);
-        $logger.log(args)
-    };
-}
+// macro_rules! log {
+//     ($logger:expr, $($x:tt)*) => {
+//         {
+//             let argz = format_args!($($x)*);
+//             $logger.log(argz)
+//         }
+//     };
+// }
 
-pub(crate) use log;
+// pub(crate) use log;
 
 macro_rules! verbose {
     ($($x:tt)*) => {

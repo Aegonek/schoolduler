@@ -1,7 +1,7 @@
 use std::collections::VecDeque;
 use std::fmt::Display;
 
-#[derive(Clone)]
+#[derive(Clone, Copy)]
 pub struct Iteration {
     pub iteration: usize,
     pub best_rating: u32,
@@ -9,7 +9,7 @@ pub struct Iteration {
 
 impl Display for Iteration {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        f.write_fmt(format_args!("Iteration: {} | Best result: {}", self.iteration, self.best_rating))?;
+        f.write_fmt(format_args!("Iteration: {} , best result: {}", self.iteration, self.best_rating))?;
         Ok(())
     }
 }
