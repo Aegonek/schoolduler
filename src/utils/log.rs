@@ -29,7 +29,7 @@ impl Logger {
         Ok(logger)
     }
 
-    pub fn log(&mut self, args: Arguments<'_>) -> Result<(), io::Error> {
+    pub fn log(&mut self, args: Arguments) -> Result<(), io::Error> {
         writeln!(self.log_file, "{args}")
     }
 
@@ -38,16 +38,14 @@ impl Logger {
     }
 }
 
-// macro_rules! log {
-//     ($logger:expr, $($x:tt)*) => {
-//         {
-//             let argz = format_args!($($x)*);
-//             $logger.log(argz)
-//         }
-//     };
-// }
+// TODO: ask on stack overflow why does assigning format_args! result to a variable cause "temporary value dropped when borrowed" error.
+macro_rules! log {
+    ($logger:expr, $($x:tt)*) => {
+            $logger.log(format_args!($($x)*))
+    };
+}
 
-// pub(crate) use log;
+pub(crate) use log;
 
 macro_rules! verbose {
     ($($x:tt)*) => {

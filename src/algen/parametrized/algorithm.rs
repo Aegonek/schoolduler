@@ -4,7 +4,7 @@ use crate::domain::*;
 use std::error::Error;
 use crate::algen::parametrized::history::Iteration;
 use crate::algen::random;
-use crate::utils::log::{verbose, Logger};
+use crate::utils::log::{verbose, log, Logger};
 use crate::utils::rated::{Rating, Rated};
 use crate::utils::ratio::Promile;
 use super::encoding::Decoder;
@@ -38,13 +38,13 @@ impl<Chromosome> Algorithm<Chromosome> where
         let mut logger = Logger::new()?;
         let mut history = History::new();
         
-        logger.log(format_args!("Generating random schedules..."))?;
+        log!(logger, "Generating random schedules...")?;
         let courses: Vec<Schedule> = vec![(); self.params.population_size]
             .into_par_iter()
             .map(|_| random::random_schedule(requirements))
             .collect();
 
-        logger.log(format_args!("Encoding and rating initial schedules..."))?;
+        log!(logger, "Encoding and rating initial schedules...")?;
         let population = courses.into_iter().map(|crs| self.decoder.encode(&crs));
         let mut population: Vec<Rated<Chromosome>> = population
             .map(|chrom| {
@@ -53,7 +53,7 @@ impl<Chromosome> Algorithm<Chromosome> where
             })
             .collect();
         let mut i = 0;
-        logger.log(format_args!("Starting the genetic algorithm!"))?;
+        log!(logger, "Starting the genetic algorithm!")?;
         while !(self.termination)(&history) {
             let no_children = self.params.population_size * self.params.children_per_parent;
 
@@ -92,7 +92,7 @@ impl<Chromosome> Algorithm<Chromosome> where
                 let best_rating = population.iter().max()
                     .unwrap().rating;
                 let iteration = Iteration { iteration: i, best_rating };
-                logger.log(format_args!("{iteration}"))?;
+                log!(logger, "{}", iteration)?;
                 logger.log_benchmark(&iteration)?;
                 history.0.push_front(iteration);
             }
@@ -104,7 +104,7 @@ impl<Chromosome> Algorithm<Chromosome> where
 
         let best_result = population.into_iter()
             .max().unwrap();
-        logger.log(format_args!("Finished running the algorithm! Best result is {})", best_result.rating))?;
+        log!(logger, "Finished running the algorithm! Best result is {})", best_result.rating)?;
         let decoded = self.decoder.decode(&best_result.value);
         return Ok(decoded);
     }
