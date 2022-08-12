@@ -13,6 +13,7 @@ pub struct Logger {
 }
 
 impl Logger {
+    // TODO: write to files on another thread.
     pub fn new()-> Result<Self, Box<dyn Error>> {
         let now = OffsetDateTime::now_local()?;
         let time_format = format_description!("[day]_[month]__[hour]_[minute]_[second]");
