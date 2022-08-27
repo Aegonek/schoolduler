@@ -32,9 +32,21 @@ pub enum MutationOp {
     CreepMutation { creep_range: Range<u8> }
 }
 
+impl Default for MutationOp {
+    fn default() -> Self {
+        Self::InvertBitMutation
+    }
+}
+
 #[derive(Debug, PartialEq, Eq)]
 pub enum AdjustStrategy {
     NoAdjustment
+}
+
+impl Default for AdjustStrategy {
+    fn default() -> Self {
+        Self::NoAdjustment
+    }
 }
 
 #[derive(Debug, PartialEq, Eq)]
@@ -42,9 +54,21 @@ pub enum FitnessFunction {
     InverseOfNoClassConflicts
 }
 
+impl Default for FitnessFunction {
+    fn default() -> Self {
+        Self::InverseOfNoClassConflicts
+    }
+}
+
 #[derive(Debug, PartialEq, Eq)]
 pub enum CrossoverOp {
     OnePointCrossover
+}
+
+impl Default for CrossoverOp {
+    fn default() -> Self {
+        Self::OnePointCrossover
+    }
 }
 
 #[derive(Debug, PartialEq, Eq)]
@@ -52,12 +76,31 @@ pub enum ParentSelectionOp {
     RouletteSelection
 }
 
+impl Default for ParentSelectionOp {
+    fn default() -> Self {
+        Self::RouletteSelection
+    }
+}
+
+
 #[derive(Debug, PartialEq, Eq)]
 pub enum SurvivalSelectionOp {
     RouletteSelection
 }
 
+impl Default for SurvivalSelectionOp {
+    fn default() -> Self {
+        Self::RouletteSelection
+    }
+}
+
 #[derive(Debug, PartialEq, Eq)]
 pub enum TerminationCondition {
     AfterNoIterations(usize),
+}
+
+impl Default for TerminationCondition {
+    fn default() -> Self {
+        Self::AfterNoIterations(10000)
+    }
 }

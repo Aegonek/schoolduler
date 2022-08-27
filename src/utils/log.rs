@@ -32,6 +32,7 @@ impl Logger {
     }
 
     pub fn log(&mut self, args: Arguments) -> Result<(), io::Error> {
+        verbose!("{args}");
         writeln!(self.log_file, "{args}")
     }
 

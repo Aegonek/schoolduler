@@ -2,7 +2,7 @@ pub mod random;
 pub mod params;
 pub mod history;
 pub mod encoding;
-pub mod algorithm;
+pub mod solution;
 
 use bitvec::vec::BitVec;
 use derive_more::{AsRef, AsMut};

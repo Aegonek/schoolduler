@@ -5,7 +5,7 @@ use super::fitness_ops;
 use super::mutation_ops;
 use super::crossover_ops;
 
-impl Algorithm {
+impl Solution {
     pub fn rate(&self, chrom: &Chromosome) -> Rating {
         use FitnessFunction::*;
 
@@ -57,7 +57,7 @@ impl Algorithm {
         }
     }
 
-    pub fn adjust(&mut self, history: &History) {
+    pub fn adjust(&mut self, _history: &History) {
         use AdjustStrategy::*;
 
         match self.adjust_strategy {

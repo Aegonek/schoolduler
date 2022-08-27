@@ -20,23 +20,24 @@ use crate::utils::log::{verbose, log, Logger};
 use crate::utils::rated::{Rating, Rated};
 use crate::utils::ratio::Promile;
 
-
-struct Algorithm
+#[derive(Default)]
+pub struct Solution
 {
-    params: Params,
-    adjust_strategy: AdjustStrategy,
-    decoder: Decoder,
-    fitness_function: FitnessFunction,
-    parent_selection_op: ParentSelectionOp,
-    crossover_op: CrossoverOp,
-    mutation_op: MutationOp,
-    survivor_selection_op: SurvivalSelectionOp,
-    termination_condition: TerminationCondition,
+    pub params: Params,
+    pub adjust_strategy: AdjustStrategy,
+    pub decoder: Decoder,
+    pub fitness_function: FitnessFunction,
+    pub parent_selection_op: ParentSelectionOp,
+    pub crossover_op: CrossoverOp,
+    pub mutation_op: MutationOp,
+    pub survivor_selection_op: SurvivalSelectionOp,
+    pub termination_condition: TerminationCondition,
 }
 
-impl Algorithm
+// TODO: deserialization for configs for ease of testing and benchmarking different solutions
+impl Solution
 {
-   fn run(mut self, requirements: &Requirements) -> Result<Schedule, Box<dyn Error>> {
+    pub fn run(mut self, requirements: &Requirements) -> Result<Schedule, Box<dyn Error>> {
         let mut logger = Logger::new()?;
         let mut history = History::new();
         
@@ -57,13 +58,11 @@ impl Algorithm
         while !self.should_terminate(&history) {
             let no_children = self.params.population_size * self.params.children_per_parent;
 
-            verbose!("Choosing parents...");
             let parents: Vec<_> = (0..no_children)
                 .into_par_iter()
                 .map(|_| self.select_parents(&population))
                 .collect();
 
-            verbose!("Making kids...");
             let children: Vec<_> = parents.into_par_iter()
                 .flat_map_iter(|(parent1, parent2)| {
                     let (child1, child2) = if Promile(thread_rng().gen_range(0..=1000)) <= self.params.crossover_probability {
@@ -80,7 +79,6 @@ impl Algorithm
                 })
                 .collect();
 
-            verbose!("Choosing next generation...");
             let next_generation: Vec<_> = (0..self.params.population_size)
                 .into_par_iter()
                 .map(|_| self.select_survivor(&children).to_owned())
@@ -103,8 +101,16 @@ impl Algorithm
 
         let best_result = population.into_iter()
             .max().unwrap();
-        log!(logger, "Finished running the algorithm! Best result is {})", best_result.rating)?;
+        log!(logger, "Finished running the algorithm! Best result is {}", best_result.rating)?;
         let decoded = self.decoder.decode(&best_result.value);
         return Ok(decoded);
+    }
+
+    pub fn new() -> Self {
+        Self::default()
+    }
+
+    pub fn with_params(params: Params) -> Self {
+        Solution { params, ..Self::default() }
     }
 }
