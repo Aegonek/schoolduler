@@ -1,12 +1,14 @@
-// Compared by ratings.
+// Compared by ratings. Greater ratings are better than smaller.
+
+pub type Rating = u32;
 
 #[derive(Clone)]
-pub struct Rated<T> { pub value: T, pub rating: u32 }
+pub struct Rated<T> { pub value: T, pub rating: Rating }
 
 impl<T: Copy> Copy for Rated<T> {}
 
 impl<T> Rated<T> {
-    pub fn new(value: T, rating: u32) -> Rated<T> {
+    pub fn new(value: T, rating: Rating) -> Rated<T> {
         Rated { value, rating }
     }
 }

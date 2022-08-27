@@ -1,11 +1,22 @@
-use super::*;
-use crate::algen::parametrized::encoding::Decoder;
+use bitvec::vec::BitVec;
 
+use super::Chromosome;
+use crate::domain::*;
 
-impl Decoder for Solution {
-    type Encoded = Chromosome;
+pub struct Decoder {
+    courses: Vec<Course>,
+    hours: Vec<LessonHour>,
+}
 
-    fn encode(&mut self, raw: &Schedule) -> Self::Encoded {
+impl Decoder {
+    pub fn new() -> Self {
+        Self {
+            courses: Vec::new(),
+            hours: Vec::new()
+        }
+    }
+
+    pub fn encode(&mut self, raw: &Schedule) -> Chromosome {
         let mut res: Vec<u8> = Vec::with_capacity(raw.len());
 
         self.hours = standard_lesson_hours();
@@ -23,7 +34,7 @@ impl Decoder for Solution {
         Chromosome(BitVec::from_vec(res))
     }
 
-    fn decode(&self, encoded: &Self::Encoded) -> Schedule {
+    pub fn decode(&self, encoded: &Chromosome) -> Schedule {
         encoded.0.clone()
             .into_vec()
             .into_iter()
@@ -38,6 +49,12 @@ impl Decoder for Solution {
     }
 }
 
+impl Default for Decoder {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -45,13 +62,13 @@ mod tests {
     use serde_json;
 
     #[test]
-    fn decoded_iso_encoded() {
-        let raw = include_str!("../../../../input/example-courses.json");
+    fn decoded_eq_encoded() {
+        let raw = include_str!("../../input/example-courses.json");
         let required: Vec<Course> = serde_json::from_str(raw).unwrap();
         let schedule = random::random_schedule(&required);
-        let mut solver = Solution::new();
-        let encoded = solver.encode(&schedule);
-        let decoded = solver.decode(&encoded);
+        let mut decoder = Decoder::new();
+        let encoded = decoder.encode(&schedule);
+        let decoded = decoder.decode(&encoded);
         eprintln!("Comparing original schedule with schedule after encoding and decoding...");
         eprintln!("First 5 lessons before encoding: {:?}", &schedule[0..5]);
         eprintln!("First 5 lessons after decoding: {:?}", &decoded[0..5]);

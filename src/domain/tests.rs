@@ -1,8 +1,7 @@
 use std::error::Error;
 
 use super::*;
-use crate::utils::testing::Case;
-use tap::Tap;
+use crate::utils::tests::Case;
 use serde_json;
 
 #[test]
@@ -14,12 +13,12 @@ fn deserialization_works() -> Result<(), Box<dyn Error>> {
 
 #[test]
 fn correct_no_hours_in_week() {
-    for Case {payload: course, expected} in correct_no_hours_in_week_cases() {
+    for Case {payload: course, expected} in cases_correct_no_hours_in_week() {
         assert!(course.subject.required_weekly_hours() == expected)
     }
 }
 
-fn correct_no_hours_in_week_cases() -> [Case<Course, u32>; 3] {
+fn cases_correct_no_hours_in_week() -> [Case<Course, u32>; 3] {
     let example = Course {
         subject: Subject {
             name: "Maths".into(),
@@ -34,8 +33,20 @@ fn correct_no_hours_in_week_cases() -> [Case<Course, u32>; 3] {
         }
     };
     [ 
-        Case { payload: example.clone().tap_mut(|x| x.subject.required_yearly_hours = 30), expected: 1 }
-        , Case { payload: example.clone().tap_mut(|x| x.subject.required_yearly_hours = 60), expected: 2 }
-        , Case { payload: example.clone().tap_mut(|x| x.subject.required_yearly_hours = 120), expected: 3 }
+        {
+            let mut payload = example.clone();
+            payload.subject.required_yearly_hours = 30;
+            Case { payload, expected: 1 }
+        }
+        , {
+            let mut payload = example.clone();
+            payload.subject.required_yearly_hours = 60;
+            Case { payload, expected: 2 }
+        }
+        , {
+            let mut payload = example.clone();
+            payload.subject.required_yearly_hours = 120;
+            Case { payload, expected: 3 }
+        }
     ]
 }

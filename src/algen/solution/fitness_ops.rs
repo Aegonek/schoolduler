@@ -1,18 +1,24 @@
-use super::*;
 use itertools::Itertools;
 
+use super::*;
+use crate::utils::num;
+
+// TODO: test
+// TODO: benchmark, possibly optimize?
 // Rating is inverse of number of class conflicts.
-pub fn inverse_of_no_class_conflicts(solver: &Solution, chromosome: &Chromosome) -> u32 {
+pub fn inverse_of_no_class_conflicts(chromosome: &Chromosome, decoder: &Decoder) -> Rating {
     // Best result - 0 conflicts
     // Worst result - every class has every lesson scheduled for the same hour...
     // and every teacher has every lesson scheduled for the same hour.
 
     let mut max_possible_conflicts: usize = 0;
-    let lessons = solver.decode(chromosome);
+    // This part is heavy lol. 
+    // TODO: optimize
+    let lessons = decoder.decode(chromosome);
     let teacher_conflicts = overlapping_lessons_for_teacher(&lessons, &mut max_possible_conflicts);
     let class_conflicts = overlapping_lessons_for_class(&lessons, &mut max_possible_conflicts);
     let ratio = (teacher_conflicts + class_conflicts) as f64 / max_possible_conflicts as f64;
-    let rating = map_number_range(ratio, Range { start: 0.0, end: 1.0 }, Range { start: 1.0, end: 0.0 });
+    let rating = num::map_range(ratio, (0.0)..=(1.0), (1.0)..=(0.0));
 
     let rating = rating.powf(1.7);
     // 9 first digits
@@ -57,19 +63,4 @@ fn overlapping_lessons_for_class(lessons: &[Class], max_possible_conflicts: &mut
     }
 
     conflicts
-}
-
-// TEST: 0.7; 0, 1; 1, 0
-// TODO: write test
-fn map_number_range(nmb: f64, old: Range<f64>, new: Range<f64>) -> f64 {
-    // (1 - 0) / (0 - 1)
-    // 1 / -1
-    // -1 
-    // ratio between ranges
-    let ratio = (new.end - new.start) / (old.end - old.start);
-    // (0.7 - 0) * ratio + 1
-    // 0.7 * -1 + 1
-    // 0.3
-    let new = (nmb - old.start) * ratio + new.start;
-    new
 }

@@ -1,25 +1,59 @@
-use std::fmt::Display;
+use std::error::Error;
+use std::fmt::Arguments;
+use std::fs::File;
+use std::io::{Write, self};
+use time::{OffsetDateTime, Instant};
+use time::macros::format_description;
+use crate::algen::history::Iteration;
 
-pub fn log_item_with_ctx<T: Display + DbWrite>(item: &T, ctx: T::Context) {
-    println!("{item}");
-    if let Err(err) = item.write_db(ctx) {
-        println!("Error when trying to write value to DB! | {err}")
+pub struct Logger {
+    start: Instant,
+    benchmark_file: File,
+    log_file: File
+}
+
+impl Logger {
+    // TODO: write to files on another thread.
+    // TODO: lock stdout when writing.
+    pub fn new()-> Result<Self, Box<dyn Error>> {
+        let now = OffsetDateTime::now_local()?;
+        let time_format = format_description!("[day]_[month]__[hour]_[minute]_[second]");
+        let start = Instant::now();
+
+        let benchmark_file = format!("output/{}__benchmarks.csv", now.format(time_format)?);
+        let mut benchmark_file = File::create(benchmark_file)?;
+        writeln!(benchmark_file, "TIME_ELAPSED ; ITERATION ; BEST_RATING")?;
+
+        let log_file = format!("output/{}__logs.csv", now.format(time_format)?);
+        let log_file = File::create(log_file)?;
+        
+        let logger = Logger { start, benchmark_file, log_file };
+        Ok(logger)
+    }
+
+    pub fn log(&mut self, args: Arguments) -> Result<(), io::Error> {
+        verbose!("{args}");
+        writeln!(self.log_file, "{args}")
+    }
+
+    pub fn log_benchmark(&mut self, iteration: &Iteration) -> Result<(), io::Error> {
+        writeln!(self.benchmark_file, "{} ; {} ; {}", self.start.elapsed(), iteration.iteration, iteration.best_rating)
     }
 }
 
-pub fn log_item_annotated_with_ctx<T: Display + DbWrite>(item: &T, ctx: T::Context, annotation: &str) {
-    println!("{annotation} | {item}");
-    if let Err(err) = item.write_db(ctx) {
-        println!("Error when trying to write value to DB! | {err}")
+macro_rules! log {
+    ($logger:expr, $($x:tt)*) => {
+            $logger.log(format_args!($($x)*))
+    };
+}
+
+pub(crate) use log;
+
+macro_rules! verbose {
+    ($($x:tt)*) => {
+        #[cfg(feature = "verbose")]
+        println!($($x)*);
     }
 }
 
-pub fn log_item<T: Display + DbWrite<Context = ()>>(item: &T) { log_item_with_ctx(item, ()) }
-
-pub fn log_item_annotated<T: Display + DbWrite<Context = ()>>(item: &T, annotation: &str) { log_item_annotated_with_ctx(item, (), annotation) }
-
-pub trait DbWrite {
-    type Context;
-
-    fn write_db(&self, ctx: Self::Context) -> rusqlite::Result<()>;
-}
+pub(crate) use verbose;

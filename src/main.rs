@@ -1,62 +1,46 @@
 #![allow(dead_code)]
 
-use std::fs::File;
-use std::io::Read;
+mod algen;
+mod domain;
+mod utils;
+
+use std::fs;
 use std::env;
 use std::error::Error;
 
-use algen::parametrized::algorithm::Algorithm;
-use algen::solutions::theta;
-use domain::{Course, Schedule};
-use once_cell::sync::OnceCell;
-use utils::log::log_item;
+use time::Instant;
+use time::OffsetDateTime;
+use time::macros::format_description;
 
-use crate::algen::parametrized::execution::RunId;
-use crate::algen::solutions::theta::{config::Config, TerminationCondition};
-use crate::db::DB_CONN;
+use crate::algen::params::Params;
+use crate::algen::params::TerminationCondition;
+use crate::algen::solution::Solution;
+use crate::domain::*;
+use crate::utils::xlsx;
 
-mod algen;
-mod domain;
-mod db;
-mod utils;
 
-pub static RUN_ID: OnceCell<RunId> = OnceCell::new();
-
-// TODO: add benchmarking.
 fn main() -> Result<(), Box<dyn Error>> {
-    let path = env::args().nth(1).expect("This argument was not valid path to .json files with requriments!");
-    println!("{path}");
-    let mut raw = String::new();
-    let mut input = File::open(path)?;
-    input.read_to_string(&mut raw)?;
-
-    let run_id = {
-        let nmb: usize = DB_CONN.lock().unwrap().query_row("
-            SELECT run FROM THETA_ITERATIONS 
-            ORDER BY run DESC
-            LIMIT 1
-        ", [], |row| row.get(0)).unwrap_or(0);
-        RunId(nmb + 1)
-    };
-    RUN_ID.set(run_id).unwrap();
-
+    let path = env::args().nth(1).expect("This argument was not valid path to .json files with requirements!");
+    let raw = String::from_utf8(fs::read(path)?)?;
+    
     println!("Reading input requirements...");
     let courses: Vec<Course> = serde_json::from_str(&raw)?;
     println!("Generating solution...");
-    let solver = theta::Solution::with_config(Config { termination_condition: TerminationCondition::AfterNoIterations(100), population_size: 30, ..Config::default() });
-    let schedule = solver.run(&courses);
+    let mut solver = Solution::with_params(Params { 
+        population_size: 30, 
+        ..Params::default() 
+    });
+    solver.termination_condition = TerminationCondition::AfterNoIterations(1000);
+    let schedule = solver.run(&courses)?;
 
     println!("Generated solution!");
-    // TODO: instance for Vec<Schedule>
-    for class in schedule.iter() {
-        log_item(class);
-    }
-    save_to_xlsx(&schedule);
+
+    // TODO: move to util
+    let now = OffsetDateTime::now_local()?;
+    let time_format = format_description!("[day]_[month]__[hour]_[minute]_[second]");
+
+    let output_file = format!("output/{}__schedule.xlsx", now.format(time_format)?);
+    xlsx::save_schedule(output_file, &schedule);
 
     Ok(())
-}
-
-// TODO: implement this.
-fn save_to_xlsx(_schedule: &Schedule) {
-    println!("Writing to xlsx not yet implemented.")
 }

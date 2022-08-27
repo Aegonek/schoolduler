@@ -1,6 +1,6 @@
-pub mod exts;
+pub mod tests;
 pub mod rated;
-pub mod testing;
-pub mod units;
-pub mod bits;
+pub mod ratio;
 pub mod log;
+pub mod xlsx;
+pub mod num;
