@@ -4,7 +4,7 @@ use std::fs::File;
 use std::io::{Write, self};
 use time::{OffsetDateTime, Instant};
 use time::macros::format_description;
-use crate::algen::parametrized::history::Iteration;
+use crate::algen::history::Iteration;
 
 pub struct Logger {
     start: Instant,
@@ -14,6 +14,7 @@ pub struct Logger {
 
 impl Logger {
     // TODO: write to files on another thread.
+    // TODO: lock stdout when writing.
     pub fn new()-> Result<Self, Box<dyn Error>> {
         let now = OffsetDateTime::now_local()?;
         let time_format = format_description!("[day]_[month]__[hour]_[minute]_[second]");

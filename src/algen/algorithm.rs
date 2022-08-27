@@ -1,40 +1,42 @@
+pub mod crossover_ops;
+pub mod mutation_ops;
+pub mod fitness_ops;
+pub mod select_ops;
+pub mod dispatch;
+
 use rayon::prelude::*;
 use rand::prelude::*;
 use crate::domain::*;
+use bitvec::vec::BitVec;
 use std::error::Error;
-use crate::algen::parametrized::history::Iteration;
-use crate::algen::random;
+use std::ops::Range;
+
+use super::Chromosome;
+use super::history::{Iteration, History};
+use super::encoding::Decoder;
+use super::params::*;
+use super::random;
 use crate::utils::log::{verbose, log, Logger};
 use crate::utils::rated::{Rating, Rated};
 use crate::utils::ratio::Promile;
-use super::encoding::Decoder;
-use super::history::History;
-use super::params::Params;
 
-// Update history once every LOG_FREQUENCY iterations
-const LOG_FREQUENCY: usize = 10;
 
-struct Algorithm<Chromosome> where
-    Chromosome: Send + Sync 
+struct Algorithm
 {
     params: Params,
-    adjust: fn(&mut Self, &History),
-    decoder: Box<dyn Decoder<Encoded = Chromosome>>,
-    fitness_function: fn(&Chromosome) -> Rating,
-    // We assume that crossover always yields 2 chromosomes for 2 parents
-    parent_selection_op: fn(&[Rated<Chromosome>]) -> (Rated<Chromosome>, Rated<Chromosome>),
-    crossover_op: fn(Chromosome, Chromosome) -> (Chromosome, Chromosome),
-    // Mutation must be applied to every gene, so we must pass params to mutation_op
-    mutation_op: fn(&mut Chromosome, &Params),
-    survivor_selection_op: fn(&[Rated<Chromosome>]) -> Rated<Chromosome>,
-    termination: fn(&History) -> bool, 
+    adjust_strategy: AdjustStrategy,
+    decoder: Decoder,
+    fitness_function: FitnessFunction,
+    parent_selection_op: ParentSelectionOp,
+    crossover_op: CrossoverOp,
+    mutation_op: MutationOp,
+    survivor_selection_op: SurvivalSelectionOp,
+    termination_condition: TerminationCondition,
 }
 
-impl<Chromosome> Algorithm<Chromosome> where
-    Chromosome: Send + Sync 
+impl Algorithm
 {
-    // TODO: move logging to separate module / type.
-    fn run(mut self, requirements: &Requirements) -> Result<Schedule, Box<dyn Error>> {
+   fn run(mut self, requirements: &Requirements) -> Result<Schedule, Box<dyn Error>> {
         let mut logger = Logger::new()?;
         let mut history = History::new();
         
@@ -45,46 +47,43 @@ impl<Chromosome> Algorithm<Chromosome> where
             .collect();
 
         log!(logger, "Encoding and rating initial schedules...")?;
-        let population = courses.into_iter().map(|crs| self.decoder.encode(&crs));
-        let mut population: Vec<Rated<Chromosome>> = population
-            .map(|chrom| {
-                let rating = (self.fitness_function)(&chrom);
-                Rated { value: chrom, rating }
-            })
+        let population: Vec<_> = courses.into_iter().map(|crs| self.decoder.encode(&crs)).collect();
+        let mut population: Vec<_> = population.into_iter()
+            .map(|chrom| self.rated(chrom))
             .collect();
+
         let mut i = 0;
         log!(logger, "Starting the genetic algorithm!")?;
-        while !(self.termination)(&history) {
+        while !self.should_terminate(&history) {
             let no_children = self.params.population_size * self.params.children_per_parent;
 
             verbose!("Choosing parents...");
             let parents: Vec<_> = (0..no_children)
                 .into_par_iter()
-                .map(|_| (self.parent_selection_op)(&population))
+                .map(|_| self.select_parents(&population))
                 .collect();
 
             verbose!("Making kids...");
-            let children: Vec<Rated<Chromosome>> = parents.into_par_iter()
+            let children: Vec<_> = parents.into_par_iter()
                 .flat_map_iter(|(parent1, parent2)| {
                     let (child1, child2) = if Promile(thread_rng().gen_range(0..=1000)) <= self.params.crossover_probability {
-                        (self.crossover_op)(parent1.value, parent2.value)
+                        self.crossover(parent1.value.to_owned(), parent2.value.to_owned())
                     } else {
-                        (parent1.value, parent2.value)
+                        (parent1.value.to_owned(), parent2.value.to_owned())
                     };
 
                     [child1, child2].into_iter()
                         .map(|mut child| {
-                            (self.mutation_op)(&mut child, &self.params);
-                            let rating = (self.fitness_function)(&child);
-                            Rated { value: child, rating }
+                            self.mutate(&mut child);
+                            self.rated(child)
                         })
                 })
                 .collect();
 
             verbose!("Choosing next generation...");
-            let next_generation: Vec<Rated<Chromosome>> = (0..self.params.population_size)
+            let next_generation: Vec<_> = (0..self.params.population_size)
                 .into_par_iter()
-                .map(|_| (self.survivor_selection_op)(&children))
+                .map(|_| self.select_survivor(&children).to_owned())
                 .collect();
             population = next_generation;
 
@@ -97,7 +96,7 @@ impl<Chromosome> Algorithm<Chromosome> where
                 history.0.push_front(iteration);
             }
             if i % self.params.adjustment_rate == 0 {
-                (self.adjust)(&mut self, &history);
+                self.adjust(&history);
             }
             i += 1;
         }
