@@ -32,7 +32,7 @@ impl Logger {
     }
 
     pub fn log(&mut self, args: Arguments) -> Result<(), io::Error> {
-        verbose!("{args}");
+        println!("{args}");
         writeln!(self.log_file, "{args}")
     }
 
@@ -48,12 +48,3 @@ macro_rules! log {
 }
 
 pub(crate) use log;
-
-macro_rules! verbose {
-    ($($x:tt)*) => {
-        #[cfg(feature = "verbose")]
-        println!($($x)*);
-    }
-}
-
-pub(crate) use verbose;

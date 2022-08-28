@@ -16,7 +16,7 @@ use super::history::{Iteration, History};
 use super::encoding::Decoder;
 use super::params::*;
 use super::random;
-use crate::utils::log::{verbose, log, Logger};
+use crate::utils::log::{log, Logger};
 use crate::utils::rated::{Rating, Rated};
 use crate::utils::ratio::Promile;
 

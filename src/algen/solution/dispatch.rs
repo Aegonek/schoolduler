@@ -69,7 +69,7 @@ impl Solution {
         use TerminationCondition::*;
 
         match self.termination_condition {
-            AfterNoIterations(n) => history.0.front().map(|x| x.iteration).unwrap_or(0) > n
+            AfterNoIterations(n) => history.0.front().map(|x| x.iteration).unwrap_or(0) >= n
         }
     }
 }

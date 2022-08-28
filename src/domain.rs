@@ -1,6 +1,8 @@
 #[cfg(test)]
 mod tests;
 
+use std::fmt::Display;
+
 use serde::{Serialize, Deserialize};
 use time::util::weeks_in_year;
 use time::{Duration, Time, Weekday::{self, *}, OffsetDateTime};
@@ -11,16 +13,34 @@ pub struct Teacher {
     pub name: String,
 }
 
+impl Display for Teacher {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.name)
+    }
+}
+
 #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash, Clone, Serialize, Deserialize)]
 pub struct StudentGroup {
     pub year: u16,
     pub suffix: String,
 }
 
+impl Display for StudentGroup {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}{}", self.year, self.suffix)
+    }
+}
+
 #[derive(Debug, PartialEq, Eq, Hash, Clone, Serialize, Deserialize)]
 pub struct Subject {
     pub name: String,
     pub required_yearly_hours: u32,
+}
+
+impl Display for Subject {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.name)
+    }
 }
 
 impl Subject {
@@ -35,6 +55,12 @@ pub struct LessonHour {
     pub weekday: Weekday,
     pub time: Time,
     pub duration: Duration,
+}
+
+impl LessonHour {
+    pub fn format_hour(&self) -> String {
+        format!("{:0>2}:{:0>2}", self.time.hour(), self.time.minute())
+    }
 }
 
 impl PartialOrd for LessonHour {
