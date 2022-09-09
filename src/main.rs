@@ -36,11 +36,11 @@ fn main() -> Result<(), Box<dyn Error>> {
     println!("Reading input requirements...");
     let courses: Vec<Course> = serde_json::from_str(&raw)?;
     println!("Generating solution...");
-    let mut solver = Solution::with_params(Params { 
+    let solver = Solution::with_params(Params { 
         population_size: 30,
+        termination_condition: TerminationCondition::AfterNoIterations(100),
         ..Params::default() 
     });
-    solver.termination_condition = TerminationCondition::AfterNoIterations(100);
     let schedule = solver.run(&courses)?;
 
     println!("Generated solution!");
@@ -49,5 +49,16 @@ fn main() -> Result<(), Box<dyn Error>> {
     xlsx::save_schedule(&schedule)?;
 
     println!("Finished saving schedules.");
+    Ok(())
+}
+
+#[test]
+fn gen_random_schedule() -> Result<(), Box<dyn Error>> {
+    let path = r"C:\Users\domin\Projects\schoolduler\input\example-courses.json".to_owned();
+    let raw = String::from_utf8(fs::read(path)?)?;
+    let courses: Vec<Course> = serde_json::from_str(&raw)?;
+    let solution = algen::random::random_schedule(&courses);
+    let serialized = serde_json::to_string(&solution)?;
+    fs::write(r"C:\Users\domin\Projects\schoolduler\input\random-schedule.json", serialized)?;
     Ok(())
 }

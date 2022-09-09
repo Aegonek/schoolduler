@@ -1,6 +1,6 @@
 // Compared by ratings. Greater ratings are better than smaller.
 
-pub type Rating = u32;
+pub type Rating = usize;
 
 #[derive(Clone)]
 pub struct Rated<T> { pub value: T, pub rating: Rating }

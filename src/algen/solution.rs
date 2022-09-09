@@ -11,8 +11,9 @@ use bitvec::vec::BitVec;
 use std::error::Error;
 use std::ops::Range;
 
+
 use super::Chromosome;
-use super::history::{Iteration, History};
+use super::history::{Iteration, Leaderboard};
 use super::encoding::Decoder;
 use super::params::*;
 use super::random;
@@ -24,22 +25,17 @@ use crate::utils::ratio::Promile;
 pub struct Solution
 {
     pub params: Params,
-    pub adjust_strategy: AdjustStrategy,
     pub decoder: Decoder,
-    pub fitness_function: FitnessFunction,
-    pub parent_selection_op: ParentSelectionOp,
-    pub crossover_op: CrossoverOp,
-    pub mutation_op: MutationOp,
-    pub survivor_selection_op: SurvivalSelectionOp,
-    pub termination_condition: TerminationCondition,
+    pub leaderboard: Leaderboard
 }
 
 // TODO: deserialization for configs for ease of testing and benchmarking different solutions
 impl Solution
 {
     pub fn run(mut self, requirements: &Requirements) -> Result<Schedule, Box<dyn Error>> {
+        // TODO: move logging step above
         let mut logger = Logger::new()?;
-        let mut history = History::new();
+        let mut history = Leaderboard::new();
         
         log!(logger, "Generating random schedules...")?;
         let courses: Vec<Schedule> = vec![(); self.params.population_size]
@@ -63,21 +59,21 @@ impl Solution
                 .map(|_| self.select_parents(&population))
                 .collect();
 
+            // let children: Vec<Rated<Chromosome>> = todo!();
             let children: Vec<_> = parents.into_par_iter()
                 .flat_map_iter(|(parent1, parent2)| {
-                    let (child1, child2) = if Promile(thread_rng().gen_range(0..=1000)) <= self.params.crossover_probability {
+                    let (mut child1, mut child2) = if Promile(thread_rng().gen_range(0..=1000)) <= self.params.crossover_probability {
                         self.crossover(parent1.value.to_owned(), parent2.value.to_owned())
                     } else {
                         (parent1.value.to_owned(), parent2.value.to_owned())
                     };
 
-                    [child1, child2].into_iter()
-                        .map(|mut child| {
-                            self.mutate(&mut child);
-                            self.rated(child)
-                        })
+                    self.mutate(&mut child1);
+                    self.mutate(&mut child2);
+                    [child1, child2]
                 })
                 .collect();
+            let children: Vec<_> = children.into_iter().map(|chrom| self.rated(chrom)).collect();
 
             let next_generation: Vec<_> = (0..self.params.population_size)
                 .into_par_iter()
@@ -91,7 +87,7 @@ impl Solution
                 let iteration = Iteration { iteration: i, best_rating };
                 log!(logger, "{}", iteration)?;
                 logger.log_benchmark(&iteration)?;
-                history.0.push_front(iteration);
+                history.iterations.push_front(iteration);
             }
             if i % self.params.adjustment_rate == 0 {
                 self.adjust(&history);

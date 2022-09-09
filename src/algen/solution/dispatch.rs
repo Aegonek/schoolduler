@@ -6,15 +6,15 @@ use super::mutation_ops;
 use super::crossover_ops;
 
 impl Solution {
-    pub fn rate(&self, chrom: &Chromosome) -> Rating {
+    pub fn rate(&mut self, chrom: &Chromosome) -> Rating {
         use FitnessFunction::*;
 
-        match self.fitness_function {
-            InverseOfNoClassConflicts => fitness_ops::inverse_of_no_class_conflicts(chrom, &self.decoder)
+        match self.params.fitness_function {
+            InverseOfNoClassConflicts => fitness_ops::inverse_of_no_class_conflicts(chrom, &self.decoder, &mut self.leaderboard)
         }
     }
 
-    pub fn rated<T: Borrow<Chromosome>>(&self, chrom: T) -> Rated<T> {
+    pub fn rated<T: Borrow<Chromosome>>(&mut self, chrom: T) -> Rated<T> {
         let rating = self.rate(chrom.borrow());
         Rated { value: chrom, rating }
     }
@@ -22,7 +22,7 @@ impl Solution {
     pub fn mutate(&self, chrom: &mut Chromosome) {
         use MutationOp::*;
 
-        match &self.mutation_op {
+        match &self.params.mutation_op {
             InvertBitMutation => mutation_ops::invert_bit_mutation(chrom, &self.params),
             CreepMutation { creep_range } => mutation_ops::creep_mutation(chrom, &self.params, &creep_range)
         };
@@ -32,7 +32,7 @@ impl Solution {
     pub fn crossover(&self, x: Chromosome, y: Chromosome) -> (Chromosome, Chromosome) {
         use CrossoverOp::*;
 
-        match self.crossover_op {
+        match self.params.crossover_op {
             OnePointCrossover => crossover_ops::one_point_crossover(x, y)
         }
     }
@@ -40,7 +40,7 @@ impl Solution {
     pub fn select_parents<'a>(&self, population: &'a [Rated<Chromosome>]) -> (&'a Rated<Chromosome>, &'a Rated<Chromosome>) {
         use ParentSelectionOp::*;
 
-        match self.parent_selection_op {
+        match self.params.parent_selection_op {
             RouletteSelection => {
                 let x = select_ops::roulette_selection(population);
                 let y = select_ops::roulette_selection(population);
@@ -52,24 +52,24 @@ impl Solution {
     pub fn select_survivor<'a>(&self, population: &'a [Rated<Chromosome>]) -> &'a Rated<Chromosome> {
         use ParentSelectionOp::*;
 
-        match self.parent_selection_op {
+        match self.params.parent_selection_op {
             RouletteSelection => select_ops::roulette_selection(population)
         }
     }
 
-    pub fn adjust(&mut self, _history: &History) {
+    pub fn adjust(&mut self, _history: &Leaderboard) {
         use AdjustStrategy::*;
 
-        match self.adjust_strategy {
+        match self.params.adjust_strategy {
             NoAdjustment => ()
         }
     }
 
-    pub fn should_terminate(&self, history: &History) -> bool {
+    pub fn should_terminate(&self, history: &Leaderboard) -> bool {
         use TerminationCondition::*;
 
-        match self.termination_condition {
-            AfterNoIterations(n) => history.0.front().map(|x| x.iteration).unwrap_or(0) >= n
+        match self.params.termination_condition {
+            AfterNoIterations(n) => history.iterations.front().map(|x| x.iteration).unwrap_or(0) >= n
         }
     }
 }
