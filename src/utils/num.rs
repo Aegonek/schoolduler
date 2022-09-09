@@ -3,7 +3,7 @@ use num::{Float, Num, traits::real::Real};
 
 // Remap a number within range `old` to a number in range `new`
 // Example - map_range(5, 0..=10, -10..=10) == 0
-// Restricting this to floats to avoid rounding errors.
+// Restricting this to floats to avoid rounding errors. I mean, unsoundly big rounding errors.
 pub fn map_range<TFloat: Float + Copy>(nmb: TFloat, old: RangeInclusive<TFloat>, new: RangeInclusive<TFloat>) -> TFloat {
     let ratio = (*new.end() - *new.start()) / (*old.end() - *old.start());
     let new = (nmb - *old.start()) * ratio + *new.start();

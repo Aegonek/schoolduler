@@ -15,6 +15,8 @@ use crate::algen::params::Params;
 use crate::algen::params::TerminationCondition;
 use crate::algen::solution::Solution;
 use crate::domain::*;
+use crate::utils::log::Logger;
+use crate::utils::log::log;
 use crate::utils::xlsx;
 
 static START_TIME: OnceCell<OffsetDateTime> = OnceCell::new();
@@ -25,30 +27,32 @@ pub fn start_time() -> OffsetDateTime {
 
 fn main() -> Result<(), Box<dyn Error>> {
     START_TIME.set(OffsetDateTime::now_local()?).unwrap();
+    let mut logger = Logger::new()?;
+    log!(logger, "Starting to generate courses at {}", start_time());
     let path = if cfg!(feature = "debug") {
         env::args().nth(1).unwrap_or(r"C:\Users\domin\Projects\schoolduler\input\example-courses.json".to_owned())
     } else {
         env::args().nth(1).expect("This argument was not valid path to .json files with requirements!")
     };
-    
+    log!(logger, "Reading requirements from file: {path}");
     let raw = String::from_utf8(fs::read(path)?)?;
-    
-    println!("Reading input requirements...");
     let courses: Vec<Course> = serde_json::from_str(&raw)?;
-    println!("Generating solution...");
+
+    log!(logger, "Faking reading algorithm configuration from file...");
     let solver = Solution::with_params(Params { 
         population_size: 30,
         termination_condition: TerminationCondition::AfterNoIterations(100),
         ..Params::default() 
     });
-    let schedule = solver.run(&courses)?;
 
-    println!("Generated solution!");
+    log!(logger, "Generating solution...");
+    let schedule = solver.run(&courses, &mut logger)?;
+    log!(logger, "Generated solution!");
 
-    println!("Saving schedule to excel files...");
+    log!(logger, "Saving schedule to excel files...");
     xlsx::save_schedule(&schedule)?;
 
-    println!("Finished saving schedules.");
+    log!(logger, "Finished saving schedules.");
     Ok(())
 }
 

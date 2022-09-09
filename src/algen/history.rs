@@ -37,7 +37,3 @@ impl Leaderboard {
          }
     }
 }
-
-impl Default for Leaderboard {
-    fn default() -> Self { Self::new() }
-}
