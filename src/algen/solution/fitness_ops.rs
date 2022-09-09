@@ -8,7 +8,6 @@ mod tests;
 
 // Rating is inverse of number of class conflicts.
 // TODO: make this method not need a decoder.
-// TODO: nice test for that, please
 pub fn inverse_of_no_class_conflicts(
     chromosome: &Chromosome,
     decoder: &Decoder,

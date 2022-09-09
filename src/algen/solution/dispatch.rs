@@ -72,7 +72,7 @@ impl Solution {
         }
     }
 
-    pub fn adjust(&mut self, _history: &Leaderboard) {
+    pub fn adjust(&mut self) {
         use AdjustStrategy::*;
 
         match self.params.adjust_strategy {

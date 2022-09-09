@@ -32,8 +32,6 @@ impl Solution {
         requirements: &Requirements,
         logger: &mut Logger,
     ) -> Result<Schedule, Box<dyn Error>> {
-        let mut history = Leaderboard::new();
-
         log!(logger, "Generating random schedules...")?;
         let courses: Vec<Schedule> = vec![(); self.params.population_size]
             .into_par_iter()
@@ -52,7 +50,7 @@ impl Solution {
 
         let mut i = 0;
         log!(logger, "Starting the genetic algorithm!")?;
-        while !self.should_terminate(&history) {
+        while !self.should_terminate(&self.leaderboard) {
             let no_children = self.params.population_size * self.params.children_per_parent;
 
             let parents: Vec<_> = (0..no_children)
@@ -95,10 +93,10 @@ impl Solution {
                 };
                 log!(logger, "{}", iteration)?;
                 logger.log_benchmark(&iteration)?;
-                history.iterations.push_front(iteration);
+                self.leaderboard.iterations.push_front(iteration);
             }
             if i % self.params.adjustment_rate == 0 {
-                self.adjust(&history);
+                self.adjust();
             }
             i += 1;
         }

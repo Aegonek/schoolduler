@@ -8,6 +8,7 @@ use time::{Instant, OffsetDateTime};
 
 pub struct Logger {
     start: Instant,
+    last_benchmark: Option<Instant>,
     benchmark_file: File,
     log_file: File,
 }
@@ -22,13 +23,14 @@ impl Logger {
 
         let benchmark_file = format!("output/{}__benchmarks.csv", now.format(time_format)?);
         let mut benchmark_file = File::create(benchmark_file)?;
-        writeln!(benchmark_file, "TIME_ELAPSED ; ITERATION ; BEST_RATING")?;
+        writeln!(benchmark_file, "Seconds from last benchmark ; Iteration ; Best rating")?;
 
         let log_file = format!("output/{}__logs.csv", now.format(time_format)?);
         let log_file = File::create(log_file)?;
 
         let logger = Logger {
             start,
+            last_benchmark: None,
             benchmark_file,
             log_file,
         };
@@ -43,11 +45,13 @@ impl Logger {
     pub fn log_benchmark(&mut self, iteration: &Iteration) -> Result<(), io::Error> {
         writeln!(
             self.benchmark_file,
-            "{} ; {} ; {}",
-            self.start.elapsed(),
+            "{:.2} ; {} ; {}",
+            self.last_benchmark.unwrap_or(self.start).elapsed().as_seconds_f64(),
             iteration.iteration,
             iteration.best_rating
-        )
+        )?;
+        self.last_benchmark = Some(Instant::now());
+        Ok(())
     }
 }
 
