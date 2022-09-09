@@ -7,7 +7,7 @@ use std::ops::Range;
 
 pub const LOG_FREQUENCY: usize = 10;
 
-#[derive(Debug, PartialEq, Eq)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct Params {
     pub population_size: usize,
     pub mutation_probability: Promile,

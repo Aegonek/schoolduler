@@ -42,15 +42,17 @@ fn main() -> Result<(), Box<dyn Error>> {
     let raw = String::from_utf8(fs::read(path)?)?;
     let courses: Vec<Course> = serde_json::from_str(&raw)?;
 
-    log!(
-        logger,
-        "Faking reading algorithm configuration from file..."
-    )?;
-    let solver = Solution::with_params(Params {
+    let params = Params {
         population_size: 30,
         termination_condition: TerminationCondition::AfterNoIterations(100),
         ..Params::default()
-    });
+    };
+    log!(
+        logger,
+        "Faking reading algorithm configuration from file...\n{}",
+        serde_json::to_string_pretty(&params)?
+    )?;
+    let solver = Solution::with_params(params);
 
     log!(logger, "Generating solution...")?;
     let schedule = solver.run(&courses, &mut logger)?;
