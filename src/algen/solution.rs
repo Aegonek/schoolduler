@@ -27,7 +27,11 @@ pub struct Solution {
 }
 
 impl Solution {
-    pub fn run(mut self, requirements: &Requirements, logger: &mut Logger) -> Result<Schedule, Box<dyn Error>> {
+    pub fn run(
+        mut self,
+        requirements: &Requirements,
+        logger: &mut Logger,
+    ) -> Result<Schedule, Box<dyn Error>> {
         let mut history = Leaderboard::new();
 
         log!(logger, "Generating random schedules...")?;

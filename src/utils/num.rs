@@ -14,12 +14,14 @@ pub fn approx_eq<TNum: Num + Real>(lhs: TNum, rhs: TNum, margin: TNum) -> bool {
     lhs == rhs || (lhs - rhs).abs() <= margin
 }
 
+#[cfg(test)]
 macro_rules! assert_approx_eq {
     ($lhs:expr, $rhs:expr, $margin:expr) => {
         assert!(crate::utils::num::approx_eq($lhs as f64, $rhs as f64, $margin as f64))
     };
 }
 
+#[cfg(test)]
 pub(crate) use assert_approx_eq;
 
 #[cfg(test)]
