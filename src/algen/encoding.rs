@@ -12,7 +12,7 @@ impl Decoder {
     pub fn new() -> Self {
         Self {
             courses: Vec::new(),
-            hours: Vec::new()
+            hours: Vec::new(),
         }
     }
 
@@ -22,9 +22,12 @@ impl Decoder {
         self.hours = standard_lesson_hours();
         for class in raw.into_iter().cloned() {
             self.courses.push(class.course());
-            let value = self.hours.iter()
+            let value = self
+                .hours
+                .iter()
                 .position(|&hour| hour == class.lesson_hour)
-                .unwrap().to_be_bytes();
+                .unwrap()
+                .to_be_bytes();
             if value[0..7].into_iter().any(|byte| byte.count_ones() != 0) {
                 panic!("We had more than 255 available hours in the week! Crashing the program.")
             }
@@ -35,7 +38,9 @@ impl Decoder {
     }
 
     pub fn decode(&self, encoded: &Chromosome) -> Schedule {
-        encoded.0.clone()
+        encoded
+            .0
+            .clone()
             .into_vec()
             .into_iter()
             .enumerate()

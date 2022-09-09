@@ -22,7 +22,7 @@ pub struct Params {
     pub mutation_op: MutationOp,
     pub survivor_selection_op: SurvivalSelectionOp,
     pub adjust_strategy: AdjustStrategy,
-    pub termination_condition: TerminationCondition
+    pub termination_condition: TerminationCondition,
 }
 
 impl Default for Params {
@@ -39,44 +39,41 @@ impl Default for Params {
             mutation_op: MutationOp::InvertBitMutation,
             survivor_selection_op: SurvivalSelectionOp::RouletteSelection,
             adjust_strategy: AdjustStrategy::NoAdjustment,
-            termination_condition: TerminationCondition::AfterNoIterations(1000)
+            termination_condition: TerminationCondition::AfterNoIterations(1000),
         }
     }
 }
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub enum FitnessFunction {
-    InverseOfNoClassConflicts
+    InverseOfNoClassConflicts,
 }
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub enum CrossoverOp {
-    OnePointCrossover
+    OnePointCrossover,
 }
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub enum MutationOp {
     InvertBitMutation,
     // TODO: fix + -
-    CreepMutation { creep_range: Range<u8> }
+    CreepMutation { creep_range: Range<u8> },
 }
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub enum AdjustStrategy {
-    NoAdjustment
+    NoAdjustment,
 }
-
-
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub enum ParentSelectionOp {
-    RouletteSelection
+    RouletteSelection,
 }
-
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub enum SurvivalSelectionOp {
-    RouletteSelection
+    RouletteSelection,
 }
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize)]

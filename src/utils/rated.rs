@@ -3,7 +3,10 @@
 pub type Rating = usize;
 
 #[derive(Clone)]
-pub struct Rated<T> { pub value: T, pub rating: Rating }
+pub struct Rated<T> {
+    pub value: T,
+    pub rating: Rating,
+}
 
 impl<T: Copy> Copy for Rated<T> {}
 

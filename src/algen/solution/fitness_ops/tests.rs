@@ -9,10 +9,7 @@ use super::*;
 
 #[test]
 fn expected_rating() {
-    let sched1: Vec<_> = GenClasses::new()
-        .dup_teacher(4)
-        .take(50)
-        .collect();
+    let sched1: Vec<_> = GenClasses::new().dup_teacher(4).take(50).collect();
     let mut dec1 = Decoder::new();
     let sched1 = dec1.encode(&sched1);
 
@@ -24,9 +21,7 @@ fn expected_rating() {
     let mut dec2 = Decoder::new();
     let sched2 = dec2.encode(&sched2);
 
-    let sched3: Vec<_> = GenClasses::new()
-        .take(50)
-        .collect();
+    let sched3: Vec<_> = GenClasses::new().take(50).collect();
     let mut dec3 = Decoder::new();
     let sched3 = dec3.encode(&sched3);
 
@@ -42,10 +37,23 @@ fn expected_rating() {
 
     // We expect crappy result like this for first iterations, it should quickly stabilize.
     // How to test if it stabilizes?
-    assert_eq!(inverse_of_no_class_conflicts(&sched1, &dec1, &mut leaderboard), 50_000);
-    assert_eq!(inverse_of_no_class_conflicts(&sched2, &dec2, &mut leaderboard), 0);
-    assert_eq!(inverse_of_no_class_conflicts(&sched3, &dec3, &mut leaderboard), 100_000);
-    assert_approx_eq!(inverse_of_no_class_conflicts(&sched4, &dec4, &mut leaderboard), 57_500, 10);
+    assert_eq!(
+        inverse_of_no_class_conflicts(&sched1, &dec1, &mut leaderboard),
+        50_000
+    );
+    assert_eq!(
+        inverse_of_no_class_conflicts(&sched2, &dec2, &mut leaderboard),
+        0
+    );
+    assert_eq!(
+        inverse_of_no_class_conflicts(&sched3, &dec3, &mut leaderboard),
+        100_000
+    );
+    assert_approx_eq!(
+        inverse_of_no_class_conflicts(&sched4, &dec4, &mut leaderboard),
+        57_500,
+        10
+    );
 }
 
 #[test]

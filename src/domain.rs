@@ -3,10 +3,13 @@ mod tests;
 
 use std::fmt::Display;
 
-use serde::{Serialize, Deserialize};
-use time::util::weeks_in_year;
-use time::{Duration, Time, Weekday::{self, *}, OffsetDateTime};
 use num::Integer;
+use serde::{Deserialize, Serialize};
+use time::util::weeks_in_year;
+use time::{
+    Duration, OffsetDateTime, Time,
+    Weekday::{self, *},
+};
 
 #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash, Clone, Serialize, Deserialize)]
 pub struct Teacher {
@@ -46,7 +49,10 @@ impl Display for Subject {
 impl Subject {
     pub fn required_weekly_hours(&self) -> u32 {
         let current_year = OffsetDateTime::now_utc().year();
-        Integer::div_ceil(&self.required_yearly_hours, &(weeks_in_year(current_year) as u32))
+        Integer::div_ceil(
+            &self.required_yearly_hours,
+            &(weeks_in_year(current_year) as u32),
+        )
     }
 }
 
@@ -65,10 +71,13 @@ impl LessonHour {
 
 impl PartialOrd for LessonHour {
     fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
-        const WEEKDAYS: [Weekday; 7] = [Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday];
+        const WEEKDAYS: [Weekday; 7] = [
+            Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday,
+        ];
         let cmp_weekdays = Ord::cmp(
-            &WEEKDAYS.iter().position(|&x| x == self.weekday).unwrap(), 
-            &WEEKDAYS.iter().position(|&x| x == other.weekday).unwrap());
+            &WEEKDAYS.iter().position(|&x| x == self.weekday).unwrap(),
+            &WEEKDAYS.iter().position(|&x| x == other.weekday).unwrap(),
+        );
         Some(cmp_weekdays.then(self.time.cmp(&other.time)))
     }
 }
@@ -89,7 +98,11 @@ pub struct Class {
 
 impl Class {
     pub fn course(&self) -> Course {
-        Course { subject: self.subject.clone(), student_group: self.student_group.clone(), teacher: self.teacher.clone() }
+        Course {
+            subject: self.subject.clone(),
+            student_group: self.student_group.clone(),
+            teacher: self.teacher.clone(),
+        }
     }
 }
 
@@ -117,11 +130,11 @@ pub fn standard_lesson_hours() -> Vec<LessonHour> {
         .flat_map(|weekday| {
             let mut hours: Vec<LessonHour> = Vec::new();
             let mut current_hour = Time::from_hms(8, 0, 0).unwrap();
-    
+
             let day_end_hour = Time::from_hms(17, 0, 0).unwrap();
             const LESSON_DURATION: Duration = Duration::minutes(45);
             const BREAK_DURATION: Duration = Duration::minutes(10);
-    
+
             while current_hour < day_end_hour {
                 let next_hour = LessonHour {
                     weekday: weekday,
@@ -132,7 +145,7 @@ pub fn standard_lesson_hours() -> Vec<LessonHour> {
                 current_hour += LESSON_DURATION;
                 current_hour += BREAK_DURATION;
             }
-    
+
             hours
         })
         .collect()
