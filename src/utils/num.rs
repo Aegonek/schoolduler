@@ -1,5 +1,5 @@
 use std::ops::RangeInclusive;
-use num::Float;
+use num::{Float, Num, traits::real::Real};
 
 // Remap a number within range `old` to a number in range `new`
 // Example - map_range(5, 0..=10, -10..=10) == 0
@@ -10,9 +10,17 @@ pub fn map_range<TFloat: Float + Copy>(nmb: TFloat, old: RangeInclusive<TFloat>,
     new
 }
 
-pub fn approx_eq<TFloat: Float>(lhs: TFloat, rhs: TFloat, margin: TFloat) -> bool {
+pub fn approx_eq<TNum: Num + Real>(lhs: TNum, rhs: TNum, margin: TNum) -> bool {
     lhs == rhs || (lhs - rhs).abs() <= margin
 }
+
+macro_rules! assert_approx_eq {
+    ($lhs:expr, $rhs:expr, $margin:expr) => {
+        assert!(crate::utils::num::approx_eq($lhs as f64, $rhs as f64, $margin as f64))
+    };
+}
+
+pub(crate) use assert_approx_eq;
 
 #[cfg(test)]
 mod tests {
@@ -31,7 +39,7 @@ mod tests {
         let expected = [-1.0, -0.9, -0.8, -0.7, -0.6, -0.5, -0.4, -0.3, -0.2, -0.1, -0.0];
         for (actual, expected) in izip!(mapped, expected) {
             eprintln!("Actual: {actual}, expected: {expected}");
-            assert!(approx_eq(actual, expected, 0.01))
+            assert_approx_eq!(actual, expected, 0.01)
         }
     }
 
@@ -46,7 +54,7 @@ mod tests {
         for Case { payload, expected } in CASES {
             let res = map_range(payload.0, payload.1, payload.2);
             eprintln!("Actual: {res}, expected: {expected}");
-            assert!(approx_eq(res, expected, 1.0));
+            assert_approx_eq!(res, expected, 1.0);
         }
     }
 }
