@@ -12,7 +12,6 @@ impl Solution {
         match self.params.fitness_function {
             InverseOfNoClassConflicts => fitness_ops::inverse_of_no_class_conflicts(
                 chrom,
-                &self.decoder,
                 &mut self.leaderboard,
             ),
         }

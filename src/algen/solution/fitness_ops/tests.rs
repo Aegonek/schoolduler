@@ -38,19 +38,19 @@ fn expected_rating() {
     // We expect crappy result like this for first iterations, it should quickly stabilize.
     // How to test if it stabilizes?
     assert_eq!(
-        inverse_of_no_class_conflicts(&sched1, &dec1, &mut leaderboard),
+        inverse_of_no_class_conflicts(&sched1, &mut leaderboard),
         50_000
     );
     assert_eq!(
-        inverse_of_no_class_conflicts(&sched2, &dec2, &mut leaderboard),
+        inverse_of_no_class_conflicts(&sched2, &mut leaderboard),
         0
     );
     assert_eq!(
-        inverse_of_no_class_conflicts(&sched3, &dec3, &mut leaderboard),
+        inverse_of_no_class_conflicts(&sched3, &mut leaderboard),
         100_000
     );
     assert_approx_eq!(
-        inverse_of_no_class_conflicts(&sched4, &dec4, &mut leaderboard),
+        inverse_of_no_class_conflicts(&sched4, &mut leaderboard),
         57_500,
         10
     );
@@ -64,23 +64,29 @@ fn expected_number_of_overlaps() {
         .poll(25, &mut schedule)
         .dup_group(7)
         .poll(25, &mut schedule);
-    let teacher_overlaps = teacher_overlaps(&schedule);
+    let mut decoder = Decoder::new();
+    let schedule = decoder.encode(&schedule);
+    let teacher_overlaps = teacher_overlaps(&schedule.0);
     assert_eq!(teacher_overlaps, 7);
-    let group_overlaps = group_overlaps(&schedule);
+    let group_overlaps = group_overlaps(&schedule.0);
     assert_eq!(group_overlaps, 6);
 }
 
 #[test]
 fn expected_number_of_teacher_overlaps() {
     let schedule: Vec<_> = GenClasses::new().dup_teacher(4).take(50).collect();
-    let overlaps = teacher_overlaps(&schedule);
+    let mut decoder = Decoder::new();
+    let schedule = decoder.encode(&schedule);
+    let overlaps = teacher_overlaps(&schedule.0);
     assert_eq!(overlaps, 3);
 }
 
 #[test]
 fn expected_number_of_group_overlaps() {
     let schedule: Vec<_> = GenClasses::new().dup_group(2).take(50).collect();
-    let overlaps = group_overlaps(&schedule);
+    let mut decoder = Decoder::new();
+    let schedule = decoder.encode(&schedule);
+    let overlaps = group_overlaps(&schedule.0);
     assert_eq!(overlaps, 1)
 }
 

@@ -5,7 +5,6 @@ pub mod mutation_ops;
 pub mod select_ops;
 
 use crate::domain::*;
-use bitvec::vec::BitVec;
 use rand::prelude::*;
 use rayon::prelude::*;
 use std::error::Error;

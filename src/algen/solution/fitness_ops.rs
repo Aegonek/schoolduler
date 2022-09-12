@@ -1,7 +1,7 @@
 use itertools::Itertools;
 
 use super::*;
-use crate::utils::num;
+use crate::{utils::num, algen::Gene};
 
 #[cfg(test)]
 mod tests;
@@ -10,10 +10,9 @@ mod tests;
 // TODO: make this method not need a decoder.
 pub fn inverse_of_no_class_conflicts(
     chromosome: &Chromosome,
-    decoder: &Decoder,
     leaderboard: &mut Leaderboard,
 ) -> Rating {
-    let lessons = decoder.decode(chromosome);
+    let lessons = &chromosome.0;
 
     let teacher_overlaps = teacher_overlaps(&lessons);
     if teacher_overlaps > leaderboard.max_teacher_overlaps {
@@ -41,7 +40,7 @@ pub fn inverse_of_no_class_conflicts(
 
 // If one student group has 3 classes scheduled for same hour, it counts as 2 conflicts.
 // Number of conflicts at hour `x` = number of lessons scheduled for `x` - 1
-fn teacher_overlaps(lessons: &[Class]) -> usize {
+fn teacher_overlaps(lessons: &[Gene]) -> usize {
     let mut conflicts: usize = 0;
 
     let teachers = lessons
@@ -49,7 +48,7 @@ fn teacher_overlaps(lessons: &[Class]) -> usize {
         .into_group_map_by(|cls| cls.teacher.clone());
 
     for teacher in teachers.values() {
-        let hours = teacher.into_iter().into_group_map_by(|cls| cls.lesson_hour);
+        let hours = teacher.into_iter().into_group_map_by(|cls| cls.hour);
 
         for duplicates in hours.values().filter(|xs| xs.len() > 1) {
             conflicts += duplicates.len() - 1
@@ -59,7 +58,7 @@ fn teacher_overlaps(lessons: &[Class]) -> usize {
     conflicts
 }
 
-fn group_overlaps(lessons: &[Class]) -> usize {
+fn group_overlaps(lessons: &[Gene]) -> usize {
     let mut conflicts: usize = 0;
 
     let groups = lessons
@@ -67,7 +66,7 @@ fn group_overlaps(lessons: &[Class]) -> usize {
         .into_group_map_by(|cls| cls.student_group.clone());
 
     for group in groups.values() {
-        let hours = group.into_iter().into_group_map_by(|cls| cls.lesson_hour);
+        let hours = group.into_iter().into_group_map_by(|cls| cls.hour);
 
         for duplicates in hours.values().filter(|xs| xs.len() > 1) {
             conflicts += duplicates.len() - 1

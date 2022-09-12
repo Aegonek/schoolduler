@@ -1,5 +1,3 @@
-use std::mem;
-
 use super::{Chromosome, Gene};
 use crate::domain::*;
 
@@ -50,19 +48,19 @@ impl Decoder {
                 .hours
                 .binary_search(&class.lesson_hour)
                 .expect("Unexpected error: Couldn't build lookup table!");
-            assert!(hour_i <= mem::size_of::<u8>(), "Unexpected error: We had more than 255 available hours in the week! Crashing the program.");
+            assert!(hour_i <= u8::MAX.into(), "Unexpected error: We had more than 255 available hours in the week! Crashing the program.");
 
             let teacher_i = self
                 .teachers
                 .binary_search(&class.teacher)
                 .expect("Unexpected error: Couldn't build lookup table!");
-            assert!(teacher_i <= mem::size_of::<u8>(), "Unexpected error: We had more than 255 teachers! Crashing the program.");
+            assert!(teacher_i <= u8::MAX.into(), "Unexpected error: We had more than 255 teachers! Crashing the program.");
 
             let group_i = self
                 .student_groups
                 .binary_search(&class.student_group)
                 .expect("Unexpected error: Couldn't build lookup table!");
-            assert!(group_i <= mem::size_of::<u8>(), "Unexpected error: We had more than 255 student groups! Crashing the program.");
+            assert!(group_i <= u8::MAX.into(), "Unexpected error: We had more than 255 student groups! Crashing the program.");
 
             let gene = Gene {
                 hour: hour_i as u8,
