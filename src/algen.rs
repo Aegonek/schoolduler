@@ -3,11 +3,19 @@ pub mod history;
 pub mod params;
 pub mod random;
 pub mod solution;
-
-use bitvec::vec::BitVec;
 use derive_more::{AsMut, AsRef};
 
-// Index of u8 in chromosome represents course for which we are assigning.
-// Value of u8 in chromosome represents lesson hour assigned to it.
+/// Expecting that we only mutate the hour.
+/// Data necessary to:
+/// 1. decode the lesson with Decoder that encoded that data
+/// 2. efficiently rate fitness
+#[derive(Debug, Clone, Copy)]
+pub struct Gene {
+    pub hour: u8,
+    pub teacher: u8,
+    pub student_group: u8
+}
+
+// Index of Gene in chromosome represents course for which we are assigning.
 #[derive(Debug, Default, Clone, AsRef, AsMut)]
-pub struct Chromosome(pub BitVec<u8>);
+pub struct Chromosome(pub Vec<Gene>);

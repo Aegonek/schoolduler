@@ -1,11 +1,13 @@
-use bitvec::vec::BitVec;
+use std::mem;
 
-use super::Chromosome;
+use super::{Chromosome, Gene};
 use crate::domain::*;
 
 pub struct Decoder {
     courses: Vec<Course>,
     hours: Vec<LessonHour>,
+    teachers: Vec<Teacher>,
+    student_groups: Vec<StudentGroup>,
 }
 
 impl Decoder {
@@ -13,40 +15,75 @@ impl Decoder {
         Self {
             courses: Vec::new(),
             hours: Vec::new(),
+            teachers: Vec::new(),
+            student_groups: Vec::new(),
         }
     }
 
-    pub fn encode(&mut self, raw: &Schedule) -> Chromosome {
-        let mut res: Vec<u8> = Vec::with_capacity(raw.len());
-
-        self.hours = standard_lesson_hours();
-        for class in raw.into_iter().cloned() {
-            self.courses.push(class.course());
-            let value = self
-                .hours
-                .iter()
-                .position(|&hour| hour == class.lesson_hour)
-                .unwrap()
-                .to_be_bytes();
-            if value[0..7].into_iter().any(|byte| byte.count_ones() != 0) {
-                panic!("We had more than 255 available hours in the week! Crashing the program.")
+    pub fn encode(&mut self, schedule: &Schedule) -> Chromosome {
+        // Initialize indices
+        for class in schedule.into_iter() {
+            let teacher_i = self.teachers.partition_point(|x| x < &class.teacher);
+            match self.teachers.get(teacher_i) {
+                Some(teacher) if teacher == &class.teacher => (),
+                _ => self.teachers.insert(teacher_i, class.teacher.clone()),
             }
-            res.push(value[7]);
+
+            let group_i = self
+                .student_groups
+                .partition_point(|x| x < &class.student_group);
+            match self.student_groups.get(group_i) {
+                Some(group) if group == &class.student_group => (),
+                _ => self
+                    .student_groups
+                    .insert(group_i, class.student_group.clone()),
+            }
         }
 
-        Chromosome(BitVec::from_vec(res))
+        let mut res: Vec<Gene> = Vec::with_capacity(schedule.len());
+        self.hours = standard_lesson_hours();
+        self.hours.sort();
+        for class in schedule.into_iter() {
+            self.courses.push(class.course());
+
+            let hour_i = self
+                .hours
+                .binary_search(&class.lesson_hour)
+                .expect("Unexpected error: Couldn't build lookup table!");
+            assert!(hour_i <= mem::size_of::<u8>(), "Unexpected error: We had more than 255 available hours in the week! Crashing the program.");
+
+            let teacher_i = self
+                .teachers
+                .binary_search(&class.teacher)
+                .expect("Unexpected error: Couldn't build lookup table!");
+            assert!(teacher_i <= mem::size_of::<u8>(), "Unexpected error: We had more than 255 teachers! Crashing the program.");
+
+            let group_i = self
+                .student_groups
+                .binary_search(&class.student_group)
+                .expect("Unexpected error: Couldn't build lookup table!");
+            assert!(group_i <= mem::size_of::<u8>(), "Unexpected error: We had more than 255 student groups! Crashing the program.");
+
+            let gene = Gene {
+                hour: hour_i as u8,
+                teacher: teacher_i as u8,
+                student_group: group_i as u8,
+            };
+            res.push(gene);
+        }
+
+        Chromosome(res)
     }
 
     pub fn decode(&self, encoded: &Chromosome) -> Schedule {
         encoded
             .0
             .clone()
-            .into_vec()
             .into_iter()
             .enumerate()
-            .map(|(i, val)| {
+            .map(|(i, gene)| {
                 let course = self.courses[i].clone();
-                let hour_i = val as usize % self.hours.len();
+                let hour_i = gene.hour as usize % self.hours.len();
                 let hour = self.hours[hour_i];
                 course.schedule_for(hour)
             })
