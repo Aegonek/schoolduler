@@ -15,7 +15,7 @@ use super::history::{Iteration, Leaderboard};
 use super::params::*;
 use super::random;
 use super::Chromosome;
-use crate::utils::log::{log, Logger};
+use crate::log::{log, Logger};
 use crate::utils::rated::{Rated, Rating};
 use crate::utils::ratio::Promile;
 

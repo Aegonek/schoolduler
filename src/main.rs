@@ -1,9 +1,11 @@
 #![allow(dead_code)]
 
-mod algen;
-mod domain;
-mod utils;
-mod args;
+pub mod algen;
+pub mod domain;
+pub mod utils;
+pub mod args;
+pub mod xlsx;
+pub mod log;
 
 use std::error::Error;
 
@@ -14,9 +16,7 @@ use once_cell::sync::OnceCell;
 
 use crate::algen::solution::Solution;
 use crate::domain::*;
-use crate::utils::log::log;
-use crate::utils::log::Logger;
-use crate::utils::xlsx;
+use crate::log::{log, Logger};
 
 fn main() -> Result<(), Box<dyn Error>> {
     START_TIME.set(OffsetDateTime::now_local()?).unwrap();
@@ -24,11 +24,8 @@ fn main() -> Result<(), Box<dyn Error>> {
     let args = Args::parse();
     log!(logger, "Starting to generate courses at {}", start_time())?;
 
-    log!(logger, "Loading requirements...")?;
-    let courses: Vec<Course> = args.requirements()?;
-
-    log!(logger, "Loading configuration...")?;
-    let params = args.params()?;
+    let courses: Vec<Course> = args.requirements(&mut logger)?;
+    let params = args.params(&mut logger)?;
 
     let solver = Solution::with_params(params);
 
