@@ -18,6 +18,7 @@ itertools = "0.10.*"
 rayon = "1.5.*"
 # TODO: consider bundling LLVM into application
 xlsxwriter = "0.4.*"
+clap = { version = "3.2.*", features = ["derive"] }
 
 [features]
 debug = []
