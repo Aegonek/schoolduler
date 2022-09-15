@@ -1,4 +1,4 @@
-use std::{error::Error, fs, path::PathBuf};
+use std::{error::Error, fs};
 
 use clap::Parser;
 
@@ -39,7 +39,7 @@ impl Args {
         #[cfg(feature = "debug")]
         match &self.requirements {
             Some(path) => {
-                log!(logger, "Loading requirements from file {}...", path.to_string_lossy())?;
+                log!(logger, "Loading requirements from file {}...", path)?;
                 let raw = String::from_utf8(fs::read(path)?)?;
                 let de = serde_json::from_str(&raw)?;
                 Ok(de)
@@ -54,7 +54,7 @@ impl Args {
 
         #[cfg(not(feature = "debug"))]
         {
-            log!(logger, "Loading requirements from file {}...", &self.requirements.to_string_lossy())?;
+            log!(logger, "Loading requirements from file {}...", &self.requirements)?;
             let raw = String::from_utf8(fs::read(&self.requirements)?)?;
             let de = serde_json::from_str(&raw)?;
             Ok(de)
