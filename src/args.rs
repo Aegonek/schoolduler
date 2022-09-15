@@ -7,20 +7,20 @@ use crate::{algen::params::Params, domain::*, log::{log, Logger}};
 #[derive(Parser, Debug)]
 pub struct Args {
     #[clap(long, value_parser)]
-    pub params: Option<PathBuf>,
+    pub params: Option<String>,
 
     #[clap(long, value_parser)]
     #[cfg(feature = "debug")]
-    pub requirements: Option<PathBuf>,
+    pub requirements: Option<String>,
     #[cfg(not(feature = "debug"))]
-    pub requirements: PathBuf,
+    pub requirements: String,
 }
 
 impl Args {
     pub fn params(&self, logger: &mut Logger) -> Result<Params, Box<dyn Error>> {
         match &self.params {
             Some(path) => {
-                log!(logger, "Loading algorithm parameters from file {}...", path.to_string_lossy())?;
+                log!(logger, "Loading algorithm parameters from file {}...", path)?;
                 let raw = String::from_utf8(fs::read(path)?)?;
                 log!(logger, "{raw}")?;
                 let de = serde_json::from_str(&raw)?;
@@ -46,7 +46,7 @@ impl Args {
             }
             None => {
                 log!(logger, "Debug mode: using example requirements.")?;
-                const RAW: &'static str = include_str!(r"..\input\example-courses.json");
+                const RAW: &'static str = include_str!(r"..\debug\courses.json");
                 let de = serde_json::from_str(&RAW)?;
                 Ok(de)
             }

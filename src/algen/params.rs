@@ -58,7 +58,7 @@ pub enum CrossoverOp {
 pub enum MutationOp {
     InvertBitMutation,
     // TODO: fix + -
-    CreepMutation { creep_range: Range<u8> },
+    CreepMutation { creep_range: Range<u16> },
 }
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize)]

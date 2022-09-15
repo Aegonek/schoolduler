@@ -11,9 +11,9 @@ use derive_more::{AsMut, AsRef};
 /// 2. efficiently rate fitness
 #[derive(Debug, Clone, Copy)]
 pub struct Gene {
-    pub hour: u8,
-    pub teacher: u8,
-    pub student_group: u8
+    pub hour: u16,
+    pub teacher: u16,
+    pub student_group: u16
 }
 
 // Index of Gene in chromosome represents course for which we are assigning.

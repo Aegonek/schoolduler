@@ -48,24 +48,24 @@ impl Decoder {
                 .hours
                 .binary_search(&class.lesson_hour)
                 .expect("Unexpected error: Couldn't build lookup table!");
-            assert!(hour_i <= u8::MAX.into(), "Unexpected error: We had more than 255 available hours in the week! Crashing the program.");
+            assert!(hour_i <= u16::MAX.into(), "Unexpected error: We had more than {} available hours in the week! Crashing the program.", u16::MAX);
 
             let teacher_i = self
                 .teachers
                 .binary_search(&class.teacher)
                 .expect("Unexpected error: Couldn't build lookup table!");
-            assert!(teacher_i <= u8::MAX.into(), "Unexpected error: We had more than 255 teachers! Crashing the program.");
+            assert!(teacher_i <= u16::MAX.into(), "Unexpected error: We had more than {} teachers! Crashing the program.", u16::MAX);
 
             let group_i = self
                 .student_groups
                 .binary_search(&class.student_group)
                 .expect("Unexpected error: Couldn't build lookup table!");
-            assert!(group_i <= u8::MAX.into(), "Unexpected error: We had more than 255 student groups! Crashing the program.");
+            assert!(group_i <= u16::MAX.into(), "Unexpected error: We had more than {} student groups! Crashing the program.", u16::MAX);
 
             let gene = Gene {
-                hour: hour_i as u8,
-                teacher: teacher_i as u8,
-                student_group: group_i as u8,
+                hour: hour_i as u16,
+                teacher: teacher_i as u16,
+                student_group: group_i as u16,
             };
             res.push(gene);
         }

@@ -5,7 +5,7 @@ use rand::distributions::Uniform;
 use super::*;
 
 // TODO: test
-pub fn creep_mutation(chrom: &mut Chromosome, params: &Params, creep_range: &Range<u8>) {
+pub fn creep_mutation(chrom: &mut Chromosome, params: &Params, creep_range: &Range<u16>) {
     let distr = Uniform::new(creep_range.start, creep_range.end);
     for hour in chrom.0.iter_mut().map(|gene| &mut gene.hour) {
         let rand = Promile(thread_rng().gen_range(0..1000));
