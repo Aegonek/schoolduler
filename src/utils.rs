@@ -3,3 +3,4 @@ pub mod rated;
 pub mod ratio;
 pub mod tests;
 pub mod time;
+pub mod fs;

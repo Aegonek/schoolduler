@@ -2,7 +2,7 @@ use std::{error::Error, fs};
 
 use clap::Parser;
 
-use crate::{algen::params::Params, domain::*, log::{log, Logger}};
+use crate::{algen::params::Params, school::*, log::{log, Logger}};
 
 #[derive(Parser, Debug)]
 pub struct Args {

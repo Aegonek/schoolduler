@@ -4,7 +4,7 @@ pub mod fitness_ops;
 pub mod mutation_ops;
 pub mod select_ops;
 
-use crate::domain::*;
+use crate::school::*;
 use rand::prelude::*;
 use rayon::prelude::*;
 use std::error::Error;

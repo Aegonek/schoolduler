@@ -1,4 +1,4 @@
-use crate::domain::*;
+use crate::school::*;
 use rand::prelude::*;
 
 pub fn random_schedule(requirements: &Requirements) -> Schedule {

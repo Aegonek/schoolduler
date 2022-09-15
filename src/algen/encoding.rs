@@ -1,5 +1,5 @@
 use super::{Chromosome, Gene};
-use crate::domain::*;
+use crate::school::*;
 
 pub struct Decoder {
     courses: Vec<Course>,

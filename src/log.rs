@@ -3,11 +3,12 @@ use std::error::Error;
 use std::fmt::Arguments;
 use std::fs::File;
 use std::io::{self, Write};
-use time::macros::format_description;
+use crate::utils;
 use time::{Instant, OffsetDateTime};
 
 pub struct Logger {
-    start: Instant,
+    start_instant: Instant,
+    start_time: OffsetDateTime,
     last_benchmark: Option<Instant>,
     benchmark_file: File,
     log_file: File,
@@ -15,21 +16,20 @@ pub struct Logger {
 
 impl Logger {
     // TODO: write to files on another thread.
-    // TODO: lock stdout when writing.
     pub fn new() -> Result<Self, Box<dyn Error>> {
-        let now = OffsetDateTime::now_local()?;
-        let time_format = format_description!("[day]_[month]__[hour]_[minute]_[second]");
-        let start = Instant::now();
+        let start_time = OffsetDateTime::now_local()?;
+        let start_instant = Instant::now();
 
-        let benchmark_file = format!("output/{}__benchmarks.csv", now.format(time_format)?);
-        let mut benchmark_file = File::create(benchmark_file)?;
-        writeln!(benchmark_file, "Seconds from last benchmark ; Iteration ; Best rating")?;
+        let benchmark_path = utils::time::timestamp_path("output/benchmarks.csv", start_time);
+        let mut benchmark_file = utils::fs::create_file_all(benchmark_path)?;
+        writeln!(benchmark_file, "Seconds from last benchmark; Iteration; Best rating")?;
 
-        let log_file = format!("output/{}__logs.csv", now.format(time_format)?);
-        let log_file = File::create(log_file)?;
+        let log_path = utils::time::timestamp_path("output/logs.txt", start_time);
+        let log_file = utils::fs::create_file_all(log_path)?;
 
         let logger = Logger {
-            start,
+            start_time,
+            start_instant,
             last_benchmark: None,
             benchmark_file,
             log_file,
@@ -46,13 +46,16 @@ impl Logger {
         writeln!(
             self.benchmark_file,
             "{:.2} ; {} ; {}",
-            self.last_benchmark.unwrap_or(self.start).elapsed().as_seconds_f64(),
+            self.last_benchmark.unwrap_or(self.start_instant).elapsed().as_seconds_f64(),
             iteration.iteration,
             iteration.best_rating
         )?;
         self.last_benchmark = Some(Instant::now());
         Ok(())
     }
+
+    #[inline]
+    pub fn start_time(&self) -> OffsetDateTime { self.start_time }
 }
 
 #[macro_export]
