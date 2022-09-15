@@ -1,22 +1,14 @@
-#![allow(dead_code)]
-
-pub mod algen;
-pub mod domain;
-pub mod args;
-pub mod xlsx;
-pub mod log;
-pub mod utils;
-
 use std::error::Error;
 
-use args::Args;
 use clap::Parser;
 use ::time::OffsetDateTime;
-use once_cell::sync::OnceCell;
 
-use crate::algen::solution::Solution;
-use crate::domain::*;
-use crate::log::{log, Logger};
+use schoolduler::{START_TIME, start_time};
+use schoolduler::args::Args;
+use schoolduler::algen::solution::Solution;
+use schoolduler::domain::*;
+use schoolduler::log::{log, Logger};
+use schoolduler::xlsx;
 
 fn main() -> Result<(), Box<dyn Error>> {
     START_TIME.set(OffsetDateTime::now_local()?).unwrap();
@@ -33,8 +25,3 @@ fn main() -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
-static START_TIME: OnceCell<OffsetDateTime> = OnceCell::new();
-
-pub fn start_time() -> OffsetDateTime {
-    *START_TIME.get().expect("Start time not registered!")
-}

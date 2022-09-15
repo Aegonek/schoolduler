@@ -55,10 +55,11 @@ impl Logger {
     }
 }
 
+#[macro_export]
 macro_rules! log {
     ($logger:expr, $($x:tt)*) => {
             $logger.log(format_args!($($x)*))
     };
 }
 
-pub(crate) use log;
+pub use log;

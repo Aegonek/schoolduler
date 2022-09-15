@@ -1,0 +1,16 @@
+{
+  "population_size": 50,
+  "mutation_probability": 100,
+  "crossover_probability": 950,
+  "children_per_parent": 1,
+  "adjustment_rate": 50,
+  "fitness_function": "InverseOfNoClassConflicts",
+  "parent_selection_op": "RouletteSelection",
+  "crossover_op": "OnePointCrossover",
+  "mutation_op": "InvertBitMutation",
+  "survivor_selection_op": "RouletteSelection",
+  "adjust_strategy": "NoAdjustment",
+  "termination_condition": {
+    "AfterNoIterations": 1000
+  }
+}

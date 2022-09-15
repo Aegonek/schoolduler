@@ -97,7 +97,7 @@ mod tests {
 
     #[test]
     fn decoded_eq_encoded() {
-        let raw = include_str!("../../input/example-courses.json");
+        let raw = include_str!("../../debug/courses.json");
         let required: Vec<Course> = serde_json::from_str(raw).unwrap();
         let schedule = random::random_schedule(&required);
         let mut decoder = Decoder::new();
