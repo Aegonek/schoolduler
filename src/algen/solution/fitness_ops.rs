@@ -20,7 +20,7 @@ pub fn inverse_of_no_class_conflicts(
     }
     let teacher_score = match leaderboard.max_teacher_overlaps {
         0 => 1.0,
-        i => num::map_range(teacher_overlaps as f64, 0.0..=(i as f64), 1.0..=0.0),
+        max => num::map_range(teacher_overlaps as f64, 0.0..=(max as f64), 1.0..=0.0),
     };
 
     let group_overlaps = group_overlaps(&lessons);
@@ -29,7 +29,7 @@ pub fn inverse_of_no_class_conflicts(
     }
     let group_score = match leaderboard.max_group_overlaps {
         0 => 1.0,
-        i => num::map_range(group_overlaps as f64, 0.0..=(i as f64), 1.0..=0.0),
+        max => num::map_range(group_overlaps as f64, 0.0..=(max as f64), 1.0..=0.0),
     };
 
     const DIGITS: f64 = 100_000.0;

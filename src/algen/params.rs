@@ -28,11 +28,11 @@ pub struct Params {
 impl Default for Params {
     fn default() -> Self {
         Params {
-            population_size: 1000,
-            mutation_probability: Percent(7).into(),
-            crossover_probability: Percent(80).into(),
+            population_size: 50,
+            mutation_probability: Percent(10).into(),
+            crossover_probability: Percent(95).into(),
             children_per_parent: 1,
-            adjustment_rate: 10,
+            adjustment_rate: 50,
             fitness_function: FitnessFunction::InverseOfNoClassConflicts,
             parent_selection_op: ParentSelectionOp::RouletteSelection,
             crossover_op: CrossoverOp::OnePointCrossover,

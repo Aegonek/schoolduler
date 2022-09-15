@@ -22,22 +22,14 @@ impl Args {
             Some(path) => {
                 log!(logger, "Loading algorithm parameters from file {}...", path.to_string_lossy())?;
                 let raw = String::from_utf8(fs::read(path)?)?;
-<<<<<<< Updated upstream
-                log!(logger, "{raw}");
-=======
                 log!(logger, "{raw}")?;
->>>>>>> Stashed changes
                 let de = serde_json::from_str(&raw)?;
                 Ok(de)
             }
             None => {
                 log!(logger, "Using default parameters for algorithm...")?;
                 let params = Params::default();
-<<<<<<< Updated upstream
-                log!(logger, "{}", serde_json::to_string(&params)?);
-=======
                 log!(logger, "{}", serde_json::to_string(&params)?)?;
->>>>>>> Stashed changes
                 Ok(params)
             },
         }

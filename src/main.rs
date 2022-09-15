@@ -2,10 +2,10 @@
 
 pub mod algen;
 pub mod domain;
-pub mod utils;
 pub mod args;
 pub mod xlsx;
 pub mod log;
+pub mod utils;
 
 use std::error::Error;
 
@@ -22,21 +22,14 @@ fn main() -> Result<(), Box<dyn Error>> {
     START_TIME.set(OffsetDateTime::now_local()?).unwrap();
     let mut logger = Logger::new()?;
     let args = Args::parse();
-    log!(logger, "Starting to generate courses at {}", start_time())?;
+    log!(logger, "Starting the application at {}", start_time())?;
 
     let courses: Vec<Course> = args.requirements(&mut logger)?;
     let params = args.params(&mut logger)?;
 
     let solver = Solution::with_params(params);
-
-    log!(logger, "Generating solution...")?;
     let schedule = solver.run(&courses, &mut logger)?;
-    log!(logger, "Generated solution!")?;
-
-    log!(logger, "Saving schedule to excel files...")?;
-    xlsx::save_schedule(&schedule)?;
-
-    log!(logger, "Finished saving schedules.")?;
+    xlsx::save_schedule(&schedule, &mut logger)?;
     Ok(())
 }
 

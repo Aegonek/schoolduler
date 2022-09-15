@@ -31,6 +31,8 @@ impl Solution {
         requirements: &Requirements,
         logger: &mut Logger,
     ) -> Result<Schedule, Box<dyn Error>> {
+        log!(logger, "Generating solution...")?;
+
         log!(logger, "Generating random schedules...")?;
         let courses: Vec<Schedule> = vec![(); self.params.population_size]
             .into_par_iter()
@@ -85,14 +87,24 @@ impl Solution {
             population = next_generation;
 
             if i % LOG_FREQUENCY == 0 {
-                let best_rating = population.iter().max().unwrap().rating;
+                let best = population.iter().max().unwrap();
                 let iteration = Iteration {
                     iteration: i,
-                    best_rating,
+                    best_rating: best.rating,
                 };
                 log!(logger, "{}", iteration)?;
                 logger.log_benchmark(&iteration)?;
                 self.leaderboard.iterations.push_front(iteration);
+                if best.rating
+                    > self
+                        .leaderboard
+                        .winner
+                        .as_ref()
+                        .map(|res| res.rating)
+                        .unwrap_or(0)
+                {
+                    self.leaderboard.winner = Some(best.clone());
+                }
             }
             if i % self.params.adjustment_rate == 0 {
                 self.adjust();
@@ -100,13 +112,14 @@ impl Solution {
             i += 1;
         }
 
-        let best_result = population.into_iter().max().unwrap();
+        let winner = self.leaderboard.winner.unwrap();
         log!(
             logger,
             "Finished running the algorithm! Best result is {}",
-            best_result.rating
+            winner.rating
         )?;
-        let decoded = self.decoder.decode(&best_result.value);
+        let decoded = self.decoder.decode(&winner.value);
+        log!(logger, "Generated solution!")?;
         return Ok(decoded);
     }
 

@@ -9,11 +9,15 @@ use xlsxwriter::WorksheetRow;
 use xlsxwriter::XlsxError;
 
 use crate::domain::Schedule;
+use crate::log::{log, Logger};
 use crate::utils::time;
 
-pub fn save_schedule(schedule: &Schedule) -> Result<(), Box<dyn Error>> {
+pub fn save_schedule(schedule: &Schedule, logger: &mut Logger) -> Result<(), Box<dyn Error>> {
+    log!(logger, "Saving schedule to .xlsx files...")?;
     write_by_student_group_sheet(schedule)?;
-    write_by_teachers_sheet(schedule)
+    write_by_teachers_sheet(schedule)?;
+    log!(logger, "Finished saving schedules.")?;
+    Ok(())
 }
 
 pub fn write_by_student_group_sheet(schedule: &Schedule) -> Result<(), Box<dyn Error>> {
