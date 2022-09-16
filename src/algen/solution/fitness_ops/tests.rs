@@ -37,7 +37,7 @@ fn expected_rating() {
 
     assert_eq!(
         inverse_of_no_class_conflicts(&sched1, &mut leaderboard).0,
-        50_000
+        500_000
     );
     assert_eq!(
         inverse_of_no_class_conflicts(&sched2, &mut leaderboard).0,
@@ -45,11 +45,11 @@ fn expected_rating() {
     );
     assert_eq!(
         inverse_of_no_class_conflicts(&sched3, &mut leaderboard).0,
-        100_000
+        1_000_000
     );
     assert_approx_eq!(
         inverse_of_no_class_conflicts(&sched4, &mut leaderboard).0,
-        57_500,
+        575_000,
         10
     );
 }
