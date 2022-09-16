@@ -1,6 +1,42 @@
 // Compared by ratings. Greater ratings are better than smaller.
 
-pub type Rating = usize;
+use std::{ops::Mul, fmt::Display};
+
+use derive_more::{Add, Sub};
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Add, Sub)]
+pub struct Rating(pub u32);
+
+impl Rating {
+    pub const MIN: Rating = Rating(0);
+    pub const MAX: Rating = Rating(1_000_000);
+}
+
+impl Mul<f64> for Rating
+{
+    type Output = Self;
+
+    fn mul(self, rhs: f64) -> Self::Output {
+        let new = rhs * self.0 as f64;
+        if new > Self::MAX.0 as f64 {
+            Self::MAX
+        } else {
+            Rating(new.round() as u32)
+        }
+    }
+}
+
+impl From<Rating> for f64 {
+    fn from(rating: Rating) -> Self {
+        rating.0 as f64
+    }
+}
+
+impl Display for Rating {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.0)
+    }
+}
 
 #[derive(Clone)]
 pub struct Rated<T> {

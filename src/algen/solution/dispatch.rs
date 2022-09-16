@@ -79,12 +79,17 @@ impl Solution {
         }
     }
 
-    pub fn should_terminate(&self, history: &Leaderboard) -> bool {
+    pub fn should_terminate(&self) -> bool {
         use TerminationCondition::*;
+
+        match self.leaderboard.winner.as_ref() {
+            Some(&Rated { rating, .. }) if rating == Rating::MAX => return true,
+            _ => ()
+        }
 
         match self.params.termination_condition {
             AfterNoIterations(n) => {
-                history.iterations.front().map(|x| x.iteration).unwrap_or(0) >= n
+                self.leaderboard.iterations.front().map(|x| x.iteration).unwrap_or(0) >= n
             }
         }
     }

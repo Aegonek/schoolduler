@@ -1,20 +1,22 @@
-use num::{traits::real::Real, Float, Num};
+use num;
 use std::ops::RangeInclusive;
 
 // Remap a number within range `old` to a number in range `new`
 // Example - map_range(5, 0..=10, -10..=10) == 0
-// Restricting this to floats to avoid rounding errors. I mean, unsoundly big rounding errors.
-pub fn map_range<TFloat: Float + Copy>(
-    nmb: TFloat,
-    old: RangeInclusive<TFloat>,
-    new: RangeInclusive<TFloat>,
-) -> TFloat {
-    let ratio = (*new.end() - *new.start()) / (*old.end() - *old.start());
-    let new = (nmb - *old.start()) * ratio + *new.start();
+// Number is cast into f64 (long) for operation.
+pub fn map_range(
+    nmb: impl Into<f64> + Copy,
+    old: RangeInclusive<impl Into<f64> + Copy>,
+    new: RangeInclusive<impl Into<f64> + Copy>,
+) -> f64 {
+    let old: (f64, f64) = ((*old.start()).into(), (*old.end()).into());
+    let new: (f64, f64) = ((*new.start()).into(), (*new.end()).into());
+    let ratio = (new.1 - new.0) / (old.1 - old.0);
+    let new = (Into::<f64>::into(nmb) - old.0) * ratio + new.0;
     new
 }
 
-pub fn approx_eq<TNum: Num + Real>(lhs: TNum, rhs: TNum, margin: TNum) -> bool {
+pub fn approx_eq<Float: num::Float + Copy>(lhs: Float, rhs: Float, margin: Float) -> bool {
     lhs == rhs || (lhs - rhs).abs() <= margin
 }
 

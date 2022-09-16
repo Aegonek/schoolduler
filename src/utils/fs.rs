@@ -15,8 +15,7 @@ pub fn create_file_all<P: AsRef<Path>>(path: P) -> io::Result<File> {
     }
 
     let dir = path.parent().unwrap();
-    let name = path.file_name().unwrap();
 
     fs::create_dir_all(dir)?;
-    File::create(name)
+    File::create(path)
 }

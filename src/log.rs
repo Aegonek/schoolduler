@@ -15,7 +15,6 @@ pub struct Logger {
 }
 
 impl Logger {
-    // TODO: write to files on another thread.
     pub fn new() -> Result<Self, Box<dyn Error>> {
         let start_time = OffsetDateTime::now_local()?;
         let start_instant = Instant::now();

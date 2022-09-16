@@ -16,7 +16,7 @@ use super::params::*;
 use super::random;
 use super::Chromosome;
 use crate::log::{log, Logger};
-use crate::utils::rated::{Rated, Rating};
+use crate::utils::rating::{Rated, Rating};
 use crate::utils::ratio::Promile;
 
 pub struct Solution {
@@ -51,7 +51,7 @@ impl Solution {
 
         let mut i = 0;
         log!(logger, "Starting the genetic algorithm!")?;
-        while !self.should_terminate(&self.leaderboard) {
+        while !self.should_terminate() {
             let no_children = self.params.population_size * self.params.children_per_parent;
 
             let parents: Vec<_> = (0..no_children)
@@ -101,7 +101,7 @@ impl Solution {
                         .winner
                         .as_ref()
                         .map(|res| res.rating)
-                        .unwrap_or(0)
+                        .unwrap_or(Rating(0))
                 {
                     self.leaderboard.winner = Some(best.clone());
                 }

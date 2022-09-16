@@ -21,4 +21,3 @@ fn main() -> Result<(), Box<dyn Error>> {
     xlsx::save_schedule(&schedule, &mut logger)?;
     Ok(())
 }
-

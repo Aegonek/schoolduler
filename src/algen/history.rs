@@ -1,7 +1,7 @@
 use std::collections::VecDeque;
 use std::fmt::Display;
 
-use crate::utils::rated::{Rated, Rating};
+use crate::utils::rating::{Rated, Rating};
 
 use super::Chromosome;
 

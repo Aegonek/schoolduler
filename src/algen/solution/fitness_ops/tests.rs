@@ -35,22 +35,20 @@ fn expected_rating() {
 
     let mut leaderboard = Leaderboard::new();
 
-    // We expect crappy result like this for first iterations, it should quickly stabilize.
-    // How to test if it stabilizes?
     assert_eq!(
-        inverse_of_no_class_conflicts(&sched1, &mut leaderboard),
+        inverse_of_no_class_conflicts(&sched1, &mut leaderboard).0,
         50_000
     );
     assert_eq!(
-        inverse_of_no_class_conflicts(&sched2, &mut leaderboard),
+        inverse_of_no_class_conflicts(&sched2, &mut leaderboard).0,
         0
     );
     assert_eq!(
-        inverse_of_no_class_conflicts(&sched3, &mut leaderboard),
+        inverse_of_no_class_conflicts(&sched3, &mut leaderboard).0,
         100_000
     );
     assert_approx_eq!(
-        inverse_of_no_class_conflicts(&sched4, &mut leaderboard),
+        inverse_of_no_class_conflicts(&sched4, &mut leaderboard).0,
         57_500,
         10
     );

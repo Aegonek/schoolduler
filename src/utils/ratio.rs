@@ -1,6 +1,8 @@
 use derive_more::{Add, Sub};
 use serde::{Deserialize, Serialize};
 
+// TODO: make it so the unit is serialized.
+
 // Dumb wrappers written so we don't forget units.
 #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Clone, Copy, Add, Sub, Serialize, Deserialize)]
 pub struct Promile(pub u32);

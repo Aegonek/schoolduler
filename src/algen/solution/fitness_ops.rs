@@ -32,10 +32,7 @@ pub fn inverse_of_no_class_conflicts(
         max => num::map_range(group_overlaps as f64, 0.0..=(max as f64), 1.0..=0.0),
     };
 
-    const DIGITS: f64 = 100_000.0;
-    // 6 first digits
-    let rating = (teacher_score + group_score) / 2.0 * DIGITS;
-    rating as usize
+    Rating::MAX * ((teacher_score + group_score) / 2.0)
 }
 
 // If one student group has 3 classes scheduled for same hour, it counts as 2 conflicts.
