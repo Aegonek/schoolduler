@@ -1,6 +1,5 @@
 pub mod encoding;
 pub mod history;
-pub mod params;
 pub mod random;
 pub mod solution;
 pub mod config;

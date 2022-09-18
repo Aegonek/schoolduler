@@ -5,7 +5,7 @@ use rand::distributions::Uniform;
 
 use super::*;
 
-pub fn creep_mutation(chrom: &mut Chromosome, params: &Params, creep_range: Range<i16>) {
+pub fn creep_mutation(chrom: &mut Chromosome, params: &Config, creep_range: Range<i16>) {
     // TODO: avoid creating distribution in every iteration
     let distr = Uniform::new(creep_range.start, creep_range.end);
     for hour in chrom.0.iter_mut().map(|gene| &mut gene.hour) {
@@ -25,7 +25,7 @@ pub fn creep_mutation(chrom: &mut Chromosome, params: &Params, creep_range: Rang
 }
 
 #[allow(dead_code)]
-pub fn invert_bit_mutation(chrom: &mut Chromosome, params: &Params) {
+pub fn invert_bit_mutation(chrom: &mut Chromosome, params: &Config) {
     for hour in chrom.0.iter_mut().map(|gene| &mut gene.hour) {
         let hour: &mut u16 = hour;
         let mut shift: u16 = 0;

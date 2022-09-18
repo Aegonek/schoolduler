@@ -2,13 +2,11 @@ use std::{error::Error, fs};
 
 use clap::Parser;
 
-use crate::{algen::params::Params, school::*, log::{log, Logger}};
+use crate::{school::*, log::{log, Logger}};
 
+// TODO: App description and usage.
 #[derive(Parser, Debug)]
 pub struct Args {
-    #[clap(long, value_parser)]
-    pub params: Option<String>,
-
     #[clap(long, value_parser)]
     #[cfg(feature = "debug")]
     pub requirements: Option<String>,
@@ -16,25 +14,7 @@ pub struct Args {
     pub requirements: String,
 }
 
-impl Args {
-    pub fn params(&self, logger: &mut Logger) -> Result<Params, Box<dyn Error>> {
-        match &self.params {
-            Some(path) => {
-                log!(logger, "Loading algorithm parameters from file {}...", path);
-                let raw = String::from_utf8(fs::read(path)?)?;
-                log!(logger, "{raw}");
-                let de = serde_json::from_str(&raw)?;
-                Ok(de)
-            }
-            None => {
-                log!(logger, "Using default parameters for algorithm...");
-                let params = Params::default();
-                log!(logger, "{}", serde_json::to_string(&params)?);
-                Ok(params)
-            },
-        }
-    }
-    
+impl Args { 
     pub fn requirements(&self, logger: &mut Logger) -> Result<Requirements, Box<dyn Error>> {
         #[cfg(feature = "debug")]
         match &self.requirements {

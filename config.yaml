@@ -1,4 +1,5 @@
 population-size: 100
+# Number tagged with either `!Percent` or `!Promile`
 mutation-probability: !Percent 8
 crossover-probability: !Percent 95
 children-per-parent: 1

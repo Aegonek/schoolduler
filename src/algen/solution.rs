@@ -1,5 +1,4 @@
 pub mod crossover_ops;
-pub mod dispatch;
 pub mod fitness_ops;
 pub mod mutation_ops;
 pub mod select_ops;
@@ -7,20 +6,20 @@ pub mod select_ops;
 use crate::school::*;
 use rand::prelude::*;
 use rayon::prelude::*;
+use std::borrow::Borrow;
 use std::error::Error;
 use std::ops::Range;
 
+use super::config::{Config, self};
 use super::encoding::Decoder;
 use super::history::{Iteration, Leaderboard};
-use super::params::*;
 use super::random;
 use super::Chromosome;
 use crate::log::{log, Logger};
-use crate::utils::rating::{Rated, Rating};
 use crate::utils::probability::Probability::Promile;
+use crate::utils::rating::{Rated, Rating};
 
 pub struct Solution {
-    pub params: Params,
     pub decoder: Decoder,
     pub leaderboard: Leaderboard,
 }
@@ -31,13 +30,13 @@ impl Solution {
         requirements: &Requirements,
         logger: &mut Logger,
     ) -> Result<Schedule, Box<dyn Error>> {
+        const CONFIG: Config = config::CONFIG;
+        const LOG_FREQUENCY: usize = 10;
         log!(logger, "Generating solution...");
 
         log!(logger, "Generating random schedules...");
-        let courses: Vec<Schedule> = vec![(); self.params.population_size]
-            .into_par_iter()
-            .map(|_| random::random_schedule(requirements))
-            .collect();
+        let courses: [Schedule; CONFIG.population_size] = [(); CONFIG.population_size]
+            .map(|_| random::random_schedule(requirements));
 
         log!(logger, "Encoding and rating initial schedules...");
         let population: Vec<_> = courses
@@ -52,9 +51,9 @@ impl Solution {
         let mut i = 0;
         log!(logger, "Starting the genetic algorithm!");
         while !self.should_terminate() {
-            let no_children = self.params.population_size * self.params.children_per_parent;
+            const NUMBER_OF_CHILDREN: usize = CONFIG.population_size * CONFIG.children_per_parent;
 
-            let parents: Vec<_> = (0..no_children)
+            let parents: Vec<_> = (0..NUMBER_OF_CHILDREN)
                 .into_par_iter()
                 .map(|_| self.select_parents(&population))
                 .collect();
@@ -63,7 +62,7 @@ impl Solution {
                 .into_par_iter()
                 .flat_map_iter(|(parent1, parent2)| {
                     let (mut child1, mut child2) = if Promile(thread_rng().gen_range(0..=1000))
-                        <= self.params.crossover_probability
+                        <= CONFIG.crossover_probability
                     {
                         self.crossover(parent1.value.to_owned(), parent2.value.to_owned())
                     } else {
@@ -80,7 +79,7 @@ impl Solution {
                 .map(|chrom| self.rated(chrom))
                 .collect();
 
-            let next_generation: Vec<_> = (0..self.params.population_size)
+            let next_generation: Vec<_> = (0..CONFIG.population_size)
                 .into_par_iter()
                 .map(|_| self.select_survivor(&children).to_owned())
                 .collect();
@@ -105,9 +104,6 @@ impl Solution {
                     self.leaderboard.winner = Some(best.clone());
                 }
             }
-            if i % self.params.adjustment_rate == 0 {
-                self.adjust();
-            }
             i += 1;
         }
 
@@ -122,18 +118,59 @@ impl Solution {
         return Ok(decoded);
     }
 
-    pub fn new() -> Self {
-        Self {
-            params: Params::default(),
-            decoder: Decoder::new(),
-            leaderboard: Leaderboard::new(),
+    pub fn rate(&mut self, chrom: &Chromosome) -> Rating {
+        fitness_ops::inverse_of_no_class_conflicts(chrom, &mut self.leaderboard)
+    }
+
+    pub fn rated<T: Borrow<Chromosome>>(&mut self, chrom: T) -> Rated<T> {
+        let rating = self.rate(chrom.borrow());
+        Rated {
+            value: chrom,
+            rating,
         }
     }
 
-    pub fn with_params(params: Params) -> Self {
+    pub fn mutate(&self, chrom: &mut Chromosome) {
+        // TODO: remove config as a param.
+        // TODO: switch to creep mutation. After fixing compilation errors.
+        mutation_ops::invert_bit_mutation(chrom, &config::CONFIG)
+    }
+
+    // Assuming always 2 parents and always 2 children during one crossover.
+    pub fn crossover(&self, x: Chromosome, y: Chromosome) -> (Chromosome, Chromosome) {
+        crossover_ops::one_point_crossover(x, y)
+    }
+
+    pub fn select_parents<'a>(
+        &self,
+        population: &'a [Rated<Chromosome>],
+    ) -> (&'a Rated<Chromosome>, &'a Rated<Chromosome>) {
+        let x = select_ops::roulette_selection(population);
+        let y = select_ops::roulette_selection(population);
+        (x, y)
+    }
+
+    pub fn select_survivor<'a>(
+        &self,
+        population: &'a [Rated<Chromosome>],
+    ) -> &'a Rated<Chromosome> {
+        select_ops::roulette_selection(population)
+    }
+
+    pub fn should_terminate(&self) -> bool {
+        const NO_ITERATIONS: usize = 10000;
+        match self.leaderboard.winner.as_ref() {
+            Some(&Rated { rating, .. }) if rating == Rating::MAX => return true,
+            _ => ()
+        }
+
+        self.leaderboard.iterations.front().map(|x| x.iteration).unwrap_or(0) >= NO_ITERATIONS
+    }
+
+    pub fn new() -> Self {
         Solution {
-            params,
-            ..Self::new()
+            decoder: Decoder::new(),
+            leaderboard: Leaderboard::new(),
         }
     }
 }

@@ -21,5 +21,4 @@ impl Default for Config {
     }
 }
 
-#[allow(unused)]
-const CONFIG: Config = include!(concat!(env!("OUT_DIR"), "/config.generated.rs"));
+pub const CONFIG: Config = include!(concat!(env!("OUT_DIR"), "/config.generated.rs"));
