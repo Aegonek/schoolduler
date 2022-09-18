@@ -4,8 +4,8 @@ use std::error::Error;
 use std::sync::Mutex;
 
 mod comm;
-mod handle;
 mod logger;
+mod handle;
 #[cfg(test)]
 mod tests;
 
