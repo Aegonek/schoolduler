@@ -1,5 +1,5 @@
-use bitvec::prelude::*;
-use bitvec::view::BitView;
+use std::mem;
+
 use rand::distributions::Uniform;
 
 use super::*;
@@ -17,14 +17,16 @@ pub fn creep_mutation(chrom: &mut Chromosome, params: &Params, creep_range: &Ran
 }
 
 // TODO: test
+#[allow(dead_code)]
 pub fn invert_bit_mutation(chrom: &mut Chromosome, params: &Params) {
     for hour in chrom.0.iter_mut().map(|gene| &mut gene.hour) {
-        for mut bit in hour.view_bits_mut::<Msb0>() {
-            let rand = Promile(thread_rng().gen_range(0..1000));
-            if rand < params.mutation_probability {
-                let bit_refm = bit.as_mut();
-                *bit_refm = !*bit_refm;
+        let mut shift: u16 = 0;
+        for i in 0..(mem::size_of::<u16>() as u32 * 8) {
+            let rand = thread_rng().gen_range(0..1000);
+            if rand < params.mutation_probability.promiles() {
+                shift += 2_u16.pow(i);
             }
         }
+        *hour ^= shift;
     }
 }

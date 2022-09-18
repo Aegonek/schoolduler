@@ -15,9 +15,9 @@ use super::history::{Iteration, Leaderboard};
 use super::params::*;
 use super::random;
 use super::Chromosome;
-use crate::log::{log, Logger};
+use crate::log::{log, LogHandle};
 use crate::utils::rating::{Rated, Rating};
-use crate::utils::ratio::Promile;
+use crate::utils::probability::Probability::Promile;
 
 pub struct Solution {
     pub params: Params,
@@ -29,17 +29,17 @@ impl Solution {
     pub fn run(
         mut self,
         requirements: &Requirements,
-        logger: &mut Logger,
+        logger: &mut LogHandle,
     ) -> Result<Schedule, Box<dyn Error>> {
-        log!(logger, "Generating solution...")?;
+        log!(logger, "Generating solution...");
 
-        log!(logger, "Generating random schedules...")?;
+        log!(logger, "Generating random schedules...");
         let courses: Vec<Schedule> = vec![(); self.params.population_size]
             .into_par_iter()
             .map(|_| random::random_schedule(requirements))
             .collect();
 
-        log!(logger, "Encoding and rating initial schedules...")?;
+        log!(logger, "Encoding and rating initial schedules...");
         let population: Vec<_> = courses
             .into_iter()
             .map(|crs| self.decoder.encode(&crs))
@@ -50,7 +50,7 @@ impl Solution {
             .collect();
 
         let mut i = 0;
-        log!(logger, "Starting the genetic algorithm!")?;
+        log!(logger, "Starting the genetic algorithm!");
         while !self.should_terminate() {
             let no_children = self.params.population_size * self.params.children_per_parent;
 
@@ -92,8 +92,7 @@ impl Solution {
                     iteration: i,
                     best_rating: best.rating,
                 };
-                log!(logger, "{}", iteration)?;
-                logger.log_benchmark(&iteration)?;
+                log!(logger, "{}", iteration);
                 self.leaderboard.iterations.push_front(iteration);
                 if best.rating
                     > self
@@ -117,9 +116,9 @@ impl Solution {
             logger,
             "Finished running the algorithm! Best result is {}",
             winner.rating
-        )?;
+        );
         let decoded = self.decoder.decode(&winner.value);
-        log!(logger, "Generated solution!")?;
+        log!(logger, "Generated solution!");
         return Ok(decoded);
     }
 

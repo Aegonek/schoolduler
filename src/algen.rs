@@ -3,7 +3,6 @@ pub mod history;
 pub mod params;
 pub mod random;
 pub mod solution;
-use derive_more::{AsMut, AsRef};
 
 /// Expecting that we only mutate the hour.
 /// Data necessary to:
@@ -17,5 +16,5 @@ pub struct Gene {
 }
 
 // Index of Gene in chromosome represents course for which we are assigning.
-#[derive(Debug, Default, Clone, AsRef, AsMut)]
+#[derive(Debug, Default, Clone)]
 pub struct Chromosome(pub Vec<Gene>);

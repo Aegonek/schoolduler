@@ -1,8 +1,7 @@
 use serde::Deserialize;
 use serde::Serialize;
 
-use crate::utils::ratio::Percent;
-use crate::utils::ratio::Promile;
+use crate::utils::probability::Probability::{self, Percent};
 use std::ops::Range;
 
 pub const LOG_FREQUENCY: usize = 10;
@@ -10,8 +9,8 @@ pub const LOG_FREQUENCY: usize = 10;
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct Params {
     pub population_size: usize,
-    pub mutation_probability: Promile,
-    pub crossover_probability: Promile,
+    pub mutation_probability: Probability,
+    pub crossover_probability: Probability,
     pub children_per_parent: usize,
     /// Adjust config once per ADJUSTMENT_RATE iterations.
     pub adjustment_rate: usize,
@@ -29,8 +28,8 @@ impl Default for Params {
     fn default() -> Self {
         Params {
             population_size: 50,
-            mutation_probability: Percent(10).into(),
-            crossover_probability: Percent(95).into(),
+            mutation_probability: Percent(10),
+            crossover_probability: Percent(95),
             children_per_parent: 1,
             adjustment_rate: 50,
             fitness_function: FitnessFunction::InverseOfNoClassConflicts,

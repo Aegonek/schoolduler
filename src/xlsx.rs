@@ -13,10 +13,10 @@ use crate::school::Schedule;
 use crate::utils::time;
 
 pub fn save_schedule(schedule: &Schedule, logger: &mut Logger) -> Result<(), Box<dyn Error>> {
-    log!(logger, "Saving schedule to .xlsx files...")?;
+    log!(logger, "Saving schedule to .xlsx files...");
     write_by_student_group_sheet(schedule, logger)?;
     write_by_teachers_sheet(schedule, logger)?;
-    log!(logger, "Finished saving schedules.")?;
+    log!(logger, "Finished saving schedules.");
     Ok(())
 }
 
