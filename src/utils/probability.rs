@@ -11,18 +11,17 @@ pub enum Probability {
 use Probability::*;
 
 impl Probability {
-    // TODO: A very simple test.
-    pub fn percent(&self) -> u32 {
+    pub const fn percent(&self) -> u32 {
         match self {
-            Promile(x) => x / 10,
+            Promile(x) => *x / 10,
             Percent(x) => *x
         }
     }
 
-    pub fn promiles(&self) -> u32 {
+    pub const fn promiles(&self) -> u32 {
         match self {
             Promile(x) => *x,
-            Percent(x) => x * 10
+            Percent(x) => *x * 10
         }
     }
 }

@@ -8,9 +8,9 @@ mod tests;
 
 // Rating is inverse of number of class conflicts.
 pub fn inverse_of_no_class_conflicts(
-    chromosome: &Chromosome,
-    leaderboard: &mut Leaderboard,
+    chromosome: &Chromosome
 ) -> Rating {
+    let leaderboard: &mut Leaderboard = todo!();
     let lessons = &chromosome.0;
 
     let teacher_overlaps = teacher_overlaps(&lessons);

@@ -8,22 +8,24 @@ use xlsxwriter::WorksheetCol;
 use xlsxwriter::WorksheetRow;
 use xlsxwriter::XlsxError;
 
-use crate::log::{log, Logger};
+use crate::log::logger;
+use crate::log::log_fmt;
 use crate::school::Schedule;
 use crate::utils::time;
 
-pub fn save_schedule(schedule: &Schedule, logger: &mut Logger) -> Result<(), Box<dyn Error>> {
-    log!(logger, "Saving schedule to .xlsx files...");
-    write_by_student_group_sheet(schedule, logger)?;
-    write_by_teachers_sheet(schedule, logger)?;
-    log!(logger, "Finished saving schedules.");
+pub fn save_schedule(schedule: &Schedule) -> Result<(), Box<dyn Error>> {
+    let logger = logger();
+    log_fmt!(logger, "Saving schedule to .xlsx files...");
+    write_by_student_group_sheet(schedule)?;
+    write_by_teachers_sheet(schedule)?;
+    log_fmt!(logger, "Finished saving schedules.");
     Ok(())
 }
 
 pub fn write_by_student_group_sheet(
-    schedule: &Schedule,
-    logger: &mut Logger,
+    schedule: &Schedule
 ) -> Result<(), Box<dyn Error>> {
+    let logger = logger();
     let filename = time::timestamp_path(
         "output/schedules_by_student_groups.xlsx",
         logger.start_time(),
@@ -65,9 +67,9 @@ pub fn write_by_student_group_sheet(
 }
 
 pub fn write_by_teachers_sheet(
-    schedule: &Schedule,
-    logger: &mut Logger,
+    schedule: &Schedule
 ) -> Result<(), Box<dyn Error>> {
+    let logger = logger();
     let filename = time::timestamp_path("output/schedules_by_teachers.xlsx", logger.start_time())
         .to_str()
         .expect("Expecting paths to contain only valid Unicode characters.")

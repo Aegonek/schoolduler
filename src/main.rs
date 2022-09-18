@@ -5,18 +5,20 @@ use clap::Parser;
 use schoolduler::args::Args;
 use schoolduler::algen::solution::Solution;
 use schoolduler::school::*;
-use schoolduler::log::{log, Logger};
+use schoolduler::log::{self, log_fmt, logger};
 use schoolduler::xlsx;
 
 fn main() -> Result<(), Box<dyn Error>> {
-    let mut logger = Logger::new()?;
+    log::init_logger()?;
     let args = Args::parse();
-    log!(logger, "Starting the application at {}", logger.start_time());
+    let logger = logger();
+    log_fmt!(logger, "Starting the application at {}", logger.start_time());
 
-    let courses: Vec<Course> = args.requirements(&mut logger)?;
+    let courses: Vec<Course> = args.requirements()?;
 
     let solver = Solution::new();
-    let schedule = solver.run(&courses, &mut logger)?;
-    xlsx::save_schedule(&schedule, &mut logger)?;
+    let schedule = solver.run(&courses)?;
+    xlsx::save_schedule(&schedule)?;
+    log::deinit_logger()?;
     Ok(())
 }

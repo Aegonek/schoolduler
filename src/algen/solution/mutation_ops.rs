@@ -7,6 +7,7 @@ use super::*;
 
 pub fn creep_mutation(chrom: &mut Chromosome, params: &Config, creep_range: Range<i16>) {
     // TODO: avoid creating distribution in every iteration
+    #[allow(unused)]
     let distr = Uniform::new(creep_range.start, creep_range.end);
     for hour in chrom.0.iter_mut().map(|gene| &mut gene.hour) {
         let hour: &mut u16 = hour;

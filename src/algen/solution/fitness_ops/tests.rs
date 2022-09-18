@@ -33,22 +33,20 @@ fn expected_rating() {
     let mut dec4 = Decoder::new();
     let sched4 = dec4.encode(&sched4);
 
-    let mut leaderboard = Leaderboard::new();
-
     assert_eq!(
-        inverse_of_no_class_conflicts(&sched1, &mut leaderboard).0,
+        inverse_of_no_class_conflicts(&sched1).0,
         500_000
     );
     assert_eq!(
-        inverse_of_no_class_conflicts(&sched2, &mut leaderboard).0,
+        inverse_of_no_class_conflicts(&sched2).0,
         0
     );
     assert_eq!(
-        inverse_of_no_class_conflicts(&sched3, &mut leaderboard).0,
+        inverse_of_no_class_conflicts(&sched3).0,
         1_000_000
     );
     assert_approx_eq!(
-        inverse_of_no_class_conflicts(&sched4, &mut leaderboard).0,
+        inverse_of_no_class_conflicts(&sched4).0,
         575_000,
         10
     );

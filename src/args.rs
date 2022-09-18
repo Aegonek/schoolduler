@@ -2,7 +2,7 @@ use std::{error::Error, fs};
 
 use clap::Parser;
 
-use crate::{school::*, log::{log, Logger}};
+use crate::{school::*, log::{logger, log_fmt}};
 
 // TODO: App description and usage.
 #[derive(Parser, Debug)]
@@ -15,17 +15,18 @@ pub struct Args {
 }
 
 impl Args { 
-    pub fn requirements(&self, logger: &mut Logger) -> Result<Requirements, Box<dyn Error>> {
+    pub fn requirements(&self) -> Result<Requirements, Box<dyn Error>> {
+        let logger = logger();
         #[cfg(feature = "debug")]
         match &self.requirements {
             Some(path) => {
-                log!(logger, "Loading requirements from file {}...", path);
+                log_fmt!(logger, "Loading requirements from file {}...", path);
                 let raw = String::from_utf8(fs::read(path)?)?;
                 let de = serde_json::from_str(&raw)?;
                 Ok(de)
             }
             None => {
-                log!(logger, "Debug mode: using example requirements.");
+                log_fmt!(logger, "Debug mode: using example requirements.");
                 const RAW: &'static str = include_str!(r"..\debug\courses.json");
                 let de = serde_json::from_str(&RAW)?;
                 Ok(de)
@@ -34,7 +35,7 @@ impl Args {
 
         #[cfg(not(feature = "debug"))]
         {
-            log!(logger, "Loading requirements from file {}...", &self.requirements);
+            log_fmt!(logger, "Loading requirements from file {}...", &self.requirements);
             let raw = String::from_utf8(fs::read(&self.requirements)?)?;
             let de = serde_json::from_str(&raw)?;
             Ok(de)

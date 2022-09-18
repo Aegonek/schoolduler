@@ -3,6 +3,7 @@ pub mod fitness_ops;
 pub mod mutation_ops;
 pub mod select_ops;
 
+use crate::exts::parallel_iter::ParallelTryCollect;
 use crate::school::*;
 use rand::prelude::*;
 use rayon::prelude::*;
@@ -15,8 +16,7 @@ use super::encoding::Decoder;
 use super::history::{Iteration, Leaderboard};
 use super::random;
 use super::Chromosome;
-use crate::log::{log, Logger};
-use crate::utils::probability::Probability::Promile;
+use crate::log::{log_fmt, logger};
 use crate::utils::rating::{Rated, Rating};
 
 pub struct Solution {
@@ -27,42 +27,38 @@ pub struct Solution {
 impl Solution {
     pub fn run(
         mut self,
-        requirements: &Requirements,
-        logger: &mut Logger,
+        requirements: &Requirements
     ) -> Result<Schedule, Box<dyn Error>> {
         const CONFIG: Config = config::CONFIG;
         const LOG_FREQUENCY: usize = 10;
-        log!(logger, "Generating solution...");
+        let logger = logger();
+        log_fmt!(logger, "Generating solution...");
 
-        log!(logger, "Generating random schedules...");
+        log_fmt!(logger, "Generating random schedules...");
         let courses: [Schedule; CONFIG.population_size] = [(); CONFIG.population_size]
             .map(|_| random::random_schedule(requirements));
 
-        log!(logger, "Encoding and rating initial schedules...");
-        let population: Vec<_> = courses
-            .into_iter()
-            .map(|crs| self.decoder.encode(&crs))
-            .collect();
-        let mut population: Vec<_> = population
-            .into_iter()
-            .map(|chrom| self.rated(chrom))
-            .collect();
+            log_fmt!(logger, "Encoding and rating initial schedules...");
+        let population: [Chromosome; CONFIG.population_size] = courses
+            .map(|crs| self.decoder.encode(&crs));
+        let mut population: [Rated<Chromosome>; CONFIG.population_size] = population
+            .map(|chrom| self.rated(chrom));
 
         let mut i = 0;
-        log!(logger, "Starting the genetic algorithm!");
+        log_fmt!(logger, "Starting the genetic algorithm!");
         while !self.should_terminate() {
             const NUMBER_OF_CHILDREN: usize = CONFIG.population_size * CONFIG.children_per_parent;
 
-            let parents: Vec<_> = (0..NUMBER_OF_CHILDREN)
+            let parents: [_; NUMBER_OF_CHILDREN] = [(); NUMBER_OF_CHILDREN]
                 .into_par_iter()
                 .map(|_| self.select_parents(&population))
-                .collect();
+                .try_collect()?;
 
-            let children: Vec<_> = parents
+            let children: [_; NUMBER_OF_CHILDREN] = parents
                 .into_par_iter()
                 .flat_map_iter(|(parent1, parent2)| {
-                    let (mut child1, mut child2) = if Promile(thread_rng().gen_range(0..=1000))
-                        <= CONFIG.crossover_probability
+                    let (mut child1, mut child2) = if thread_rng().gen_range(0..=1000)
+                        <= CONFIG.crossover_probability.promiles()
                     {
                         self.crossover(parent1.value.to_owned(), parent2.value.to_owned())
                     } else {
@@ -73,16 +69,17 @@ impl Solution {
                     self.mutate(&mut child2);
                     [child1, child2]
                 })
-                .collect();
-            let children: Vec<_> = children
-                .into_iter()
-                .map(|chrom| self.rated(chrom))
-                .collect();
+                .try_collect()?;
 
-            let next_generation: Vec<_> = (0..CONFIG.population_size)
+            let children: [_; NUMBER_OF_CHILDREN] = children
+                .into_par_iter()
+                .map(|chrom| self.rated(chrom))
+                .try_collect()?;
+
+            let next_generation: [_; NUMBER_OF_CHILDREN] = [(); CONFIG.population_size]
                 .into_par_iter()
                 .map(|_| self.select_survivor(&children).to_owned())
-                .collect();
+                .try_collect()?;
             population = next_generation;
 
             if i % LOG_FREQUENCY == 0 {
@@ -91,7 +88,7 @@ impl Solution {
                     iteration: i,
                     best_rating: best.rating,
                 };
-                log!(logger, "{}", iteration);
+                log_fmt!(logger, "{}", iteration);
                 self.leaderboard.iterations.push_front(iteration);
                 if best.rating
                     > self
@@ -108,21 +105,21 @@ impl Solution {
         }
 
         let winner = self.leaderboard.winner.unwrap();
-        log!(
+        log_fmt!(
             logger,
             "Finished running the algorithm! Best result is {}",
             winner.rating
         );
         let decoded = self.decoder.decode(&winner.value);
-        log!(logger, "Generated solution!");
+        log_fmt!(logger, "Generated solution!");
         return Ok(decoded);
     }
 
-    pub fn rate(&mut self, chrom: &Chromosome) -> Rating {
-        fitness_ops::inverse_of_no_class_conflicts(chrom, &mut self.leaderboard)
+    pub fn rate(&self, chrom: &Chromosome) -> Rating {
+        fitness_ops::inverse_of_no_class_conflicts(chrom)
     }
 
-    pub fn rated<T: Borrow<Chromosome>>(&mut self, chrom: T) -> Rated<T> {
+    pub fn rated<T: Borrow<Chromosome>>(&self, chrom: T) -> Rated<T> {
         let rating = self.rate(chrom.borrow());
         Rated {
             value: chrom,
@@ -158,13 +155,13 @@ impl Solution {
     }
 
     pub fn should_terminate(&self) -> bool {
-        const NO_ITERATIONS: usize = 10000;
+        const NUMBER_OF_ITERATIONS: usize = 10000;
         match self.leaderboard.winner.as_ref() {
             Some(&Rated { rating, .. }) if rating == Rating::MAX => return true,
             _ => ()
         }
 
-        self.leaderboard.iterations.front().map(|x| x.iteration).unwrap_or(0) >= NO_ITERATIONS
+        self.leaderboard.iterations.front().map(|x| x.iteration).unwrap_or(0) >= NUMBER_OF_ITERATIONS
     }
 
     pub fn new() -> Self {
