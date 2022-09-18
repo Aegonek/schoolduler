@@ -3,9 +3,14 @@ use std::cmp::Ordering;
 use std::error::Error;
 use std::fs::{self, File};
 use std::io::{BufRead, BufReader};
+use std::sync::Mutex;
+
+// No running tests in this module in parallel.
+static LOCK: Mutex<()> = Mutex::new(());
 
 #[test]
 fn log_succeeds() -> Result<(), Box<dyn Error>> {
+    let _lock = LOCK.lock()?;
     let logger = Logger::new()?;
     log!(logger, "Foobar.");
     drop(logger);
@@ -26,6 +31,7 @@ fn log_succeeds() -> Result<(), Box<dyn Error>> {
 
 #[test]
 fn store_succeeds() -> Result<(), Box<dyn Error>> {
+    let _lock = LOCK.lock()?;
     let logger = Logger::new()?;
     store!(logger, 0, "Foobar.");
     store!(logger, 0, "Barbaz.");

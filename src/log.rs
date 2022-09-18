@@ -162,37 +162,25 @@ impl LogHandle {
     }
 
     pub fn log(&self, msg: String) {
-        self.sender
-            .as_ref()
-            .unwrap()
-            .send(Message::Log(msg))
-            .unwrap();
+        send(self, Message::Log(msg));
         if self.is_poisoned.load(Ordering::Relaxed) {
             panic!()
         }
     }
 
     pub fn store(&self, key: HashCode, msg: String) {
-        self.sender
-            .as_ref()
-            .unwrap()
-            .send(Message::Store(key, msg))
-            .unwrap()
+        send(self, Message::Store(key, msg))
     }
 
     pub fn commit(&self, key: HashCode) {
-        self.sender
-            .as_ref()
-            .unwrap()
-            .send(Message::Commit(key))
-            .unwrap();
+        send(self, Message::Commit(key));
         if self.is_poisoned.load(Ordering::Relaxed) {
             panic!()
         }
     }
 
     pub fn flush(&self) {
-        self.sender.as_ref().unwrap().send(Message::Flush).unwrap()
+        send(self, Message::Flush)
     }
 
     pub fn start_time(&self) -> OffsetDateTime {
@@ -205,6 +193,10 @@ impl Drop for LogHandle {
         drop(self.sender.take().unwrap());
         self.handle.take().unwrap().join().unwrap();
     }
+}
+
+fn send(logger: &LogHandle, msg: Message) {
+    logger.sender.as_ref().unwrap().send(msg).unwrap();
 }
 
 #[macro_export]

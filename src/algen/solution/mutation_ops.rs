@@ -5,14 +5,21 @@ use rand::distributions::Uniform;
 
 use super::*;
 
-// TODO: test
-pub fn creep_mutation(chrom: &mut Chromosome, params: &Params, creep_range: &Range<u16>) {
+pub fn creep_mutation(chrom: &mut Chromosome, params: &Params, creep_range: Range<i16>) {
+    // TODO: avoid creating distribution in every iteration
     let distr = Uniform::new(creep_range.start, creep_range.end);
     for hour in chrom.0.iter_mut().map(|gene| &mut gene.hour) {
-        let rand = Promile(thread_rng().gen_range(0..1000));
-        if rand < params.mutation_probability {
+        let hour: &mut u16 = hour;
+        #[cfg(test)]
+        let rand: u32 = 0; // always mutate
+        #[cfg(not(test))]
+        let rand: u32 = thread_rng().gen_range(0..1000);
+        if rand < params.mutation_probability.promiles() {
+            #[cfg(test)]
+            let creep = creep_range.end;
+            #[cfg(not(test))]
             let creep = distr.sample(&mut thread_rng());
-            *hour = hour.wrapping_add(creep);
+            *hour = hour.saturating_add_signed(creep);
         }
     }
 }
@@ -31,7 +38,7 @@ pub fn invert_bit_mutation(chrom: &mut Chromosome, params: &Params) {
             #[cfg(not(test))]
             let rand = thread_rng().gen_range(0..1000);
             if rand < params.mutation_probability.promiles() {
-                shift += 2_u16.pow(i);
+                shift |= 2_u16.pow(i);
             }
         }
         *hour ^= shift;

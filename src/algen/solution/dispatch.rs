@@ -31,7 +31,8 @@ impl Solution {
         match &self.params.mutation_op {
             InvertBitMutation => mutation_ops::invert_bit_mutation(chrom, &self.params),
             CreepMutation { creep_range } => {
-                mutation_ops::creep_mutation(chrom, &self.params, &creep_range)
+                // mutation_ops::creep_mutation(chrom, &self.params, &creep_range)
+                todo!()
             }
         };
     }
