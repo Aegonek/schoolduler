@@ -18,6 +18,9 @@ rayon = "1.5.*"
 xlsxwriter = "0.4.*"
 clap = { version = "3.2.*", features = ["derive"] }
 
+[build-dependencies]
+serde_yaml = "0.9.*"
+
 [features]
 default = ["debug"]
 debug = []

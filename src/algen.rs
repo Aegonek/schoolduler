@@ -3,6 +3,7 @@ pub mod history;
 pub mod params;
 pub mod random;
 pub mod solution;
+pub mod config;
 
 /// Expecting that we only mutate the hour.
 /// Data necessary to:
