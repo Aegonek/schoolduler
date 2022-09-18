@@ -7,7 +7,6 @@ use crate::{utils::num, algen::Gene};
 mod tests;
 
 // Rating is inverse of number of class conflicts.
-// TODO: make this method not need a decoder.
 pub fn inverse_of_no_class_conflicts(
     chromosome: &Chromosome,
     leaderboard: &mut Leaderboard,

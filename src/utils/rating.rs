@@ -2,9 +2,7 @@
 
 use std::{ops::Mul, fmt::Display};
 
-use derive_more::{Add, Sub};
-
-#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Add, Sub)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord)]
 pub struct Rating(pub u32);
 
 impl Rating {
