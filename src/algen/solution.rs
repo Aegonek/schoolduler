@@ -3,7 +3,7 @@ pub mod fitness_ops;
 pub mod mutation_ops;
 pub mod select_ops;
 
-use crate::exts::parallel_iter::ParallelTryCollect;
+use crate::exts::par_iter::ParallelTryCollect;
 use crate::school::*;
 use rand::prelude::*;
 use rayon::prelude::*;

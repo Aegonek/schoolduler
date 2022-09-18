@@ -1,1 +1,1 @@
-pub mod parallel_iter;
+pub mod par_iter;
