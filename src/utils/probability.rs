@@ -58,3 +58,16 @@ impl Ord for Probability {
         Self::partial_cmp(self, other).unwrap()
     }
 }
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn expected_result_conversion() {
+        use super::Probability::*;
+        
+        let percent = Percent(7);
+        assert_eq!(percent.promiles(), 70);
+        let promile = Promile(20);
+        assert_eq!(promile.percent(), 2);
+    }
+}
