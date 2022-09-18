@@ -4,22 +4,9 @@ use crate::utils::tests::Case;
 
 use super::*;
 
-macro_rules! assert_approx_eq {
-    ($lhs:expr, $rhs:expr, $margin:expr) => {
-        assert!(crate::utils::num::approx_eq(
-            $lhs as f64,
-            $rhs as f64,
-            $margin as f64
-        ))
-    };
-}
-
-pub(crate) use assert_approx_eq;
-
-
 /// 0..=10 -> -1..=0
 #[test]
-fn map_range_gradual() {
+fn expected_values_map_range_gradient() {
     let mapped = (0..=10).map(|x| map_range(x as f64, 0.0..=10.0, -1.0..=0.0));
     let expected = [
         -1.0, -0.9, -0.8, -0.7, -0.6, -0.5, -0.4, -0.3, -0.2, -0.1, -0.0,
@@ -31,7 +18,7 @@ fn map_range_gradual() {
 }
 
 #[test]
-fn map_range_handpicked() {
+fn expected_values_map_range_handpicked() {
     const CASES: [Case<(f64, RangeInclusive<f64>, RangeInclusive<f64>), f64>; 3] = [
         Case {
             payload: (5.0, 0.0..=10.0, -10.0..=10.0),

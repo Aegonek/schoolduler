@@ -7,10 +7,13 @@ use std::io::{self, Write};
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::mpsc::{self, Receiver, RecvError, Sender};
 use std::sync::Arc;
-use std::thread;
+use std::thread::{self, JoinHandle};
 use time::OffsetDateTime;
 
-pub use LogHandle as Logger;
+#[cfg(test)]
+mod tests;
+
+pub type Logger = LogHandle;
 
 type HashCode = u64;
 
@@ -106,7 +109,8 @@ enum Message {
 }
 
 pub struct LogHandle {
-    sender: Sender<Message>,
+    sender: Option<Sender<Message>>,
+    handle: Option<JoinHandle<()>>,
     is_poisoned: Arc<AtomicBool>,
     start_time: OffsetDateTime,
 }
@@ -116,67 +120,90 @@ impl LogHandle {
         let (tx, rx): (Sender<Message>, Receiver<_>) = mpsc::channel();
 
         let start_time = OffsetDateTime::now_local()?;
+        #[cfg(not(test))]
         let path = utils::time::timestamp_path("output/log.txt", start_time);
+        #[cfg(test)]
+        let path = "output/log.txt";
         let file = utils::fs::create_file_all(path)?;
         let is_poisoned = Arc::new(AtomicBool::new(false));
 
+        let handle = {
+            let is_poisoned = is_poisoned.clone();
+            thread::spawn(move || {
+                let mut logger = LoggerImpl::new(file, rx);
+                loop {
+                    match logger.receive() {
+                        Ok(_) => (),
+                        Err(err) => match err {
+                            LoggerError::SenderDisconnected => {
+                                logger
+                                    .log("Disposing the logger...".to_string())
+                                    .expect("Unexpected error: filesystem error!");
+                                return;
+                            }
+                            err @ LoggerError::FileSystemError(_) => {
+                                is_poisoned.store(true, Ordering::SeqCst);
+                                eprintln!("Unexpected error: fatal logger error! {err}");
+                                panic!();
+                            }
+                        },
+                    }
+                }
+            })
+        };
         let logger = LogHandle {
-            sender: tx,
-            is_poisoned: is_poisoned.clone(),
+            sender: Some(tx),
+            handle: Some(handle),
+            is_poisoned,
             start_time,
         };
-
-        let _ = thread::spawn(move || {
-            let mut logger = LoggerImpl::new(file, rx);
-            let is_poisoned = is_poisoned;
-            loop {
-                match logger.receive() {
-                    Ok(_) => (),
-                    Err(err) => match err {
-                        LoggerError::SenderDisconnected => {
-                            logger
-                                .log("Disposing the logger...".to_string())
-                                .expect("Unexpected error: filesystem error!");
-                            return;
-                        }
-                        // This error won't propagate to main thread, which is a bit yikes.
-                        err @ LoggerError::FileSystemError(_) => {
-                            is_poisoned.store(true, Ordering::SeqCst);
-                            eprintln!("Unexpected error: fatal logger error! {err}");
-                            panic!();
-                        }
-                    },
-                }
-            }
-        });
 
         Ok(logger)
     }
 
-    pub fn log(&mut self, msg: String) {
-        self.sender.send(Message::Log(msg)).unwrap();
+    pub fn log(&self, msg: String) {
+        self.sender
+            .as_ref()
+            .unwrap()
+            .send(Message::Log(msg))
+            .unwrap();
         if self.is_poisoned.load(Ordering::Relaxed) {
             panic!()
         }
     }
 
-    pub fn store(&mut self, key: HashCode, msg: String) {
-        self.sender.send(Message::Store(key, msg)).unwrap()
+    pub fn store(&self, key: HashCode, msg: String) {
+        self.sender
+            .as_ref()
+            .unwrap()
+            .send(Message::Store(key, msg))
+            .unwrap()
     }
 
-    pub fn commit(&mut self, key: HashCode) {
-        self.sender.send(Message::Commit(key)).unwrap();
+    pub fn commit(&self, key: HashCode) {
+        self.sender
+            .as_ref()
+            .unwrap()
+            .send(Message::Commit(key))
+            .unwrap();
         if self.is_poisoned.load(Ordering::Relaxed) {
             panic!()
         }
     }
 
-    pub fn flush(&mut self) {
-        self.sender.send(Message::Flush).unwrap()
+    pub fn flush(&self) {
+        self.sender.as_ref().unwrap().send(Message::Flush).unwrap()
     }
 
     pub fn start_time(&self) -> OffsetDateTime {
         self.start_time
+    }
+}
+
+impl Drop for LogHandle {
+    fn drop(&mut self) {
+        drop(self.sender.take().unwrap());
+        self.handle.take().unwrap().join().unwrap();
     }
 }
 
@@ -195,5 +222,3 @@ macro_rules! store {
 }
 
 pub use {log, store};
-
-// TODO: test

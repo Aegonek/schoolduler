@@ -5,7 +5,7 @@ use crate::utils::tests::Case;
 use serde_json;
 
 #[test]
-fn deserialization_works() -> Result<(), Box<dyn Error>> {
+fn deserialization_succeeds() -> Result<(), Box<dyn Error>> {
     let raw = include_str!("../../debug/courses.json");
     let _courses: Vec<Course> = serde_json::from_str(raw)?;
     return Ok(());
