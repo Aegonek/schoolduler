@@ -2,7 +2,7 @@ use std::{error::Error, fs};
 
 use clap::Parser;
 
-use crate::{algen::params::Params, school::*, log::{log, LogHandle}};
+use crate::{algen::params::Params, school::*, log::{log, Logger}};
 
 #[derive(Parser, Debug)]
 pub struct Args {
@@ -17,7 +17,7 @@ pub struct Args {
 }
 
 impl Args {
-    pub fn params(&self, logger: &mut LogHandle) -> Result<Params, Box<dyn Error>> {
+    pub fn params(&self, logger: &mut Logger) -> Result<Params, Box<dyn Error>> {
         match &self.params {
             Some(path) => {
                 log!(logger, "Loading algorithm parameters from file {}...", path);
@@ -35,7 +35,7 @@ impl Args {
         }
     }
     
-    pub fn requirements(&self, logger: &mut LogHandle) -> Result<Requirements, Box<dyn Error>> {
+    pub fn requirements(&self, logger: &mut Logger) -> Result<Requirements, Box<dyn Error>> {
         #[cfg(feature = "debug")]
         match &self.requirements {
             Some(path) => {

@@ -5,11 +5,11 @@ use clap::Parser;
 use schoolduler::args::Args;
 use schoolduler::algen::solution::Solution;
 use schoolduler::school::*;
-use schoolduler::log::{log, LogHandle};
+use schoolduler::log::{log, Logger};
 use schoolduler::xlsx;
 
 fn main() -> Result<(), Box<dyn Error>> {
-    let mut logger = LogHandle::new()?;
+    let mut logger = Logger::new()?;
     let args = Args::parse();
     log!(logger, "Starting the application at {}", logger.start_time());
 

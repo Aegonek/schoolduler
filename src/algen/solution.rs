@@ -15,7 +15,7 @@ use super::history::{Iteration, Leaderboard};
 use super::params::*;
 use super::random;
 use super::Chromosome;
-use crate::log::{log, LogHandle};
+use crate::log::{log, Logger};
 use crate::utils::rating::{Rated, Rating};
 use crate::utils::probability::Probability::Promile;
 
@@ -29,7 +29,7 @@ impl Solution {
     pub fn run(
         mut self,
         requirements: &Requirements,
-        logger: &mut LogHandle,
+        logger: &mut Logger,
     ) -> Result<Schedule, Box<dyn Error>> {
         log!(logger, "Generating solution...");
 

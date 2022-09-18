@@ -1,14 +1,14 @@
 use crate::utils;
 use std::collections::HashMap;
+use std::error::Error;
 use std::fmt::Display;
 use std::fs::File;
 use std::io::{self, Write};
-use std::sync::Arc;
 use std::sync::atomic::{AtomicBool, Ordering};
-use std::sync::mpsc::{self, Receiver, Sender, RecvError};
+use std::sync::mpsc::{self, Receiver, RecvError, Sender};
+use std::sync::Arc;
 use std::thread;
 use time::OffsetDateTime;
-use std::error::Error;
 
 pub use LogHandle as Logger;
 
@@ -23,7 +23,7 @@ struct LoggerImpl {
 #[derive(Debug)]
 enum LoggerError {
     SenderDisconnected,
-    FileSystemError(io::Error)
+    FileSystemError(io::Error),
 }
 
 impl Display for LoggerError {
@@ -51,7 +51,7 @@ impl LoggerImpl {
         LoggerImpl {
             file,
             receiver,
-            store: HashMap::new()
+            store: HashMap::new(),
         }
     }
 
@@ -62,7 +62,7 @@ impl LoggerImpl {
             Log(msg) => self.log(msg)?,
             Store(key, msg) => self.store(key, msg),
             Commit(key) => self.commit(key)?,
-            Flush => self.flush()
+            Flush => self.flush(),
         }
         Ok(())
     }
@@ -108,7 +108,7 @@ enum Message {
 pub struct LogHandle {
     sender: Sender<Message>,
     is_poisoned: Arc<AtomicBool>,
-    start_time: OffsetDateTime
+    start_time: OffsetDateTime,
 }
 
 impl LogHandle {
@@ -123,7 +123,7 @@ impl LogHandle {
         let logger = LogHandle {
             sender: tx,
             is_poisoned: is_poisoned.clone(),
-            start_time
+            start_time,
         };
 
         let _ = thread::spawn(move || {
@@ -134,21 +134,22 @@ impl LogHandle {
                     Ok(_) => (),
                     Err(err) => match err {
                         LoggerError::SenderDisconnected => {
-                            logger.log("Disposing the logger...".to_string()).expect("Unexpected error: filesystem error!");
+                            logger
+                                .log("Disposing the logger...".to_string())
+                                .expect("Unexpected error: filesystem error!");
                             return;
-                        },
+                        }
                         // This error won't propagate to main thread, which is a bit yikes.
                         err @ LoggerError::FileSystemError(_) => {
                             is_poisoned.store(true, Ordering::SeqCst);
                             eprintln!("Unexpected error: fatal logger error! {err}");
                             panic!();
-                        } 
-                    }
+                        }
+                    },
                 }
             }
         });
 
-        
         Ok(logger)
     }
 
@@ -174,7 +175,9 @@ impl LogHandle {
         self.sender.send(Message::Flush).unwrap()
     }
 
-    pub fn start_time(&self) -> OffsetDateTime { self.start_time }
+    pub fn start_time(&self) -> OffsetDateTime {
+        self.start_time
+    }
 }
 
 #[macro_export]
@@ -190,7 +193,6 @@ macro_rules! store {
             $logger.store($key, format!($($x)*))
     };
 }
-
 
 pub use {log, store};
 
