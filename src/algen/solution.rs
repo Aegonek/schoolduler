@@ -42,7 +42,9 @@ impl Solution {
         let population: [Chromosome; CONFIG.population_size] = courses
             .map(|crs| self.decoder.encode(&crs));
         let mut population: [Rated<Chromosome>; CONFIG.population_size] = population
-            .map(|chrom| self.rated(chrom));
+            .into_par_iter()
+            .map(|chrom| self.rated(chrom))
+            .try_collect()?;
 
         let mut i = 0;
         info!(logger, "Starting the genetic algorithm!");
@@ -130,7 +132,7 @@ impl Solution {
     pub fn mutate(&self, chrom: &mut Chromosome) {
         // TODO: remove config as a param.
         // TODO: switch to creep mutation. After fixing compilation errors.
-        mutation_ops::invert_bit_mutation(chrom, &config::CONFIG)
+        mutation_ops::creep_mutation(chrom)
     }
 
     // Assuming always 2 parents and always 2 children during one crossover.
