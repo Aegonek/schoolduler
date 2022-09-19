@@ -1,6 +1,6 @@
 // Compared by ratings. Greater ratings are better than smaller.
 
-use std::{ops::{Mul, Div}, fmt::Display};
+use std::{ops::{Mul, Div}, fmt::{Debug, Display}};
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord)]
 pub struct Rating(u32);
@@ -74,10 +74,16 @@ impl Display for Rating {
     }
 }
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct Rated<T> {
     pub value: T,
     pub rating: Rating,
+}
+
+impl<T: Debug + Display> Display for Rated<T> {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{self:?}")
+    }
 }
 
 impl<T: Copy> Copy for Rated<T> {}
