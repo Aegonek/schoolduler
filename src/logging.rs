@@ -44,4 +44,4 @@ pub type Logger = handle::LogHandle;
 
 pub type HashCode = u64;
 
-pub use handle::{info, store};
+pub use handle::{info, warning, error, store};

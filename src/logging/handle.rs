@@ -154,4 +154,4 @@ macro_rules! store {
     };
 }
 
-pub use {info, store};
+pub use {info, warning, error, store};
