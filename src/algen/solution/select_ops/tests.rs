@@ -7,6 +7,7 @@ pub static mut RANDOM: u64 = 0;
 #[test]
 fn expected_result_roulette_selection() {
     let population = [
+        // TODO: add nice API for this to `utils::tests`
         Rated::new(chromosome!(0, 24, 67, 89), Rating::new(25)),
         Rated::new(chromosome!(50, 254, 23, 45), Rating::new(75)),
         Rated::new(chromosome!(7, 8, 14, 6), Rating::new(40)),

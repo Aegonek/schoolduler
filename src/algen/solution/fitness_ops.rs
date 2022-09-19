@@ -1,7 +1,9 @@
+use std::cmp;
+
 use itertools::Itertools;
 
 use super::*;
-use crate::{utils::num, algen::Gene};
+use crate::{utils, algen::Gene};
 
 #[cfg(test)]
 mod tests;
@@ -10,34 +12,25 @@ mod tests;
 pub fn inverse_of_no_class_conflicts(
     chromosome: &Chromosome
 ) -> Rating {
-    let leaderboard: &mut Leaderboard = todo!();
     let lessons = &chromosome.0;
 
     let teacher_overlaps = teacher_overlaps(&lessons);
-    if teacher_overlaps > leaderboard.max_teacher_overlaps {
-        leaderboard.max_teacher_overlaps = teacher_overlaps;
-    }
-    let teacher_score = match leaderboard.max_teacher_overlaps {
-        0 => 1.0,
-        max => num::map_range(teacher_overlaps as f64, 0.0..=(max as f64), 1.0..=0.0),
-    };
+    let mut teacher_score = 2_u32.pow(teacher_overlaps);
+    teacher_score = cmp::min(teacher_score, u32::MAX);
+    let teacher_score = utils::num::map_range(teacher_score, 0..=u32::MAX, 1..=0);
 
     let group_overlaps = group_overlaps(&lessons);
-    if group_overlaps > leaderboard.max_group_overlaps {
-        leaderboard.max_group_overlaps = group_overlaps;
-    }
-    let group_score = match leaderboard.max_group_overlaps {
-        0 => 1.0,
-        max => num::map_range(group_overlaps as f64, 0.0..=(max as f64), 1.0..=0.0),
-    };
+    let mut group_score = 2_u32.pow(group_overlaps);
+    group_score = 2_u32.pow(group_score);
+    let group_score = utils::num::map_range(group_score, 0..=u32::MAX, 1..=0);
 
     Rating::MAX * ((teacher_score + group_score) / 2.0)
 }
 
 // If one student group has 3 classes scheduled for same hour, it counts as 2 conflicts.
 // Number of conflicts at hour `x` = number of lessons scheduled for `x` - 1
-fn teacher_overlaps(lessons: &[Gene]) -> usize {
-    let mut conflicts: usize = 0;
+fn teacher_overlaps(lessons: &[Gene]) -> u32 {
+    let mut conflicts: u32 = 0;
 
     let teachers = lessons
         .into_iter()
@@ -47,15 +40,15 @@ fn teacher_overlaps(lessons: &[Gene]) -> usize {
         let hours = teacher.into_iter().into_group_map_by(|cls| cls.hour);
 
         for duplicates in hours.values().filter(|xs| xs.len() > 1) {
-            conflicts += duplicates.len() - 1
+            conflicts += (duplicates.len() - 1) as u32
         }
     }
 
     conflicts
 }
 
-fn group_overlaps(lessons: &[Gene]) -> usize {
-    let mut conflicts: usize = 0;
+fn group_overlaps(lessons: &[Gene]) -> u32 {
+    let mut conflicts: u32 = 0;
 
     let groups = lessons
         .into_iter()
@@ -65,7 +58,7 @@ fn group_overlaps(lessons: &[Gene]) -> usize {
         let hours = group.into_iter().into_group_map_by(|cls| cls.hour);
 
         for duplicates in hours.values().filter(|xs| xs.len() > 1) {
-            conflicts += duplicates.len() - 1
+            conflicts += (duplicates.len() - 1) as u32
         }
     }
 
