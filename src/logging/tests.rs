@@ -1,4 +1,6 @@
-use super::{log_fmt, store_fmt, Logger};
+use crate::logging::comm::Severity;
+
+use super::{info, store, Logger};
 use std::cmp::Ordering;
 use std::error::Error;
 use std::fs::{self, File};
@@ -12,7 +14,7 @@ static LOCK: Mutex<()> = Mutex::new(());
 fn log_succeeds() -> Result<(), Box<dyn Error>> {
     let _lock = LOCK.lock()?;
     let logger = Logger::new()?;
-    log_fmt!(logger, "Foobar.");
+    info!(logger, "Foobar.");
     drop(logger);
     const PATH: &str = "output/log.txt";
     let file = File::open(PATH)?;
@@ -33,9 +35,9 @@ fn log_succeeds() -> Result<(), Box<dyn Error>> {
 fn store_succeeds() -> Result<(), Box<dyn Error>> {
     let _lock = LOCK.lock()?;
     let logger = Logger::new()?;
-    store_fmt!(logger, 0, "Foobar.");
-    store_fmt!(logger, 0, "Barbaz.");
-    store_fmt!(logger, 1, "Bazinga.");
+    store!(logger, 0, Severity::Info, "Foobar.");
+    store!(logger, 0, Severity::Info, "Barbaz.");
+    store!(logger, 1, Severity::Info, "Bazinga.");
     logger.commit(0);
     logger.flush();
     drop(logger);

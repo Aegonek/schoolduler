@@ -8,17 +8,17 @@ use xlsxwriter::WorksheetCol;
 use xlsxwriter::WorksheetRow;
 use xlsxwriter::XlsxError;
 
-use crate::log::logger;
-use crate::log::log_fmt;
+use crate::logging::logger;
+use crate::logging::info;
 use crate::school::Schedule;
 use crate::utils::time;
 
 pub fn save_schedule(schedule: &Schedule) -> Result<(), Box<dyn Error>> {
     let logger = logger();
-    log_fmt!(logger, "Saving schedule to .xlsx files...");
+    info!(logger, "Saving schedule to .xlsx files...");
     write_by_student_group_sheet(schedule)?;
     write_by_teachers_sheet(schedule)?;
-    log_fmt!(logger, "Finished saving schedules.");
+    info!(logger, "Finished saving schedules.");
     Ok(())
 }
 

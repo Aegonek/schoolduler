@@ -2,7 +2,7 @@ use std::{error::Error, fs};
 
 use clap::Parser;
 
-use crate::{school::*, logging::{logger, log_fmt}};
+use crate::{school::*, logging::{logger, info}};
 
 // TODO: App description and usage.
 #[derive(Parser, Debug)]
@@ -20,13 +20,13 @@ impl Args {
         #[cfg(feature = "debug")]
         match &self.requirements {
             Some(path) => {
-                log_fmt!(logger, "Loading requirements from file {}...", path);
+                info!(logger, "Loading requirements from file {}...", path);
                 let raw = String::from_utf8(fs::read(path)?)?;
                 let de = serde_json::from_str(&raw)?;
                 Ok(de)
             }
             None => {
-                log_fmt!(logger, "Debug mode: using example requirements.");
+                info!(logger, "Debug mode: using example requirements.");
                 const RAW: &'static str = include_str!(r"../debug/courses.json");
                 let de = serde_json::from_str(&RAW)?;
                 Ok(de)
@@ -35,7 +35,7 @@ impl Args {
 
         #[cfg(not(feature = "debug"))]
         {
-            log_fmt!(logger, "Loading requirements from file {}...", &self.requirements);
+            info!(logger, "Loading requirements from file {}...", &self.requirements);
             let raw = String::from_utf8(fs::read(&self.requirements)?)?;
             let de = serde_json::from_str(&raw)?;
             Ok(de)

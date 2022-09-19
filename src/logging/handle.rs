@@ -6,7 +6,7 @@ use std::sync::Arc;
 use std::thread::{self, JoinHandle};
 use time::OffsetDateTime;
 
-use super::comm::{LoggerError, Message};
+use super::comm::{LoggerError, Message, Severity};
 use super::logger::LoggerImpl;
 use super::HashCode;
 
@@ -41,7 +41,7 @@ impl LogHandle {
                         Err(err) => match err {
                             LoggerError::SenderDisconnected => {
                                 logger
-                                    .log("Disposing the logger...".to_string())
+                                    .info("Disposing the logger...")
                                     .expect("Unexpected error: filesystem error!");
                                 return;
                             }
@@ -65,15 +65,32 @@ impl LogHandle {
         Ok(logger)
     }
 
-    pub fn log<T: ToOwned<Owned = String>>(&self, msg: T) {
-        send(self, Message::Log(msg.to_owned()));
+    pub fn info<T: ToOwned<Owned = String>>(&self, msg: T) {
+        send(self, Message::Log(Severity::Info, msg.to_owned()));
         if self.is_poisoned.load(Ordering::Relaxed) {
             panic!()
         }
     }
 
-    pub fn store<T: ToOwned<Owned = String>>(&self, key: HashCode, msg: T) {
-        send(self, Message::Store(key, msg.to_owned()))
+    pub fn warning<T: ToOwned<Owned = String>>(&self, msg: T) {
+        send(self, Message::Log(Severity::Warning, msg.to_owned()));
+        if self.is_poisoned.load(Ordering::Relaxed) {
+            panic!()
+        }
+    }
+
+    pub fn error<T: ToOwned<Owned = String>>(&self, msg: T) {
+        send(self, Message::Log(Severity::Error, msg.to_owned()));
+        if self.is_poisoned.load(Ordering::Relaxed) {
+            panic!()
+        }
+    }
+
+    pub fn store<T: ToOwned<Owned = String>>(&self, key: HashCode, severity: Severity, msg: T) {
+        send(self, Message::Store(key, (severity, msg.to_owned())));
+        if self.is_poisoned.load(Ordering::Relaxed) {
+            panic!()
+        }
     }
 
     pub fn commit(&self, key: HashCode) {
@@ -115,17 +132,31 @@ fn send(logger: &LogHandle, msg: Message) {
 }
 
 #[macro_export]
-macro_rules! log {
+macro_rules! info {
     ($logger:expr, $($x:tt)*) => {
-            $logger.log(format!($($x)*))
+            $logger.info(format!($($x)*))
+    };
+}
+
+#[macro_export]
+macro_rules! warning {
+    ($logger:expr, $($x:tt)*) => {
+            $logger.warning(format!($($x)*))
+    };
+}
+
+#[macro_export]
+macro_rules! error {
+    ($logger:expr, $($x:tt)*) => {
+            $logger.error(format!($($x)*))
     };
 }
 
 #[macro_export]
 macro_rules! store {
-    ($logger:expr, $key:expr, $($x:tt)*) => {
-            $logger.store($key, format!($($x)*))
+    ($logger:expr, $key:expr, $severity:expr, $($x:tt)*) => {
+            $logger.store($key, $severity, format!($($x)*))
     };
 }
 
-pub use {log, store};
+pub use {info, store};

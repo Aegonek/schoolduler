@@ -16,7 +16,7 @@ use super::encoding::Decoder;
 use super::history::{Iteration, Leaderboard};
 use super::random;
 use super::Chromosome;
-use crate::log::{log_fmt, logger};
+use crate::logging::{info, logger};
 use crate::utils::rating::{Rated, Rating};
 
 pub struct Solution {
@@ -32,20 +32,20 @@ impl Solution {
         const CONFIG: Config = config::CONFIG;
         const LOG_FREQUENCY: usize = 10;
         let logger = logger();
-        log_fmt!(logger, "Generating solution...");
+        info!(logger, "Generating solution...");
 
-        log_fmt!(logger, "Generating random schedules...");
+        info!(logger, "Generating random schedules...");
         let courses: [Schedule; CONFIG.population_size] = [(); CONFIG.population_size]
             .map(|_| random::random_schedule(requirements));
 
-            log_fmt!(logger, "Encoding and rating initial schedules...");
+            info!(logger, "Encoding and rating initial schedules...");
         let population: [Chromosome; CONFIG.population_size] = courses
             .map(|crs| self.decoder.encode(&crs));
         let mut population: [Rated<Chromosome>; CONFIG.population_size] = population
             .map(|chrom| self.rated(chrom));
 
         let mut i = 0;
-        log_fmt!(logger, "Starting the genetic algorithm!");
+        info!(logger, "Starting the genetic algorithm!");
         while !self.should_terminate() {
             const NUMBER_OF_CHILDREN: usize = CONFIG.population_size * CONFIG.children_per_parent;
 
@@ -88,7 +88,7 @@ impl Solution {
                     iteration: i,
                     best_rating: best.rating,
                 };
-                log_fmt!(logger, "{}", iteration);
+                info!(logger, "{}", iteration);
                 self.leaderboard.iterations.push_front(iteration);
                 if best.rating
                     > self
@@ -105,13 +105,13 @@ impl Solution {
         }
 
         let winner = self.leaderboard.winner.unwrap();
-        log_fmt!(
+        info!(
             logger,
             "Finished running the algorithm! Best result is {}",
             winner.rating
         );
         let decoded = self.decoder.decode(&winner.value);
-        log_fmt!(logger, "Generated solution!");
+        info!(logger, "Generated solution!");
         return Ok(decoded);
     }
 
