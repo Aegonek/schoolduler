@@ -1,4 +1,4 @@
-use crate::algen::{Chromosome, Gene};
+use crate::utils::tests::*;
 
 pub static mut CREEP: i16 = 0;
 
@@ -27,26 +27,5 @@ fn expected_results_creep_mutation() {
         assert_eq!(hours, vec![0, 4, 107, 30, u16::MIN, u16::MAX - 20])
     }
 }
-
-#[allow(unused)]
-fn gene(hour: u16) -> Gene {
-    Gene {
-        hour,
-        teacher: 0,
-        student_group: 0
-    }
-}
-
-fn hours(chrom: Chromosome) -> Vec<u16> {
-    chrom.0.into_iter().map(|chrom| chrom.hour).collect()
-}
-
-macro_rules! chromosome {
-    ($($x:expr), *) => {
-        Chromosome(vec![$(gene($x), )*])
-    };
-}
-
-pub(self) use chromosome;
 
 use super::{invert_bit_mutation, creep_mutation};

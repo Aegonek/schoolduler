@@ -140,6 +140,7 @@ impl Solution {
         crossover_ops::one_point_crossover(x, y)
     }
 
+    // TODO: fix lifetime and type of chromosome
     pub fn select_parents<'a>(
         &self,
         population: &'a [Rated<Chromosome>],
