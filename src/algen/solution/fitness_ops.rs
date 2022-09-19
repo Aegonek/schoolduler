@@ -21,6 +21,7 @@ pub fn inverse_of_no_class_conflicts(
 
     let teacher_overlaps = teacher_overlaps(&lessons);
     store!(logger, hash, Severity::Info, "Number of overlapping lessons for teachers: {teacher_overlaps}");
+    // TODO: fix panic on overlap
     let mut teacher_score = 2_u32.pow(teacher_overlaps);
     teacher_score = cmp::min(teacher_score, u32::MAX);
     let teacher_score = utils::num::map_range(teacher_score, 0..=u32::MAX, 1..=0);
