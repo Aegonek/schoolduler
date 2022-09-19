@@ -5,6 +5,7 @@ pub mod select_ops;
 
 use crate::exts::par_iter::ParallelTryCollect;
 use crate::school::*;
+use crate::utils::hash::HashCode;
 use rand::prelude::*;
 use rayon::prelude::*;
 use std::borrow::Borrow;
@@ -91,6 +92,9 @@ impl Solution {
                     best_rating: best.rating,
                 };
                 info!(logger, "{}", iteration);
+                info!(logger, "Logging detailed info from rating winning chromosome...");
+                logger.commit(best.value.hash_code());
+                logger.flush();
                 self.leaderboard.iterations.push_front(iteration);
                 if best.rating
                     > self

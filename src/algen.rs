@@ -8,7 +8,7 @@ pub mod config;
 /// Data necessary to:
 /// 1. decode the lesson with Decoder that encoded that data
 /// 2. efficiently rate fitness
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, Hash)]
 pub struct Gene {
     pub hour: u16,
     pub teacher: u16,
@@ -16,5 +16,5 @@ pub struct Gene {
 }
 
 // Index of Gene in chromosome represents course for which we are assigning.
-#[derive(Debug, Default, Clone)]
+#[derive(Debug, Default, Clone, Hash)]
 pub struct Chromosome(pub Vec<Gene>);

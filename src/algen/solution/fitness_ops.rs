@@ -3,7 +3,10 @@ use std::cmp;
 use itertools::Itertools;
 
 use super::*;
+use crate::logging::comm::Severity;
+use crate::utils::hash::HashCode;
 use crate::{utils, algen::Gene};
+use crate::logging::store;
 
 #[cfg(test)]
 mod tests;
@@ -12,14 +15,18 @@ mod tests;
 pub fn inverse_of_no_class_conflicts(
     chromosome: &Chromosome
 ) -> Rating {
+    let logger = logger();
+    let hash = chromosome.hash_code();
     let lessons = &chromosome.0;
 
     let teacher_overlaps = teacher_overlaps(&lessons);
+    store!(logger, hash, Severity::Info, "Number of overlapping lessons for teachers: {teacher_overlaps}");
     let mut teacher_score = 2_u32.pow(teacher_overlaps);
     teacher_score = cmp::min(teacher_score, u32::MAX);
     let teacher_score = utils::num::map_range(teacher_score, 0..=u32::MAX, 1..=0);
 
     let group_overlaps = group_overlaps(&lessons);
+    store!(logger, hash, Severity::Info, "Number of overlapping lessons for groups: {group_overlaps}");
     let mut group_score = 2_u32.pow(group_overlaps);
     group_score = 2_u32.pow(group_score);
     let group_score = utils::num::map_range(group_score, 0..=u32::MAX, 1..=0);

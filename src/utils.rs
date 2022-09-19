@@ -5,4 +5,5 @@ pub mod probability;
 pub mod tests;
 pub mod time;
 pub mod error;
+pub mod hash;
 pub mod fs;

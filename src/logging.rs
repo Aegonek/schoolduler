@@ -3,9 +3,9 @@ use once_cell::sync::OnceCell;
 use std::error::Error;
 use std::sync::Mutex;
 
-mod comm;
+pub mod comm;
 mod logger;
-mod handle;
+pub mod handle;
 #[cfg(test)]
 mod tests;
 
