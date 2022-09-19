@@ -2,7 +2,7 @@ use std::{error::Error, fs};
 
 use clap::Parser;
 
-use crate::{school::*, log::{logger, log_fmt}};
+use crate::{school::*, logging::{logger, log_fmt}};
 
 // TODO: App description and usage.
 #[derive(Parser, Debug)]
@@ -27,7 +27,7 @@ impl Args {
             }
             None => {
                 log_fmt!(logger, "Debug mode: using example requirements.");
-                const RAW: &'static str = include_str!(r"..\debug\courses.json");
+                const RAW: &'static str = include_str!(r"../debug/courses.json");
                 let de = serde_json::from_str(&RAW)?;
                 Ok(de)
             }
