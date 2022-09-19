@@ -65,27 +65,27 @@ impl LogHandle {
         Ok(logger)
     }
 
-    pub fn info<T: ToOwned<Owned = String>>(&self, msg: T) {
-        self.log(Severity::Info, msg.to_owned())
+    pub fn info<T: ToString>(&self, msg: T) {
+        self.log(Severity::Info, msg.to_string())
     }
 
-    pub fn warning<T: ToOwned<Owned = String>>(&self, msg: T) {
-        self.log(Severity::Warning, msg.to_owned())
+    pub fn warning<T: ToString>(&self, msg: T) {
+        self.log(Severity::Warning, msg.to_string())
     }
 
-    pub fn error<T: ToOwned<Owned = String>>(&self, msg: T) {
-        self.log(Severity::Error, msg.to_owned())
+    pub fn error<T: ToString>(&self, msg: T) {
+        self.log(Severity::Error, msg.to_string())
     }
 
-    fn log<T: ToOwned<Owned = String>>(&self, severity: Severity, msg: T) {
-        send(self, Message::Log(severity, msg.to_owned()));
+    fn log<T: ToString>(&self, severity: Severity, msg: T) {
+        send(self, Message::Log(severity, msg.to_string()));
         if self.is_poisoned.load(Ordering::Relaxed) {
             panic!()
         }
     }
 
-    pub fn store<T: ToOwned<Owned = String>>(&self, key: HashCode, severity: Severity, msg: T) {
-        send(self, Message::Store(key, (severity, msg.to_owned())));
+    pub fn store<T: ToString>(&self, key: HashCode, severity: Severity, msg: T) {
+        send(self, Message::Store(key, (severity, msg.to_string())));
     }
 
     pub fn commit(&self, key: HashCode) {

@@ -21,23 +21,30 @@ pub fn logger() -> Logger {
     logger
 }
 
-pub fn init_logger() -> Result<(), Box<dyn Error>> {
+pub fn init_logger() -> Result<LoggerScope, Box<dyn Error>> {
     let logger = Logger::new()?;
     unsafe {
         LOGGER
             .set(Mutex::new(logger))
             .map_err(|_| utils::error::custom("Unexpected error: logger already initialized!"))
     }?;
-    Ok(())
+    Ok(LoggerScope)
 }
 
-pub fn deinit_logger() -> Result<(), Box<dyn Error>> {
+fn deinit_logger() -> Result<(), Box<dyn Error>> {
     let mutex = unsafe { LOGGER.take() }.ok_or(utils::error::custom(
         "Unexpected error: uninitialized logger!",
     ))?;
     let logger = mutex.into_inner()?;
     drop(logger);
     Ok(())
+}
+
+pub struct LoggerScope;
+impl Drop for LoggerScope {
+    fn drop(&mut self) {
+        deinit_logger().unwrap()
+    }
 }
 
 pub type Logger = handle::LogHandle;
