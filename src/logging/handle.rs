@@ -23,7 +23,7 @@ impl LogHandle {
     pub fn new() -> Result<Self, Box<dyn Error>> {
         let (tx, rx): (Sender<Message>, Receiver<_>) = mpsc::channel();
 
-        let start_time = OffsetDateTime::now_local()?;
+        let start_time = OffsetDateTime::now_local().unwrap_or_else(|_| OffsetDateTime::now_utc());
         #[cfg(not(test))]
         let path = utils::time::timestamp_path("output/log.txt", start_time);
         #[cfg(test)]
@@ -41,7 +41,7 @@ impl LogHandle {
                         Err(err) => match err {
                             LoggerError::SenderDisconnected => {
                                 logger
-                                    .info("Disposing the logger...")
+                                    .info("Disposing the logger...".to_string())
                                     .expect("Unexpected error: filesystem error!");
                                 return;
                             }
@@ -66,21 +66,19 @@ impl LogHandle {
     }
 
     pub fn info<T: ToOwned<Owned = String>>(&self, msg: T) {
-        send(self, Message::Log(Severity::Info, msg.to_owned()));
-        if self.is_poisoned.load(Ordering::Relaxed) {
-            panic!()
-        }
+        self.log(Severity::Info, msg.to_owned())
     }
 
     pub fn warning<T: ToOwned<Owned = String>>(&self, msg: T) {
-        send(self, Message::Log(Severity::Warning, msg.to_owned()));
-        if self.is_poisoned.load(Ordering::Relaxed) {
-            panic!()
-        }
+        self.log(Severity::Warning, msg.to_owned())
     }
 
     pub fn error<T: ToOwned<Owned = String>>(&self, msg: T) {
-        send(self, Message::Log(Severity::Error, msg.to_owned()));
+        self.log(Severity::Error, msg.to_owned())
+    }
+
+    fn log<T: ToOwned<Owned = String>>(&self, severity: Severity, msg: T) {
+        send(self, Message::Log(severity, msg.to_owned()));
         if self.is_poisoned.load(Ordering::Relaxed) {
             panic!()
         }
@@ -88,9 +86,6 @@ impl LogHandle {
 
     pub fn store<T: ToOwned<Owned = String>>(&self, key: HashCode, severity: Severity, msg: T) {
         send(self, Message::Store(key, (severity, msg.to_owned())));
-        if self.is_poisoned.load(Ordering::Relaxed) {
-            panic!()
-        }
     }
 
     pub fn commit(&self, key: HashCode) {
