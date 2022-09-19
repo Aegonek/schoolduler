@@ -9,7 +9,7 @@ where
 }
 
 #[allow(unused)]
-pub fn gene(hour: u16) -> Gene {
+pub fn new_gene(hour: u16) -> Gene {
     Gene {
         hour,
         teacher: 0,
@@ -23,7 +23,7 @@ pub fn hours(chrom: Chromosome) -> Vec<u16> {
 
 macro_rules! chromosome {
     ($($x:expr), *) => {
-        crate::algen::Chromosome(vec![$(crate::utils::tests::gene($x), )*])
+        crate::algen::Chromosome(vec![$(crate::utils::tests::new_gene($x), )*])
     };
 }
 

@@ -34,19 +34,19 @@ fn expected_rating() {
     let sched4 = dec4.encode(&sched4);
 
     assert_eq!(
-        inverse_of_no_class_conflicts(&sched1).0,
+        inverse_of_no_class_conflicts(&sched1).value(),
         500_000
     );
     assert_eq!(
-        inverse_of_no_class_conflicts(&sched2).0,
+        inverse_of_no_class_conflicts(&sched2).value(),
         0
     );
     assert_eq!(
-        inverse_of_no_class_conflicts(&sched3).0,
+        inverse_of_no_class_conflicts(&sched3).value(),
         1_000_000
     );
     assert_approx_eq!(
-        inverse_of_no_class_conflicts(&sched4).0,
+        inverse_of_no_class_conflicts(&sched4).value(),
         575_000,
         10
     );

@@ -1,13 +1,41 @@
 // Compared by ratings. Greater ratings are better than smaller.
 
-use std::{ops::Mul, fmt::Display};
+use std::{ops::{Mul, Div}, fmt::Display};
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord)]
-pub struct Rating(pub u32);
+pub struct Rating(u32);
 
 impl Rating {
     pub const MIN: Rating = Rating(0);
     pub const MAX: Rating = Rating(1_000_000);
+
+    pub const fn new(value: u32) -> Self {
+        assert!(value >= Rating::MIN.0 && value <= Rating::MAX.0);
+        Rating(value)
+    }
+
+    pub const fn value(&self) -> u32 {
+        self.0
+    }
+}
+
+impl Mul<u32> for Rating
+{
+    type Output = Self;
+
+    fn mul(self, rhs: u32) -> Self::Output {
+        let new = self.0.saturating_mul(rhs);
+        Rating(new)
+    }
+}
+
+impl Div<u32> for Rating {
+    type Output = Self;
+
+    fn div(self, rhs: u32) -> Self::Output {
+        let new = self.0 / rhs;
+        Rating(new)
+    }
 }
 
 impl Mul<f64> for Rating
@@ -15,12 +43,22 @@ impl Mul<f64> for Rating
     type Output = Self;
 
     fn mul(self, rhs: f64) -> Self::Output {
-        let new = rhs * self.0 as f64;
+        let new = self.0 as f64 * rhs;
         if new > Self::MAX.0 as f64 {
             Self::MAX
         } else {
             Rating(new.round() as u32)
         }
+    }
+}
+
+impl Div<f64> for Rating {
+    type Output = Self;
+
+    fn div(self, rhs: f64) -> Self::Output {
+        let new = self.0 as f64 / rhs;
+        let new = new.clamp(Rating::MIN.0 as f64, Rating::MAX.0 as f64);
+        Rating(new.round() as u32)
     }
 }
 

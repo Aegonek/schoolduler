@@ -98,7 +98,7 @@ impl Solution {
                         .winner
                         .as_ref()
                         .map(|res| res.rating)
-                        .unwrap_or(Rating(0))
+                        .unwrap_or(Rating::new(0))
                 {
                     self.leaderboard.winner = Some(best.clone());
                 }
@@ -130,8 +130,6 @@ impl Solution {
     }
 
     pub fn mutate(&self, chrom: &mut Chromosome) {
-        // TODO: remove config as a param.
-        // TODO: switch to creep mutation. After fixing compilation errors.
         mutation_ops::creep_mutation(chrom)
     }
 
@@ -140,20 +138,19 @@ impl Solution {
         crossover_ops::one_point_crossover(x, y)
     }
 
-    // TODO: fix lifetime and type of chromosome
-    pub fn select_parents<'a>(
+    pub fn select_parents<'a, T: Borrow<Chromosome> + 'a>(
         &self,
-        population: &'a [Rated<Chromosome>],
-    ) -> (&'a Rated<Chromosome>, &'a Rated<Chromosome>) {
+        population: &'a [Rated<T>],
+    ) -> (&'a Rated<T>, &'a Rated<T>) {
         let x = select_ops::roulette_selection(population);
         let y = select_ops::roulette_selection(population);
         (x, y)
     }
 
-    pub fn select_survivor<'a>(
+    pub fn select_survivor<'a, T: Borrow<Chromosome> + 'a>(
         &self,
-        population: &'a [Rated<Chromosome>],
-    ) -> &'a Rated<Chromosome> {
+        population: &'a [Rated<T>],
+    ) -> &'a Rated<T> {
         select_ops::roulette_selection(population)
     }
 
